@@ -114,7 +114,9 @@ This action uses three secrets that must be configured in the repository:
 Note that this action logs in the remote machine and downloads the docker-compose file from the repository and launches it. Obviously, previous actions have been executed which have uploaded the docker images to the GitHub Packages repository.
 
 ### Members
-- Andrés Cadenas Blanco
-- Diego Murias Suarez
-- Christian Fernandez Noriega
-- Adrián gonzalez Guadalupe
+| Name                        | Email              |
+|-----------------------------|--------------------|
+| Andrés Cadenas Blanco       | UO282276@uniovi.es |
+| Diego Murias Suarez         | UO290009@uniovi.es |
+| Christian Fernandez Noriega | UO282650@uniovi.es |
+| Adrián gonzalez Guadalupe   | UO287621@uniovi.es |
