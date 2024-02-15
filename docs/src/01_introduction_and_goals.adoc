@@ -3,65 +3,102 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-[role="arc42help"]
-****
-Describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include
+// [role="arc42help"]
+// ****
+// Describes the relevant requirements and the driving forces that software architects and development team must consider. 
+// These include
 
-* underlying business goals, 
-* essential features, 
-* essential functional requirements, 
-* quality goals for the architecture and
-* relevant stakeholders and their expectations
-****
+// * underlying business goals,
+// * essential features, 
+// * essential functional requirements, 
+// * quality goals for the architecture and
+// * relevant stakeholders and their expectations
+// ****
+In this points, the main goals and functional requirements will be explained. In order to give context on how the webapp will be developed.
 
 === Requirements Overview
 
-[role="arc42help"]
-****
-.Contents
-Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).
+// [role="arc42help"]
+// ****
+// .Contents
+// Short description of the functional requirements, driving forces, extract (or abstract)
+// of requirements. Link to (hopefully existing) requirements documents
+// (with version number and information where to find it).
 
-.Motivation
-From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.
+// .Motivation
+// From the point of view of the end users a system is created or modified to
+// improve support of a business activity and/or improve the quality.
 
-.Form
-Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.
+// .Form
+// Short textual description, probably in tabular use-case format.
+// If requirements documents exist this overview should refer to these documents.
 
-Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
+// Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 
 
-.Further Information
+// .Further Information
 
-See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
+// See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
 
-****
+// ****
+The functional requirements have been grouped into the different microservices the web application will have.
+==== User and Authorization Services
+[decimal]
+. The User service allows the user to
+[arabic]
+.. Register.
+.. Delete the account.
+.. Update the account.
+.. Recover the password.
+. The authorization service allows the user to 
+[arabic]
+.. Log in.
+.. Log out.
+. A user can retrieve the following information from the User service
+[arabic]
+.. Name.
+.. Email.
+.. Profile picture.
+.. Questions answered.
+. The system must be able to manage the user's access to the system.
 
+==== Question Service
+[decimal, start=5]
+. The Question service retrieves questions generated from wikidata.
+. A user can retrieve the following information from the Question service
+[arabic]
+.. Select a category.
+.. Select a difficulty.
+.. Select a question.
+.. Select an answer.
+. Questions must be stored in a database.
+. The database used is MongoDB.
+. Questions are classified by
+[arabic]
+.. Category.
+.. Difficulty.
+. The questions should be selected randomly.
 === Quality Goals
 
-[role="arc42help"]
-****
-.Contents
-The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
-We really mean quality goals for the architecture. Don't confuse them with project goals.
-They are not necessarily identical.
+// [role="arc42help"]
+// ****
+// .Contents
+// The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
+// We really mean quality goals for the architecture. Don't confuse them with project goals.
+// They are not necessarily identical.
 
-Consider this overview of potential topics (based upon the ISO 25010 standard):
+// Consider this overview of potential topics (based upon the ISO 25010 standard):
 
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
+// image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 
-.Motivation
-You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged...
+// .Motivation
+// You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
+// Make sure to be very concrete about these qualities, avoid buzzwords.
+// If you as an architect do not know how the quality of your work will be judged...
 
-.Form
-A table with quality goals and concrete scenarios, ordered by priorities
-****
+// .Form
+// A table with quality goals and concrete scenarios, ordered by priorities
+// ****
 
 === Stakeholders
 
