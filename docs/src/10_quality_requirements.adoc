@@ -45,7 +45,13 @@ In any case the tree should include links to the scenarios of the following sect
 
 
 ****
-
+@startmindmap
+* Quality
+** Testability
+** Usability
+** Portability
+** Performance
+@endmindmap
 === Quality Scenarios
 
 [role="arc42help"]
