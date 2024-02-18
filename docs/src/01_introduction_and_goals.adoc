@@ -1,3 +1,4 @@
+
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
@@ -8,12 +9,13 @@ ifndef::imagesdir[:imagesdir: ../images]
 Describes the relevant requirements and the driving forces that software architects and development team must consider. 
 These include
 
-* underlying business goals, 
+* underlying business goals,
 * essential features, 
 * essential functional requirements, 
 * quality goals for the architecture and
 * relevant stakeholders and their expectations
 ****
+In these points, the main goals and functional requirements will be explained. In order to give context on how the webapp will be developed.
 
 === Requirements Overview
 
@@ -40,7 +42,43 @@ Keep these excerpts as short as possible. Balance readability of this document w
 See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
 
 ****
+The functional requirements have been grouped into the different microservices the web application will have.
+==== User and Authorization Services
+[decimal]
+. The User service allows the user to
+[arabic]
+.. Register.
+.. Delete the account.
+.. Update the account.
+.. Recover the password.
+. The authorization service allows the user to 
+[arabic]
+.. Log in.
+.. Log out.
+. A user can retrieve the following information from the User service
+[arabic]
+.. Name.
+.. Email.
+.. Profile picture.
+.. Questions answered.
+. The system must be able to manage the user's access to the system.
 
+==== Question Service
+[decimal, start=5]
+. The Question service retrieves questions generated from wikidata.
+. A user can retrieve the following information from the Question service
+[arabic]
+.. Select a category.
+.. Select a difficulty.
+.. Select a question.
+.. Select an answer.
+. Questions must be stored in a database.
+. The database used is MongoDB.
+. Questions are classified by
+[arabic]
+.. Category.
+.. Difficulty.
+. The questions should be selected randomly.
 === Quality Goals
 
 [role="arc42help"]
@@ -62,6 +100,20 @@ If you as an architect do not know how the quality of your work will be judged..
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
+[options="header", cols="1,1"]
+|===
+| Goal | Description
+| Testability |Test will be developed, so the application has a good quality.
+
+| Usability | The application has to be intuitive for its users.
+
+| Portability | The application works in different devices and browsers. With different screen sizes.
+
+| Performance | The application can handle a big number of users and give good response times.
+
+
+
+|===
 
 === Stakeholders
 
@@ -93,3 +145,4 @@ Table with role names, person names, and their expectations with respect to the 
 | *Bussineses* | RTve has hired software development company HappySw | Emphasis the SOLID part of the web and have a high understanding of this area  
 | *Users*  | Anyone that wants to use the web  | They should be able to understand how to use and move around the web with ease  
 |===
+

@@ -48,28 +48,44 @@ The title of the table is the name of your system, the three columns contain the
 
 ****
 
-**<Diagram or Table>**
+[plantuml,"Context diagram",png]
+----
+actor Player
+actor Client
+[Wikidata] <<external>>
 
-**<optionally: Explanation of external domain interfaces>**
+[WIQ Game] <<system>>
+[UsersAPI] <<internal>>
+[GeneratedQuestionsAPI] <<internal>>
+Player ..> (WIQ Game) : register/login
+Client ..> (WIQ Game) : view data
+[GeneratedQuestionsAPI] ..> Wikidata
+[WIQ Game] ..> UsersAPI
+[WIQ Game] ..> GeneratedQuestionsAPI
+----
 
-=== Technical Context
+[cols="e,2e" options="header"]
+|===
+|Element |Description
 
-[role="arc42help"]
-****
-.Contents
-Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation which I/O uses which channel.
+|Player
+|Plays the game and can consult past scores
 
-.Motivation
-Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+|Client
+|Can access the data about players and generated questions
 
-.Form
-E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.
+|WIQ Game
+|Main system in which generated questions are shown and can be answered by players
 
-****
+|Wikidata
+|External data repository from which questions are generated using the WikidataAPI
 
-**<Diagram or Table>**
+|MongoDB
+|Database for storing generated questions, players' info and scores
 
-**<optionally: Explanation of technical interfaces>**
+|Users Info API
+|Allows clients to see the info about players stored in the database
 
-**<Mapping Input/Output to Channels>**
+|Generated Questions API
+|Allows clients to see the info about generated questions stored in the database
+|===

@@ -63,18 +63,53 @@ In the best case you will get away with examples or simple signatures.
 
 ****
 
-_**<Overview Diagram>**_
+[plantuml,"White box overall system",png]
+----
+actor Player
+actor Client
+[Wikidata]
+
+rectangle "WIQ Game (Level 1)"{
+[WIQ Game GUI]
+[Data View]
+[UsersAPI]
+[GeneratedQuestionsAPI] #BurlyWood
+Player ..> (WIQ Game GUI)
+Client ..> (Data View)
+[GeneratedQuestionsAPI] ..> Wikidata
+[WIQ Game GUI] ..> UsersAPI
+[WIQ Game GUI] ..> GeneratedQuestionsAPI
+[Data View] ..> UsersAPI
+[Data View] ..> GeneratedQuestionsAPI
+}
+----
 
 Motivation::
 
-_<text explanation>_
+We made the decomposition separating the functionallities (The names are self explanatory but components will be described later)
 
+Contained Black boxes::
 
-Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
+[cols="e,2e" options="header"]
+|===
+|Name |Responsibility
 
-Important Interfaces::
-_<Description of important interfaces>_
+|WIQ Game GUI
+|Main window in which questions are shown and can be answered by the player. The latter can also see past scores.
+
+|Data View
+|Access to data about users and generated questions for the client.
+
+|Generated Questions API
+|In charge of generating the questions and storing their data
+
+|UsersAPI
+|In charge of keeping track of the data of the users (registration and scores)
+
+|Wikidata
+|External element used for the generation of questions
+
+|===
 
 [role="arc42help"]
 ****
@@ -97,8 +132,6 @@ Its headline is the name of the black box.
 ****
 
 
-==== <Name black box 1>
-
 [role="arc42help"]
 ****
 Here you describe <black box 1>
@@ -113,37 +146,6 @@ according the the following black box template:
 
 ****
 
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
 
 === Level 2
 
@@ -156,57 +158,59 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-==== White Box _<building block 1>_
+==== Generated Questions API (White Box)
 
 [role="arc42help"]
 ****
 ...describes the internal structure of _building block 1_.
 ****
 
-_<white box template>_
+[plantuml,"Generated Questions API (White Box)",png]
+----
+[Wikidata]
+[wikidatanpm] <<library>>
+[WIQ Game GUI]
+[Data View]
+database MongoDB
 
-==== White Box _<building block 2>_
+rectangle "GenedQuestsAPI (Level 2)"{
 
+[GenQuestsService] ..> wikidatanpm
+[GenQuestsService] ..> Wikidata
+[GenQuestsService] <--> MongoDB
+[WIQ Game GUI] ..> GenQuestsService : new Question
+[Data View] ..> GenQuestsService : get Questions
+}
+----
 
-_<white box template>_
+Motivation::
 
-...
+We made the decomposition separating the functionallities.
 
-==== White Box _<building block m>_
+Contained Black boxes::
 
+[cols="e,2e" options="header"]
+|===
+|Name |Responsibility
 
-_<white box template>_
+|GenQuestsService
+|Receives different petitions regarding the generation of questions or their retrieval and responds accordingly.
 
+|wikidatanpm
+|External library that facilitates and simplifies the use of wikidata for the generation of questions.
 
+|MongoDB
+|The data of the generated questions is stored here for showing it later to the client.
 
-=== Level 3
+|===
 
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
+Additional explanation of relationships::
 
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
+The service is requested either the generation of a question or the retrieval of a subset (from WIQ Game GUI or
+Data View respectively). 
 
+For the first case, it makes use of the library to generate the question, retrieves it
+for the interface to use and stores the pertinent data in the DB. 
 
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+In the other case, it just makes the query according to the client choosings and retrieves the data of the 
+questions for the Data View to show.
