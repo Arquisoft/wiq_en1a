@@ -40,7 +40,7 @@ There you will find links and examples about ADR.
 | Context
 | Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It's a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.
 | Decision
-| Azure
+| Oracle Cloud
 | Status
 | Proposed 
 | Consequences
