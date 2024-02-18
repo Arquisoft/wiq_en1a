@@ -2,8 +2,48 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-runtime-view]]
 == Runtime View
+=== User authentication
+* Users will log in through the web interface of the application.
+* The system stores in database (MongoDB) the users of the application. Any data relative to them is accessed via the database of the system and displayed to them on the web interface.
 
+=== Access to user data via API
+* Clients access the users data through an API
 
+[plantuml,"Sequence diagram",png]
+----
+entity Client
+database API as "Users API"
+Client -> API: Data querying request
+API --> Client: Retrieved data
+----
+
+=== Access to questions data via API
+* Clients access the questions data through an API
+
+[plantuml,"Sequence diagram",png]
+----
+entity Client
+database API as "Questions API"
+Client -> API: Data querying request
+API --> Client: Retrieved data
+----
+
+=== Game
+* Users can play a Q&A game
+
+[plantuml,"Sequence diagram",png]
+----
+actor User
+entity App
+database QAPI as "Questions API"
+database UAPI as "Users API"
+User -> App: Start Game
+App -> QAPI: Get Questions
+QAPI --> App: Send Questions
+App -> User: Show Question
+User --> App: Answer Question
+App -> UAPI: Update User Data
+----
 [role="arc42help"]
 ****
 .Contents
