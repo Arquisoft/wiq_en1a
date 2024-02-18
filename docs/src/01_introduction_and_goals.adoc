@@ -43,6 +43,7 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 
 ****
 The functional requirements have been grouped into the different microservices the web application will have.
+
 ==== User and Authorization Services
 [decimal]
 . The User service allows the user to
@@ -79,6 +80,7 @@ The functional requirements have been grouped into the different microservices t
 .. Category.
 .. Difficulty.
 . The questions should be selected randomly.
+
 === Quality Goals
 
 [role="arc42help"]
