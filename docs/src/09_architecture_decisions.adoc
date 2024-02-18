@@ -47,6 +47,11 @@ There you will find links and examples about ADR.
 | We need to suppoort the web application with the leasr cost possible
 |===
 
+
+
+
+
+
 |===
 | Constraints | Explanation
 | Title
