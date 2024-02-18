@@ -465,10 +465,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</a></li>
-<li><a href="#_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</a></li>
-<li><a href="#">6.3. &#8230;&#8203;</a></li>
-<li><a href="#_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</a></li>
+<li><a href="#_user_authentication">6.1. User authentication</a></li>
+<li><a href="#_access_to_user_data_via_api">6.2. Access to user data via API</a></li>
+<li><a href="#_access_to_questions_data_via_api">6.3. Access to questions data via API</a></li>
+<li><a href="#_game">6.4. Game</a></li>
+<li><a href="#_runtime_scenario_1">6.5. &lt;Runtime Scenario 1&gt;</a></li>
+<li><a href="#_runtime_scenario_2">6.6. &lt;Runtime Scenario 2&gt;</a></li>
+<li><a href="#">6.7. &#8230;&#8203;</a></li>
+<li><a href="#_runtime_scenario_n">6.8. &lt;Runtime Scenario n&gt;</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -833,14 +837,24 @@ These stakeholders determine the extent and the level of detail of your work and
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Students</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrés Cadenas Blanco, Christian Fernandez Noriega , Adrián González Guadalupe and Luis Salvador Ferrero</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Are the ones in charge of web development. They will work together to make the application.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Teachers</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pablo González</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In charge of supervising the student&#8217;s teamwork, ensuring the work accomplishes the goals in the best way possible and helping in the development and solving doubts.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Bussineses</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RTve has hired software development company HappySw</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emphasis the SOLID part of the web and have a high understanding of this area</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Users</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Anyone that wants to use the web</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">They should be able to understand how to use and move around the web with ease</p></td>
 </tr>
 </tbody>
 </table>
@@ -875,6 +889,63 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>Architects need a clear understanding of the areas where they have creative freedom in their design choices and where they are bound by constraints. These constraints must be addressed comprehensively, as they are non-negotiable factors within the project. However, it&#8217;s important to recognize that while constraints are rigid, there may be room for negotiation and adaptation within them.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraints</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Privacy (by SOLID)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The web application must be able to save in a secure and persistence way.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>GitHub</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It will be used to coordinate the projects work, tracks changes and manage workflow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Time</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The web application will be developed along this course, that means our time is limited and we require an efficient time management.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Documentation</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In order to keep it clean, efficient and simple it will follow Arc42 method.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Time</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Since the project will be done in this semester our time is limited, and we need to stick to the deadlines and manage our time in an efficient way.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Code</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The code requires a small description of what it does. In addition, we must build it in a clean way and that is easy to expand and can adapt to changes in an easy way.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Test</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The test has to be correctly tested in order to accomplish the desired behavior.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Open-source, cross-platform JavaScript runtime environment and library for running web applications outside the client’s browser.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Ruby</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dynamic, open source programming language with a focus on simplicity and productivity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>JavaScript</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Programming language that allows you to implement complex features on web page.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -940,7 +1011,7 @@ The title of the table is the name of your system, the three columns contain the
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Context%20diagram.png" alt="Context diagram" width="348" height="483">
+<img src="./images/Context%20diagram.png" alt="Context diagram" width="1008" height="578">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1149,7 +1220,7 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/White%20box%20overall%20system.png" alt="White box overall system" width="369" height="410">
+<img src="./images/White%20box%20overall%20system.png" alt="White box overall system" width="1016" height="578">
 </div>
 </div>
 <div class="dlist">
@@ -1288,7 +1359,7 @@ Leave out normal, simple, boring or standardized parts of your system</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Generated%20Questions%20API%20(White%20Box).png" alt="Generated Questions API (White Box)" width="387" height="337">
+<img src="./images/Generated%20Questions%20API%20(White%20Box).png" alt="Generated Questions API (White Box)" width="1021" height="578">
 </div>
 </div>
 <div class="dlist">
@@ -1351,6 +1422,63 @@ questions for the Data View to show.</p>
 <div class="sect1">
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_user_authentication">6.1. User authentication</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Users will log in through the web interface of the application.</p>
+</li>
+<li>
+<p>The system stores in database (MongoDB) the users of the application. Any data relative to them is accessed via the database of the system and displayed to them on the web interface.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_to_user_data_via_api">6.2. Access to user data via API</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Clients access the users data through an API</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="211" height="227">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_to_questions_data_via_api">6.3. Access to questions data via API</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Clients access the questions data through an API</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="224" height="227">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_game">6.4. Game</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Users can play a Q&amp;A game</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="387" height="365">
+</div>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1413,8 +1541,9 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</h3>
+<h3 id="_runtime_scenario_1">6.5. &lt;Runtime Scenario 1&gt;</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1436,15 +1565,15 @@ building block instances depicted in this diagram.&gt;</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</h3>
+<h3 id="_runtime_scenario_2">6.6. &lt;Runtime Scenario 2&gt;</h3>
 
 </div>
 <div class="sect2">
-<h3 id="">6.3. &#8230;&#8203;</h3>
+<h3 id="">6.7. &#8230;&#8203;</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</h3>
+<h3 id="_runtime_scenario_n">6.8. &lt;Runtime Scenario n&gt;</h3>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1764,6 +1893,70 @@ There you will find links and examples about ADR.</p>
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constraints</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explanation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web Server Platform: A Comprehensive Overview</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It&#8217;s a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Cloud</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Proposed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consequences</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We need to suppoort the web application with the leasr cost possible</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constraints</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explanation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FrontEnd: What users see</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It&#8217;s a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decision</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript and React</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Proposed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consequences</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is important that the developers are used or can get used to the proposed lenguage with ease so its easier to mantain the code and for future developers to understand it.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -2049,7 +2242,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-11 21:54:06 +0100
+Last updated 2024-02-05 19:08:54 +0100
 </div>
 </div>
 </body>
