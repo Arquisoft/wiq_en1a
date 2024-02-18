@@ -25,3 +25,46 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
 
 ****
+
+Architects need a clear understanding of the areas where they have creative freedom in their design choices and where they are bound by constraints. These constraints must be addressed comprehensively, as they are non-negotiable factors within the project. However, it's important to recognize that while constraints are rigid, there may be room for negotiation and adaptation within them. 
+
+|===
+| Constraints | Explanation
+
+| *Privacy (by SOLID)*
+| The web application must be able to save in a secure and persistence way.
+
+| *GitHub*
+| It will be used to coordinate the projects work, tracks changes and manage workflow.
+
+| *Time*
+| The web application will be developed along this course, that means our time is limited and we require an efficient time management.
+
+
+| *Documentation*
+| In order to keep it clean, efficient and simple it will follow Arc42 method.
+
+
+| *Time*
+| Since the project will be done in this semester our time is limited, and we need to stick to the deadlines and manage our time in an efficient way.
+
+
+| *Code*
+| The code requires a small description of what it does. In addition, we must build it in a clean way and that is easy to expand and can adapt to changes in an easy way.
+
+
+| *Test*
+| The test has to be correctly tested in order to accomplish the desired behavior.
+
+
+| Node.js
+| Open-source, cross-platform JavaScript runtime environment and library for running web applications outside the client’s browser.
+
+| *Ruby*
+| Dynamic, open source programming language with a focus on simplicity and productivity.
+
+| *JavaScript*
+| Programming language that allows you to implement complex features on web page.
+|===
+
+
