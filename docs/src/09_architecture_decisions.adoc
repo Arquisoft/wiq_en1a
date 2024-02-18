@@ -33,3 +33,30 @@ See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 docum
 There you will find links and examples about ADR.
 
 ****
+|===
+| Constraints | Explanation
+| Title
+| Web Server Platform: A Comprehensive Overview
+| Context
+| Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It's a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.
+| Decision
+| Azure
+| Status
+| Proposed 
+| Consequences
+| We need to suppoort the web application with the leasr cost possible
+|===
+
+|===
+| Constraints | Explanation
+| Title
+| FrontEnd: What users see
+| Context
+| Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It's a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.
+| Decision
+| JavaScript and React
+| Status
+| Proposed 
+| Consequences
+| It is important that the developers are used or can get used to the proposed lenguage with ease so its easier to mantain the code and for future developers to understand it.
+|===
