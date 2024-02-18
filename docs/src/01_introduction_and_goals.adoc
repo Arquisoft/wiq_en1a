@@ -1,3 +1,4 @@
+
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
@@ -139,6 +140,9 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| *Students* | Andrés Cadenas Blanco, Christian Fernandez Noriega , Adrián González Guadalupe and Luis Salvador Ferrero | Are the ones in charge of web development. They will work together to make the application. 
+| *Teachers* | Pablo González  | In charge of supervising the student's teamwork, ensuring the work accomplishes the goals in the best way possible and helping in the development and solving doubts.
+| *Bussineses* | RTve has hired software development company HappySw | Emphasis the SOLID part of the web and have a high understanding of this area  
+| *Users*  | Anyone that wants to use the web  | They should be able to understand how to use and move around the web with ease  
 |===
+
