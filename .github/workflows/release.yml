@@ -6,7 +6,7 @@ on:
 
 jobs:
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: arm64
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -27,7 +27,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   e2e-tests:
     needs: [unit-tests]
-    runs-on: ubuntu-latest
+    runs-on: arm64
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -41,7 +41,7 @@ jobs:
     - run: npm --prefix webapp run test:e2e
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: arm64
     permissions:
       contents: read
       packages: write
@@ -61,7 +61,7 @@ jobs:
           buildargs: API_URI
   docker-push-authservice:
     name: Push auth service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: arm64
     permissions:
       contents: read
       packages: write
@@ -78,7 +78,7 @@ jobs:
           workdir: users/authservice
   docker-push-userservice:
     name: Push user service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: arm64
     permissions:
       contents: read
       packages: write
@@ -95,7 +95,7 @@ jobs:
         workdir: users/userservice
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: arm64
     permissions:
       contents: read
       packages: write
@@ -112,7 +112,7 @@ jobs:
         workdir: gatewayservice
   deploy:
     name: Deploy over SSH
-    runs-on: ubuntu-latest
+    runs-on: arm64
     needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
     steps:
     - name: Deploy over SSH
