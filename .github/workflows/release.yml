@@ -59,6 +59,7 @@ jobs:
           registry: ghcr.io
           workdir: webapp
           buildargs: API_URI
+          platforms: linux/amd64,linux/arm64
   docker-push-authservice:
     name: Push auth service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -76,6 +77,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: users/authservice
+          platforms: linux/amd64,linux/arm64
   docker-push-userservice:
     name: Push user service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -93,6 +95,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: users/userservice
+        platforms: linux/amd64,linux/arm64
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
