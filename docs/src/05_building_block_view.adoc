@@ -63,7 +63,7 @@ In the best case you will get away with examples or simple signatures.
 
 ****
 
-[plantuml,"White box overall system",png]
+[plantuml,"Whitebox overall system",png]
 ----
 actor Player
 actor Client
@@ -165,7 +165,7 @@ Leave out normal, simple, boring or standardized parts of your system
 ...describes the internal structure of _building block 1_.
 ****
 
-[plantuml,"Generated Questions API (White Box)",png]
+[plantuml,"Generated Questions API (WhiteBox)",png]
 ----
 [Wikidata]
 [wikidatanpm] <<library>>
