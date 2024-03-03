@@ -10,7 +10,7 @@ services:
       - "27017:27017"
     networks:
       - mynetwork
-    platform: linux/arm64
+    # platform: linux/arm64
 
   authservice:
     container_name: authservice-${teamname:-defaultASW}
@@ -25,7 +25,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
-    platform: linux/arm64
+    # platform: linux/arm64
 
   userservice:
     container_name: userservice-${teamname:-defaultASW}
@@ -40,7 +40,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
-    platform: linux/arm64
+    # platform: linux/arm64
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -58,7 +58,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-    platform: linux/arm64
+    # platform: linux/arm64
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -69,7 +69,7 @@ services:
       - gatewayservice
     ports:
       - "3000:3000" 
-    platform: linux/arm64
+    # platform: linux/arm64
 
 
   prometheus:
