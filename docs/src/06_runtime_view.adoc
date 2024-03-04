@@ -9,7 +9,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 === Access to user data via API
 * Clients access the users data through an API
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"users diagram",png]
 ----
 entity Client
 database API as "Users API"
@@ -20,7 +20,7 @@ API --> Client: Retrieved data
 === Access to questions data via API
 * Clients access the questions data through an API
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"questions diagram",png]
 ----
 entity Client
 database API as "Questions API"
@@ -31,7 +31,7 @@ API --> Client: Retrieved data
 === Game
 * Users can play a Q&A game
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"game diagram",png]
 ----
 actor User
 entity App
@@ -76,30 +76,3 @@ There are many notations for describing scenarios, e.g.
 See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 ****
-
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
-----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-----
-
-=== <Runtime Scenario 2>
-
-=== ...
-
-=== <Runtime Scenario n>
