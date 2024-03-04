@@ -95,7 +95,7 @@ jobs:
         workdir: users/userservice
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: ARM64
     permissions:
       contents: read
       packages: write
