@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "wikibase-sdk": "^8.1.1"
+  }
+}
