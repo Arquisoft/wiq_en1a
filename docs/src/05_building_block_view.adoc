@@ -165,10 +165,10 @@ Leave out normal, simple, boring or standardized parts of your system
 database MongoDB
 
 rectangle "GenedQuestsAPI (Level 2)"{
-[GenQuestsService] ..> wikibase-sdk
-[GenQuestsService] ..> Wikidata
+[GenQuestsService] ..> [wikibase-sdk]
+[GenQuestsService] ..> [Wikidata]
 [GenQuestsService] <--> MongoDB
-[WIQ Game GUI] ..> GenQuestsService : new Question
+[WIQ Game GUI] ..> [GenQuestsService] : new Question
 }
 ----
 
