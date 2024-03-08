@@ -26,6 +26,35 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
+// Function to get the user's ranking data
+async function getRankingFor(loggedUser) {
+  const users = await User.find().sort({points: -1})
+  const ranking = users.indexOf( (user) => user._id == loggedUser._id)
+
+  return { ranking: ranking, points: loggedUser.points, user: loggedUser.username }
+}
+
+app.get('/rankings', async (req, res) => {
+  try {
+    const { token } = req.cookies
+    const decoded = jwt.verify(token, 'your-secret-key')
+    const userId = decoded.userId
+    const loggedUser = await User.findById(userId)
+    const userRanking = getRankingFor(loggedUser)
+    const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
+      return { 
+        ranking: index+1, 
+        points: user.points, 
+        user: user.username }
+    })
+
+    res.json(userRanking, usersRanking)
+
+  } catch (error) {
+    res.status(400).json({ error: error.message }); 
+  }
+})
+
 app.post('/adduser', async (req, res) => {
     try {
         // Check if required fields are present in the request body
