@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
       // Generate a JWT token
       const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
       // Respond with the token and user information
-      res.json({ token: token, username: username, createdAt: user.createdAt });
+      res.status(200).json({ token: token });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -51,6 +51,30 @@ app.post('/login', async (req, res) => {
 // Start the server
 const server = app.listen(port, () => {
   console.log(`Auth Service listening at http://localhost:${port}`);
+});
+
+app.get('/self', async (req, res) => {
+  try {
+
+      const token = req.headers.authorization;
+      let id = {};
+      if (!token) {
+        return res.status(403).json({ error: 'No token provided' });
+    }
+    jwt.verify(token, 'your-secret-key', (err, decoded) => {
+      if (err) {
+          return res.status(500).json({ error: 'Failed to authenticate token' });
+      }
+      
+      // If everything is good, save the user id to request for use in other routes
+      id = decoded.userId;
+     
+  });
+      const user = await User.findById(id);
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 });
 
 server.on('close', () => {

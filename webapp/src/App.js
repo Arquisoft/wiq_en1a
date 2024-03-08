@@ -5,19 +5,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-
+import { useEffect } from 'react';
 function App() {
   const [showLogin, setShowLogin] = useState(true);
-
+  const [user, setUser] = useState({});
   const handleToggleView = () => {
     setShowLogin(!showLogin);
   };
-
+ 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-        Welcome to the 2024 edition of the Software Architecture course
+        Welcome to the 2024 edition of the Software Architecture course hola
       </Typography>
       {showLogin ? <Login /> : <AddUser />}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
