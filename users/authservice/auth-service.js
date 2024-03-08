@@ -2,13 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('./auth-model')
+const User = require('./auth-model');
+const cookieParser = require('cookie-parser')
 
 const app = express();
 const port = 8002; 
 
 // Middleware to parse JSON in request body
 app.use(express.json());
+// Middleware to do anything related with cookies
+app.use(cookieParser())
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
@@ -36,8 +39,9 @@ app.post('/login', async (req, res) => {
 
     // Check if the user exists and verify the password
     if (user && await bcrypt.compare(password, user.password)) {
-      // Generate a JWT token
+      // Generate a JWT token and save it in a cookie
       const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+      res.cookie('token', token);
       // Respond with the token and user information
       res.json({ token: token, username: username, createdAt: user.createdAt });
     } else {
