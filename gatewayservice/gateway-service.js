@@ -25,10 +25,8 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
- 
-    res.status(200).json(authResponse.data);
+    res.json(authResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
@@ -39,7 +37,7 @@ app.post('/adduser', async (req, res) => {
   try {
     // Forward the add user request to the user service
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
-    res.status(200).json(userResponse.data);
+    res.json(userResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }

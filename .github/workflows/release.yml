@@ -45,7 +45,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    # needs: [e2e-tests]
+    needs: [e2e-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -82,7 +82,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    # needs: [e2e-tests]
+    needs: [e2e-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -93,30 +93,13 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: users/userservice
-  docker-push-questionservice:
-          name: Push question service Docker Image to GitHub Packages
-          runs-on: ARM64
-          permissions:
-            contents: read
-            packages: write
-          # needs: [e2e-tests]
-          steps:
-          - uses: actions/checkout@v4
-          - name: Publish to Registry
-            uses: elgohr/Publish-Docker-Github-Action@v5
-            with:
-              name: arquisoft/wiq_en1a/usequestionservicerservice
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-              registry: ghcr.io
-              workdir: questionservice
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
     runs-on: ARM64
     permissions:
       contents: read
       packages: write
-    # needs: [e2e-tests]
+    needs: [e2e-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -130,7 +113,7 @@ jobs:
   deploy:
     name: Deploy over SSH
     runs-on: ARM64
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-questionservice]
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master

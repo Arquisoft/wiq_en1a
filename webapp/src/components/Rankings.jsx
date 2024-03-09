@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from '../App';
 
 const apiEndpoint = 'http://localhost:8000';
 
 const Rankings = () => {
     const [users, setUsers] = useState([]);
-    const auth = useContext(UserContext);
-    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -21,14 +17,6 @@ const Rankings = () => {
         };
     
         fetchData();
-
-        const checkLog  = async () => {
-            const res = await auth.checkUser();
-            console.log(res);
-            if(res === false)
-                navigate('/');
-        }
-        checkLog();
       }, []);
 
     return (
