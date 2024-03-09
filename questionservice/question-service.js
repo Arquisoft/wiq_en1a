@@ -95,7 +95,7 @@ const wiq = new WIQ_API()
  * @param {} req - Not used
  * @param {Object} res - Contains the question (question) and the images of the flags (flags)
 */
-app.get('flags/question', async (req, res) => {
+app.get('/flags/question', async (req, res) => {
   const question = await wiq.getQuestionAndCountryFlags()
   res.json(question);
 });
@@ -107,7 +107,7 @@ app.get('flags/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * country will be returned as well
 */
-app.get('flags/answer', (req, res) => {
+app.get('/flags/answer', (req, res) => {
   const answeredFlag = req.body
   if(correctAnswerFlag==answeredFlag){
     res.json({

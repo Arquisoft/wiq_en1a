@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import AddUser from './components/AddUser';
+import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Rankings from './components/Rankings';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -27,7 +30,21 @@ function App() {
     }
   };
   return (
-    <Container component="main" maxWidth="xs">
+    <BrowserRouter>
+    <Navbar />
+      <Routes>
+        <Route path='/' element={<h1 class='font-bold font-xl'>Home page</h1>}/>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<AddUser />} />
+        <Route path='/rankings' element={<Rankings />} />
+        <Route path='/play' element={<h1 class='font-bold font-xl'>Play page</h1>} />
+      </Routes>
+    </BrowserRouter>
+
+
+
+
+    /* <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
         Welcome to the 2024 edition of the Software Architecture course hola
@@ -44,8 +61,8 @@ function App() {
           </Link>
         )}
       </Typography>
-    </Container>
-  );
+    </Container> */
+  )
 }
 
 export default App;
