@@ -36,11 +36,11 @@ async function getRankingFor(loggedUser) {
 
 app.get('/rankings', async (req, res) => {
   try {
-    const { token } = req.cookies
+    /* const { token } = req.cookies
     const decoded = jwt.verify(token, 'your-secret-key')
     const userId = decoded.userId
     const loggedUser = await User.findById(userId)
-    const userRanking = getRankingFor(loggedUser)
+    const userRanking = getRankingFor(loggedUser) */
     const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
       return { 
         ranking: index+1, 
@@ -48,8 +48,8 @@ app.get('/rankings', async (req, res) => {
         user: user.username }
     })
 
-    res.json(userRanking, usersRanking)
-
+    //res.json(userRanking, usersRanking)
+    res.json(usersRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }
