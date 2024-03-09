@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+
 const User = require('./user-model')
 
 const app = express();
@@ -77,6 +78,8 @@ app.post('/adduser', async (req, res) => {
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
 });
+
+
 
 // Listen for the 'close' event on the Express.js server
 server.on('close', () => {

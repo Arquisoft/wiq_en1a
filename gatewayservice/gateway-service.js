@@ -32,6 +32,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
 app.post('/adduser', async (req, res) => {
   try {
     // Forward the add user request to the user service
@@ -62,6 +63,22 @@ app.get('/flags/answer', async (req, res) => {
   }
 });
 
+
+app.get('/self', async (req, res) => {
+  try {
+    // Forward the self request to the user service
+    
+    const userResponse = await axios.get(authServiceUrl+'/self', {
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    });
+
+    res.status(200).json(userResponse.data);
+  } catch (error) {
+res.status(error.response.status).json({ error: error.response.data.error });
+ }
+});
 app.get('/rankings', async (req, res) => {
   try {
     // Forward the request to the user service
