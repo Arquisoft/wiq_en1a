@@ -27,12 +27,12 @@ function validateRequiredFields(req, requiredFields) {
 app.post('/login', async (req, res) => {
   try {
     // Check if required fields are present in the request body
-    validateRequiredFields(req, ['username', 'password']);
+    validateRequiredFields(req, ['email', 'password']);
 
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Find the user by username in the database
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email: email });
 
     // Check if the user exists and verify the password
     if (user && await bcrypt.compare(password, user.password)) {

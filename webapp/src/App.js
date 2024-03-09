@@ -1,67 +1,75 @@
 import React, { useState } from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AddUser from './components/AddUser';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Rankings from './components/Rankings';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import MainPage from './components/MainPage';
+import Game from './components/Game';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { createContext } from 'react';
+
+
+export const UserContext = createContext();
+
 function App() {
-  const [showLogin, setShowLogin] = useState(true);
+  
   const [user, setUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-  const handleToggleView = () => {
-    setShowLogin(!showLogin);
-  };
-  const checkUser = () => {
+ 
+  
+  const checkUser = async () => {
+    try{
+  
+
     const token = localStorage.getItem('uToken');
     if (token) {
-      axios.get(`${apiEndpoint}/self`, {
+      await axios.get(`${apiEndpoint}/self`, {
         headers: {
           Authorization: token,
         },
       }).then((response) => {
+        console.log(response.data);
         setUser(response.data);
+        setLoggedIn(true);
+        return true;
       });
+    }else{
+      setUser(undefined);
+      setLoggedIn(false);
+      return false;
     }
+
+    
+  }catch (error) {
+    // localStorage.setItem('uToken', '');
+    // setUser({});
+    // window.location.href = '/';
+    setUser(undefined);
+    console.log("hola");
+    setLoggedIn(false);
+    return false;
+  }
   };
+  useEffect(() => {
+    checkUser();
+  }, []);
+
   return (
+    <UserContext.Provider value={{ user, setUser,checkUser,loggedIn }}>
     <BrowserRouter>
-    <Navbar />
+      <Navbar />
       <Routes>
-        <Route path='/' element={<h1 class='font-bold font-xl'>Home page</h1>}/>
+        <Route path='/' element={<MainPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
         <Route path='/rankings' element={<Rankings />} />
-        <Route path='/play' element={<h1 class='font-bold font-xl'>Play page</h1>} />
+        <Route path='/play' element={<Game />} />
       </Routes>
     </BrowserRouter>
-
-
-
-
-    /* <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-        Welcome to the 2024 edition of the Software Architecture course hola
-      </Typography>
-      {showLogin ? <Login /> : <AddUser />}
-      <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
-        ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
-            Already have an account? Login here.
-          </Link>
-        )}
-      </Typography>
-    </Container> */
+    </UserContext.Provider>
   )
 }
 
