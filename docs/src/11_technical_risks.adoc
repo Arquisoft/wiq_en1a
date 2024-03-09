@@ -25,6 +25,7 @@ See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 do
 ****
 
 [options="header", cols="1,1,1,1"]
+=======
 |===
 |Risk |Why it exists |Severity - Explanation |Possible solutions
 
