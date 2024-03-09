@@ -447,7 +447,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-introduction-and-goals">1. Introduction and Goals</a>
 <ul class="sectlevel2">
 <li><a href="#_requirements_overview">1.1. Requirements Overview</a></li>
-<li><a href="#_stakeholders">1.2. Stakeholders</a></li>
+<li><a href="#_quality_goals">1.2. Quality Goals</a></li>
+<li><a href="#_stakeholders">1.3. Stakeholders</a></li>
 </ul>
 </li>
 <li><a href="#section-architecture-constraints">2. Architecture Constraints</a></li>
@@ -469,10 +470,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_access_to_user_data_via_api">6.2. Access to user data via API</a></li>
 <li><a href="#_access_to_questions_data_via_api">6.3. Access to questions data via API</a></li>
 <li><a href="#_game">6.4. Game</a></li>
-<li><a href="#_runtime_scenario_1">6.5. &lt;Runtime Scenario 1&gt;</a></li>
-<li><a href="#_runtime_scenario_2">6.6. &lt;Runtime Scenario 2&gt;</a></li>
-<li><a href="#">6.7. &#8230;&#8203;</a></li>
-<li><a href="#_runtime_scenario_n">6.8. &lt;Runtime Scenario n&gt;</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -483,15 +480,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#_concept_1">8.1. <em>&lt;Concept 1&gt;</em></a></li>
-<li><a href="#_concept_2">8.2. <em>&lt;Concept 2&gt;</em></a></li>
-<li><a href="#_concept_n">8.3. <em>&lt;Concept n&gt;</em></a></li>
+<li><a href="#_domain_model_and_terminology">8.1. <em>Domain model and terminology</em></a></li>
+<li><a href="#_microservice_based_system">8.2. <em>Microservice based system</em></a></li>
+<li><a href="#_gateway_service_routing">8.3. <em>Gateway service routing</em></a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Architecture Decisions</a></li>
 <li><a href="#section-quality-scenarios">10. Quality Requirements</a>
 <ul class="sectlevel2">
 <li><a href="#_quality_tree">10.1. Quality Tree</a></li>
+<li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
 </ul>
 </li>
 <li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
@@ -611,9 +609,10 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </div>
 <div class="paragraph">
-<p>The functional requirements have been grouped into the different microservices the web application will have.
-==== User and Authorization Services</p>
+<p>The functional requirements have been grouped into the different microservices the web application will have.</p>
 </div>
+<div class="sect3">
+<h4 id="_user_and_authorization_services">1.1.1. User and Authorization Services</h4>
 <div class="olist decimal">
 <ol class="decimal">
 <li>
@@ -672,8 +671,9 @@ If requirements documents exist this overview should refer to these documents.</
 </li>
 </ol>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_question_service">1.1.1. Question Service</h4>
+<h4 id="_question_service">1.1.2. Question Service</h4>
 <div class="olist decimal">
 <ol class="decimal" start="5">
 <li>
@@ -718,11 +718,14 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </li>
 <li>
-<p>The questions should be selected randomly.
-=== Quality Goals</p>
+<p>The questions should be selected randomly.</p>
 </li>
 </ol>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_goals">1.2. Quality Goals</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -782,9 +785,8 @@ If you as an architect do not know how the quality of your work will be judged&#
 </tbody>
 </table>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_stakeholders">1.2. Stakeholders</h3>
+<h3 id="_stakeholders">1.3. Stakeholders</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1421,7 +1423,7 @@ Leave out normal, simple, boring or standardized parts of your system</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="211" height="227">
+<img src="./images/users%20diagram.png" alt="users diagram" width="211" height="227">
 </div>
 </div>
 </div>
@@ -1436,7 +1438,7 @@ Leave out normal, simple, boring or standardized parts of your system</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="224" height="227">
+<img src="./images/questions%20diagram.png" alt="questions diagram" width="224" height="227">
 </div>
 </div>
 </div>
@@ -1451,7 +1453,7 @@ Leave out normal, simple, boring or standardized parts of your system</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="387" height="365">
+<img src="./images/game%20diagram.png" alt="game diagram" width="387" height="365">
 </div>
 </div>
 <div class="sidebarblock arc42help">
@@ -1516,39 +1518,6 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_runtime_scenario_1">6.5. &lt;Runtime Scenario 1&gt;</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><em>&lt;insert runtime diagram or textual description of the scenario&gt;</em></p>
-</li>
-<li>
-<p><em>&lt;insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.&gt;</em></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>It is possible to use a sequence diagram:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="332" height="335">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_runtime_scenario_2">6.6. &lt;Runtime Scenario 2&gt;</h3>
-
-</div>
-<div class="sect2">
-<h3 id="">6.7. &#8230;&#8203;</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_runtime_scenario_n">6.8. &lt;Runtime Scenario n&gt;</h3>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1798,24 +1767,29 @@ on this list.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concept_1">8.1. <em>&lt;Concept 1&gt;</em></h3>
+<h3 id="_domain_model_and_terminology">8.1. <em>Domain model and terminology</em></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_microservice_based_system">8.2. <em>Microservice based system</em></h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>Different business functionallities will be developed in different independent services.
+This will ensure that if one of them fails, the rest are still working (For example,
+if the rankings go down that will not affect the main game) as they have their own deployment
+as well.
+Other benefits are increased maintainability due to separation in small, more readable modules
+and the possibillity of using different languages or technologies for each module if needed/prefered
+without colliding with the rest.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concept_2">8.2. <em>&lt;Concept 2&gt;</em></h3>
+<h3 id="_gateway_service_routing">8.3. <em>Gateway service routing</em></h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_concept_n">8.3. <em>&lt;Concept n&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>We will use a speciallized service that will route the requests to the corresponding service, acting as
+a single entry point for the application. Requests to the services are much simpler as only the api base
+endpoint and the action needs to be known and the gateway can also act as a filter to manage requests
+conditionally if needed. This approach also favors security as we can control which requests are actually
+sent based on its content or the context of the app.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1991,16 +1965,14 @@ concrete and measurable.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>@startmindmap
-* Quality
-<strong> Testability
-</strong> Usability
-<strong> Portability
-</strong> Performance
-@endmindmap
-=== Quality Scenarios</p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/QualityTree.png" alt="The Quality Tree of the project">
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -2040,7 +2012,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_usage_scenarios">10.1.1. Usage Scenarios</h4>
+<h4 id="_usage_scenarios">10.2.1. Usage Scenarios</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2085,7 +2057,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </table>
 </div>
 <div class="sect3">
-<h4 id="_change_scenarios">10.1.2. Change Scenarios</h4>
+<h4 id="_change_scenarios">10.2.2. Change Scenarios</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2147,6 +2119,32 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Risk</th>
+<th class="tableblock halign-left valign-top">Why it exists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Severity - Explanation</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Possible solutions</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Use of wikibase-sdk version 8 (not final)</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>It is the last version that supports 'require', which is needed to use express in the same module</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Low - The difference is, a priori, merely functional, but retains the needed characteristics</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Upgrade only if a newer version supports 'require'</em></p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -2202,12 +2200,12 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Microservice</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Small and independent component that performs a specific business function</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>API</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Set of endpoints exposed by the backend server whose purpose is interacting with the client-side</em></p></td>
 </tr>
 </tbody>
 </table>
