@@ -8,7 +8,6 @@ const app = express();
 const port = 8010;
 
 app.use(express.static('public'));
-
 app.use(express.text());
 
 //Correct image
@@ -107,18 +106,17 @@ app.get('/flags/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * country will be returned as well
 */
-app.get('/flags/answer', (req, res) => {
-  const answeredFlag = req.body
-  console.log(answeredFlag);
-  console.log(correctAnswerFlag);
-  if(correctAnswerFlag==answeredFlag){
+app.post('/flags/answer', (req, res) => {
+  const answer = req.body;
+
+  if(correctAnswerFlag==answer){
     res.json({
       correct: "true"
     })
   } else {
     res.json({
       correct: "false",
-      country: `${flagToCountryMap.get(answeredFlag)}`
+      country: `${flagToCountryMap.get(answer)}`
     })
   }
 });
