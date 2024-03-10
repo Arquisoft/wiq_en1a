@@ -23,3 +23,14 @@ List of risks and/or technical debts, probably including suggested measures to m
 See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
 
 ****
+
+[options="header", cols="1,1,1,1"]
+|===
+|Risk |Why it exists |Severity - Explanation |Possible solutions
+
+|Use of wikibase-sdk version 8 (not final)
+|It is the last version that supports 'require', which is needed to use express in the same module
+|Low - The difference is, a priori, merely functional, but retains the needed characteristics
+|Upgrade only if a newer version supports 'require'
+
+|===

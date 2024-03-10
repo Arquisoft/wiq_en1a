@@ -10,6 +10,7 @@ services:
       - "27017:27017"
     networks:
       - mynetwork
+    # platform: linux/arm64
 
   authservice:
     container_name: authservice-${teamname:-defaultASW}
@@ -24,6 +25,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    # platform: linux/arm64
 
   userservice:
     container_name: userservice-${teamname:-defaultASW}
@@ -38,7 +40,21 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
-
+    # platform: linux/arm64
+  questionservice:
+    container_name: questionservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en1a/questionservice:latest
+    profiles: ["dev", "prod"]
+    build: ./questionservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8010:8010"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/userdb
+    # platform: linux/arm64
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en1a/gatewayservice:latest
@@ -55,6 +71,8 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      QUESTION_SERVICE_URL: http://questionservice:8010
+    # platform: linux/arm64
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -65,6 +83,8 @@ services:
       - gatewayservice
     ports:
       - "3000:3000" 
+    # platform: linux/arm64
+
 
   prometheus:
     image: prom/prometheus
@@ -79,6 +99,7 @@ services:
       - "9090:9090"
     depends_on: 
       - gatewayservice
+    
       
   grafana:
     image: grafana/grafana
@@ -98,6 +119,7 @@ services:
       - "9091:9091"
     depends_on: 
       - prometheus
+
 
 
 volumes:

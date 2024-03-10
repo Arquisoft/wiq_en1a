@@ -55,19 +55,26 @@ image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutti
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 
-
-=== _<Concept 1>_
-
-_<explanation>_
+=== _Domain model and terminology_
 
 
 
-=== _<Concept 2>_
 
-_<explanation>_
+=== _Microservice based system_
 
-...
+Different business functionallities will be developed in different independent services.
+This will ensure that if one of them fails, the rest are still working (For example,
+if the rankings go down that will not affect the main game) as they have their own deployment
+as well. 
+Other benefits are increased maintainability due to separation in small, more readable modules
+and the possibillity of using different languages or technologies for each module if needed/prefered 
+without colliding with the rest.
 
-=== _<Concept n>_
 
-_<explanation>_
+=== _Gateway service routing_
+
+We will use a speciallized service that will route the requests to the corresponding service, acting as 
+a single entry point for the application. Requests to the services are much simpler as only the api base 
+endpoint and the action needs to be known and the gateway can also act as a filter to manage requests 
+conditionally if needed. This approach also favors security as we can control which requests are actually 
+sent based on its content or the context of the app.
