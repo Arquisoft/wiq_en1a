@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import AddUser from './components/AddUser';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Game from './components/Game';
 import Rankings from './components/Rankings';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -37,11 +38,11 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
         <Route path='/rankings' element={<Rankings />} />
-        <Route path='/play' element={<h1 class='font-bold font-xl'>Play page</h1>} />
+        <Route path='/play' element={ <Game />} /> // 
       </Routes>
     </BrowserRouter>
 
-
+    /*<h1 class='font-bold font-xl'>Play page</h1>*/
 
 
     /* <Container component="main" maxWidth="xs">
