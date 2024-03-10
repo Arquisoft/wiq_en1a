@@ -21,16 +21,16 @@ const Rankings = () => {
 
     return (
         <div className='main'>
-            <div class="bg-white shadow-md rounded-md p-4 mx-auto max-w-sm mt-16">
-                <h1 class="text-xl font-semibold mb-4">Rankings</h1>
+            <div className="bg-white shadow-md rounded-md p-4 mx-auto max-w-sm mt-16">
+                <h1 className="text-xl font-semibold mb-4">Rankings</h1>
                 <ul>
                     {users.map(user => (
-                        <li class="flex items-center justify-between py-2 border-b border-gray-300">
-                            <div class="flex items-center">
-                                <span class="text-lg font-semibold mr-4">{user.ranking}</span>
-                                <span class="text-gray-800 font-semibold">{user.user}</span>
+                        <li className="flex items-center justify-between py-2 border-b border-gray-300">
+                            <div className="flex items-center">
+                                <span className="text-lg font-semibold mr-4">{user.ranking}</span>
+                                <span className="text-gray-800 font-semibold">{user.user}</span>
                             </div>
-                            <span class="text-green-500 font-semibold">{user.points} points</span>
+                            <span className="text-green-500 font-semibold">{user.points} points</span>
                         </li>
                     ))}
                 </ul>

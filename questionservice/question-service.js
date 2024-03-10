@@ -96,7 +96,7 @@ const wiq = new WIQ_API()
  * @param {Object} res - Contains the question (question) and the images of the flags (flags)
 */
 app.get('/flags/question', async (req, res) => {
-  const question = await wiq.getQuestionAndCountryFlags()
+  const question = JSON.parse(await wiq.getQuestionAndCountryFlags());
   res.json(question);
 });
 
@@ -109,6 +109,8 @@ app.get('/flags/question', async (req, res) => {
 */
 app.get('/flags/answer', (req, res) => {
   const answeredFlag = req.body
+  console.log(answeredFlag);
+  console.log(correctAnswerFlag);
   if(correctAnswerFlag==answeredFlag){
     res.json({
       correct: "true"

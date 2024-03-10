@@ -37,7 +37,7 @@ const Login = () => {
       {loginSuccess ? (
         <div>
           <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            {localStorage.getItem('user')}
+            {localStorage.getItem('uToken')}
           </Typography>
          
         </div>
