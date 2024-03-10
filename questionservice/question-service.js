@@ -67,7 +67,9 @@ class WIQ_API{
 
     chosenNums = []
     //Choose a random country of the chosen to make the question
-    const chosenCountry = countries[this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)]
+    const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
+    const chosenCountry = countries[chosenNum]
+    correctAnswerFlag = imgs[chosenNum]
 
     const questionAndFlags = {
       question: `Which of the following flags belongs to ${chosenCountry}?`,
