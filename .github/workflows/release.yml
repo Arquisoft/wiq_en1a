@@ -71,7 +71,7 @@ jobs:
             - name: Publish to Registry
               uses: elgohr/Publish-Docker-Github-Action@v5
               with:
-                name: arquisoft/wiq_en1a/usequestionservicerservice
+                name: arquisoft/wiq_en1a/questionservice
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
                 registry: ghcr.io
@@ -130,7 +130,7 @@ jobs:
   deploy:
     name: Deploy over SSH
     runs-on: ARM64
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-questionservice]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
