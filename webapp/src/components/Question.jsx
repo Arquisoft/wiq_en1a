@@ -19,7 +19,7 @@ const Question = () => {
     const answerQuestion = async (answer) => {
         try {
             setLoading(true);
-            const result = await axios.get(`${apiEndpoint}/flags/answer`, {answer}); // to fix
+            const result = await axios.post(`${apiEndpoint}/flags/answer`, answer);
 
             const res = await axios.get(`${apiEndpoint}/flags/question`);
             setQuestion(res.data);

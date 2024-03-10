@@ -109,7 +109,7 @@ app.get('/flags/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * country will be returned as well
 */
-app.get('/flags/answer', (req, res) => {
+app.post('/flags/answer', (req, res) => {
   const answeredFlag = req.body
   console.log(answeredFlag);
   console.log(correctAnswerFlag);
