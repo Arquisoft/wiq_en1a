@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { useEffect } from 'react';
 import axios from 'axios';
+import Game from './components/Game';
 function App() {
   const [showLogin, setShowLogin] = useState(true);
   const [user, setUser] = useState({});
@@ -33,11 +34,11 @@ function App() {
     <BrowserRouter>
     <Navbar />
       <Routes>
-        <Route path='/' element={<h1 class='font-bold font-xl'>Home page</h1>}/>
+        <Route path='/' element={<h1 className='font-bold font-xl'>Home page</h1>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
         <Route path='/rankings' element={<Rankings />} />
-        <Route path='/play' element={<h1 class='font-bold font-xl'>Play page</h1>} />
+        <Route path='/play' element={<Game />} />
       </Routes>
     </BrowserRouter>
 
