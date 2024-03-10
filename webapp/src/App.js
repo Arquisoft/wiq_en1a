@@ -4,6 +4,7 @@ import AddUser from './components/AddUser';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Rankings from './components/Rankings';
+import Game from './components/Game';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -37,7 +38,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
         <Route path='/rankings' element={<Rankings />} />
-        <Route path='/play' element={<h1 class='font-bold font-xl'>Play page</h1>} />
+        <Route path='/play' element={<Game />} />
       </Routes>
     </BrowserRouter>
 
