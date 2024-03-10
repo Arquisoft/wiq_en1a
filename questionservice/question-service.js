@@ -56,7 +56,7 @@ class WIQ_API{
     const imgs = []
     for(var i=0;i<numOfChosen;i++){
         //Making sure there is an image associated
-        while(!'imagen_de_la_bandera' in data.results.bindings[chosenNums[i]]){
+        while(!Object.keys(data.results.bindings[chosenNums[i]]).includes('imagen_de_la_bandera')){
           chosenNums[i] = this.#getRandomNumNotInSetAndUpdate(countriesNum, chosenNums)
         }
         imgs.push(data.results.bindings[chosenNums[i]].imagen_de_la_bandera.value)
