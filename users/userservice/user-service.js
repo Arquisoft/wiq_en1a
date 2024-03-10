@@ -59,13 +59,14 @@ app.get('/rankings', async (req, res) => {
 app.post('/adduser', async (req, res) => {
     try {
         // Check if required fields are present in the request body
-        validateRequiredFields(req, ['username', 'password']);
+        validateRequiredFields(req, ['username','email', 'password']);
 
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
+        
         const newUser = new User({
             username: req.body.username,
+            email: req.body.email,
             password: hashedPassword,
         });
 

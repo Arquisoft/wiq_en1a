@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
       // Generate a JWT token
       const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
       // Respond with the token and user information
-      res.status(200).json({ token: token });
+      res.status(200).json({ token: token, username:user.username, email: user.email, createdAt: user.createdAt});
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }

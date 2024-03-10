@@ -11,30 +11,23 @@ import Link from '@mui/material/Link';
 import { useEffect } from 'react';
 import axios from 'axios';
 import Game from './components/Game';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
+import MainPage from './components/MainPage';
+
 function App() {
   const [showLogin, setShowLogin] = useState(true);
   const [user, setUser] = useState({});
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-  const handleToggleView = () => {
-    setShowLogin(!showLogin);
-  };
-  const checkUser = () => {
-    const token = localStorage.getItem('uToken');
-    if (token) {
-      axios.get(`${apiEndpoint}/self`, {
-        headers: {
-          Authorization: token,
-        },
-      }).then((response) => {
-        setUser(response.data);
-      });
-    }
-  };
+  const isAuthenticated = useIsAuthenticated()
+  const auth = useAuthUser();
+
+
+  
   return (
     <BrowserRouter>
     <Navbar />
       <Routes>
-        <Route path='/' element={<h1 className='font-bold font-xl'>Home page</h1>}/>
+        <Route path='/' element={<MainPage/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
         <Route path='/rankings' element={<Rankings />} />
