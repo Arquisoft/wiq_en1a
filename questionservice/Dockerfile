@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8010
 
 # Define the command to run your app
-CMD ["node", "auth-service.js"]
+CMD ["node", "question-service.js"]
