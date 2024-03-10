@@ -56,6 +56,24 @@ app.get('/rankings', async (req, res) => {
   }
 })
 
+
+app.post("/addpoints", async (req, res) => {
+  try {
+    validateRequiredFields(req, ['username']);
+    const user = await User.findOne({
+      username: req.body.username
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.points += 1;
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.post('/adduser', async (req, res) => {
     try {
         // Check if required fields are present in the request body

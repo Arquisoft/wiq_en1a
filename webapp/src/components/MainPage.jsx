@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import Game from './Game';
+
 import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
@@ -16,7 +16,7 @@ const MainPage = () => {
         }else{
             logged = true;
         }  
-        console.log(logged);         
+               
     }
     , [logged]);
 
