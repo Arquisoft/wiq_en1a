@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const apiEndpoint = 'http://localhost:8000';
+const apiEndpoint =  process.env.REACT_APP_API_ENDPOINT ||'http://localhost:8000';
 
 const Rankings = () => {
     const [users, setUsers] = useState([]);
