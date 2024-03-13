@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Question = () => {
-    const apiEndpoint = 'http://localhost:8000';
+    const apiEndpoint =  process.env.REACT_APP_API_ENDPOINT ||'http://localhost:8000';
     const [question, setQuestion] = useState([]);
     const [loading, setLoading] = useState(true);
 

@@ -64,6 +64,7 @@ services:
       - mongodb
       - userservice
       - authservice
+      - questionservice
     ports:
       - "8000:8000"
     networks:
