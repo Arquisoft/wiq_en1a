@@ -12,17 +12,15 @@ const Game = () => {
     const startGame = () => {
         setGameStarted(!gameStarted);
     };
-
     useEffect(() => {
-        if(isAuthenticated()===false) {
-            navigate('/login');
+        if (!isAuthenticated()) {
+            navigate("/login");
         }
-    }
-    , [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
 
     return (
         <div>
-            {gameStarted ? (
+            {isAuthenticated()?gameStarted ? (
                 <Question />
             ) : (
                 <div className="flex flex-col items-center justify-center mt-16">
@@ -32,7 +30,7 @@ const Game = () => {
                     Play
                     </button>
                 </div>
-            )}
+            ):""}
         </div>
     )
 };
