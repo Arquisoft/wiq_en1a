@@ -43,21 +43,31 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.get('/flags/question', async (req, res) => {
+app.get('/imgs/flags/question', async (req, res) => {
   try {
     // Forward the request to the question service
-    const questionResponse = await axios.get(questionServiceUrl+'/flags/question', req.body);
+    const questionResponse = await axios.get(questionServiceUrl+'/imgs/flags/question', req.body);
     res.json(questionResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
-app.post('/flags/answer', async (req, res) => {
+app.get('/imgs/cities/question', async (req, res) => {
+  try {
+    // Forward the request to the question service
+    const questionResponse = await axios.get(questionServiceUrl+'/imgs/cities/question', req.body);
+    res.json(questionResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+app.post('/imgs/answer', async (req, res) => {
   try {
     const answer = req.body.answer;
     // Forward the request to the question service
-    const questionResponse = await axios.post(questionServiceUrl+'/flags/answer', answer, { headers: {'Content-Type': 'text/plain'} });
+    const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', answer, { headers: {'Content-Type': 'text/plain'} });
     res.json(questionResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
