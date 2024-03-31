@@ -24,7 +24,7 @@ const Game = () => {
 
     return (
         <div>
-            {isAuthenticated() && (flagGameStarted || cityGameStarted) ?(
+            {isAuthenticated()? (flagGameStarted || cityGameStarted) ?(
                 <div>
                     {flagGameStarted && <Question type="imgs" category="flags"/>}
                     {cityGameStarted && <Question type="imgs" category="cities"/>}
@@ -41,7 +41,7 @@ const Game = () => {
                     Guess the city
                     </button>
                 </div>
-            )}
+            ):""}
         </div>
     )
 };

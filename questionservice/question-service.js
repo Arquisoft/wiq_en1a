@@ -135,11 +135,11 @@ app.post('/imgs/answer', (req, res) => {
   const answer = req.body;
 
   if(correctImg==answer){
-    res.json({
+    res.status(200).json({
       correct: "true"
     })
   } else {
-    res.json({
+    res.status(400).json({
       correct: "false",
       country: `${imgToAssociatedMap.get(answer)}`
     })
