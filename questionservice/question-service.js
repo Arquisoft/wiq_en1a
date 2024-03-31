@@ -10,37 +10,36 @@ const port = 8010;
 app.use(express.static('public'));
 app.use(express.text());
 
-//Correct image
-var correctAnswerFlag
-//Associates flags with their countries
-var flagToCountryMap = new Map()
+var correctImg
+var imgToAssociatedMap = new Map()
 
 class WIQ_API{
   /**
+   * Extracts from wikidata images and their associates, then selects 4 images and one of
+   * their associates for the question so the question is constructed with it as the target
+   * for the answer.
    * 
-   * @returns JSON with the question and the flags
+   * @param {string} query - SPARQL query for wikidata that has to use 
+   * an 'image' variable and an 'itemLabel' variable, respectively containing
+   * the image urls and the name of the associated entities (For example, flags and countries)
+   * @param {string} imgTypeName - Name of what the images represent
+   * @param {string} relation - Relation of the images with the question associated element
+   * @returns - A JSON with the question (question) and the images (images)
    */
-  async getQuestionAndCountryFlags() {
+  async getQuestionAndImages(query, imgTypeName, relation) {
     //Reset the map for the new question
-    flagToCountryMap = new Map()
+    imgToAssociatedMap = new Map()
 
-    //Num of fetched countries
-    const countriesNum = 100 
+    //Num of fetched items
+    const itemsNum = 100 
 
     //Required by wikidata to accept the request
     const headers = new Headers();
     headers.append('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
     +' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
 
-    const sparql = `SELECT ?país ?paísLabel ?imagen_de_la_bandera WHERE {
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-      ?país wdt:P31 wd:Q6256.
-      OPTIONAL { ?país wdt:P41 ?imagen_de_la_bandera. }
-    }
-    LIMIT ${countriesNum}`
-
     //Constructing the url for the wikidata request
-    var url = wbk.sparqlQuery(sparql);
+    var url = wbk.sparqlQuery(query);
 
     const response = await fetch(url, { headers });
     const data = await response.json()
@@ -49,33 +48,29 @@ class WIQ_API{
     const numOfChosen = 4
     // Generate n random numbers
     for (let i = 0; i < numOfChosen; i++) {
-      this.#getRandomNumNotInSetAndUpdate(countriesNum, chosenNums)
+      this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
     }
   
-    const countries = []
+    const associates = []
     const imgs = []
     for(var i=0;i<numOfChosen;i++){
-        //Making sure there is an image associated
-        while(!Object.keys(data.results.bindings[chosenNums[i]]).includes('imagen_de_la_bandera')){
-          chosenNums[i] = this.#getRandomNumNotInSetAndUpdate(countriesNum, chosenNums)
-        }
-        imgs.push(data.results.bindings[chosenNums[i]].imagen_de_la_bandera.value)
-        countries.push(data.results.bindings[chosenNums[i]].paísLabel.value)
-        flagToCountryMap.set(imgs[i], countries[i])
+      imgs.push(data.results.bindings[chosenNums[i]].image.value)
+      associates.push(data.results.bindings[chosenNums[i]].itemLabel.value)
+      imgToAssociatedMap.set(imgs[i], associates[i])
     }
 
     chosenNums = []
-    //Choose a random country of the chosen to make the question
+    //Choose a random item of the chosen to make the question
     const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
-    const chosenCountry = countries[chosenNum]
-    correctAnswerFlag = imgs[chosenNum]
+    const chosenAssociate = associates[chosenNum]
+    correctImg = imgs[chosenNum]
 
-    const questionAndFlags = {
-      question: `Which of the following flags belongs to ${chosenCountry}?`,
-      flags: [`${imgs[0]}`,`${imgs[1]}`,`${imgs[2]}`,`${imgs[3]}`]
+    const questionAndImages = {
+      question: `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`,
+      images: [`${imgs[0]}`,`${imgs[1]}`,`${imgs[2]}`,`${imgs[3]}`]
     }
 
-    return JSON.stringify(questionAndFlags)
+    return JSON.stringify(questionAndImages)
   }
 
   #getRandomNumNotInSetAndUpdate(numLimit, set){
@@ -92,33 +87,61 @@ const wiq = new WIQ_API()
 
 /**
  * Returns the needed information to construct a question of the form
- * "Which of the following flags belongs to (insert country)?" with 4 options
+ * "Which of the following flags belongs to xCountry?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the images of the flags (flags)
+ * @param {Object} res - Contains the question (question) and the flags (images)
 */
-app.get('/flags/question', async (req, res) => {
-  const question = JSON.parse(await wiq.getQuestionAndCountryFlags());
+app.get('/imgs/flags/question', async (req, res) => {
+  //Gets flag images and their associated country names
+  const query = `SELECT ?item ?itemLabel ?image WHERE 
+    { 
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
+      ?item wdt:P31 wd:Q6256; 
+      wdt:P41 ?image. 
+      FILTER NOT EXISTS { ?item wdt:P41 wd:Q3024110 } 
+    }`
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"flags","belongs to"));
   res.json(question);
 });
 
 /**
- * Gets a response indicating if the chosen flag img was correct or not
- * @param {string} req - Flag img url selected by the player
+ * Returns the needed information to construct a question of the form
+ * "Which of the following images corresponds to xCity?" with 4 options
+ * @param {} req - Not used
+ * @param {Object} res - Contains the question (question) and the cities (images)
+*/
+app.get('/imgs/cities/question', async (req, res) => {
+  //Gets city images and their associated names
+  const query = `SELECT ?item ?itemLabel ?image WHERE 
+    {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      ?item wdt:P31 wd:Q515;
+      wdt:P18 ?image.
+      FILTER NOT EXISTS { ?item wdt:P41 wd:Q3024110. }
+    }
+    LIMIT 100`
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
+  res.json(question);
+});
+
+/**
+ * Gets a response indicating if the chosen img was correct or not
+ * @param {string} req - img url selected by the player
  * @param {Object} res - JSON containing whether the answer was correct "true" 
  * or not "false". In case it was incorrect, the chosen 
- * country will be returned as well
+ * associate will be returned as well
 */
-app.post('/flags/answer', (req, res) => {
+app.post('/imgs/answer', (req, res) => {
   const answer = req.body;
 
-  if(correctAnswerFlag==answer){
+  if(correctImg==answer){
     res.json({
       correct: "true"
     })
   } else {
     res.json({
       correct: "false",
-      country: `${flagToCountryMap.get(answer)}`
+      country: `${imgToAssociatedMap.get(answer)}`
     })
   }
 });
