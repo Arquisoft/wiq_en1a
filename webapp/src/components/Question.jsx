@@ -42,12 +42,10 @@ const Question = (props) => {
                     <h1 className="font-bold text-3xl text-gray-800 pl-8">{question.question}</h1>
                     <div className="grid grid-cols-2 mt-10 item">
                     {question.images.map( image => (
-                        <div className="rounded-xl mx-8 my-8">
-                            <button className="transition-transform transform-gpu hover:scale-105">
-                                <img src={image} alt='Loading image...' className="rounded-lg max-h-50 object-contain shadow-md"
-                                    onClick={() => answerQuestion(image)}></img>
-                            </button>
-                        </div>
+                        <button className="transition-transform transform-gpu hover:scale-105 rounded-xl mx-8 my-8 max-h-52 max-w-80">
+                            <img src={image} alt='Loading image...' className="rounded-lg object-contain shadow-md"
+                                onClick={() => answerQuestion(image)}></img>
+                        </button>
                     ))}
                     </div>
                     </>

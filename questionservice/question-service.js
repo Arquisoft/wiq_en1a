@@ -139,7 +139,7 @@ app.post('/imgs/answer', (req, res) => {
       correct: "true"
     })
   } else {
-    res.status(400).json({
+    res.status(200).json({
       correct: "false",
       country: `${imgToAssociatedMap.get(answer)}`
     })
