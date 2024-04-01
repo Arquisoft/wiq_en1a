@@ -326,16 +326,16 @@ paths:
                       user:
                         type: string
                         description: User ID
-                      example: 
-                        - ranking: 1
-                          points: 100
-                          user: student
-                        - ranking: 2
-                          points: 90
-                          user: student2
-                        - ranking: 3
-                          points: 80
-                          user: student3
+                example: 
+                  - ranking: 1
+                    points: 100
+                    user: student
+                  - ranking: 2
+                    points: 90
+                    user: student2
+                  - ranking: 3
+                    points: 80
+                    user: student3
         '500':
           description: Internal server error.
           content:
