@@ -139,7 +139,7 @@ app.get('/imgs/cities/question', async (req, res) => {
     ?item wdt:P18 ?image. 
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"imagen","corresponds to"));
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
   res.json(question);
 });
 
