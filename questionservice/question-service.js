@@ -31,7 +31,7 @@ class WIQ_API{
     imgToAssociatedMap = new Map()
 
     //Num of fetched items
-    const itemsNum = 100 
+    const itemsNum = 200 
 
     //Required by wikidata to accept the request
     const headers = new Headers();
@@ -50,16 +50,37 @@ class WIQ_API{
     for (let i = 0; i < numOfChosen; i++) {
       this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
     }
-  
+
     const associates = []
     const imgs = []
-    for(var i=0;i<numOfChosen;i++){
-      imgs.push(data.results.bindings[chosenNums[i]].image.value)
-      associates.push(data.results.bindings[chosenNums[i]].itemLabel.value)
-      imgToAssociatedMap.set(imgs[i], associates[i])
+    let finalChosenLabels = []
+    //I filter in case the label does not have a proper name
+    //and just a wikidata identifier (Q followed by numbers)
+    const regex = /^Q\d+$/
+    while(regex.test(data.results.bindings[chosenNums[0]].itemLabel.value)){
+      this.#getRandomNumNotInSetAndUpdate(itemsNum,chosenNums)
+      chosenNums[0] = chosenNums.pop()
+    }
+    finalChosenLabels.push(data.results.bindings[chosenNums[0]].itemLabel.value);
+    for(let i=0;i<numOfChosen-1;i++){
+      //I check if there are repeated labels
+      //(More efficient than in the query) and if it is a proper label
+      while(finalChosenLabels.includes(data.results.bindings[chosenNums[i+1]].itemLabel.value)
+        || regex.test(data.results.bindings[chosenNums[i+1]].itemLabel.value)){
+        this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
+        chosenNums[i+1] = chosenNums.pop()
+      }
+      finalChosenLabels.push(data.results.bindings[chosenNums[i+1]].itemLabel.value)
     }
 
-    chosenNums = []
+    let counter = chosenNums.length
+    while(chosenNums.length>0){
+      imgs.push(data.results.bindings[chosenNums.pop()].image.value)
+      associates.push(finalChosenLabels.pop())
+      imgToAssociatedMap.set(imgs[counter], associates[counter])
+      counter--
+    }
+
     //Choose a random item of the chosen to make the question
     const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
     const chosenAssociate = associates[chosenNum]
@@ -98,8 +119,8 @@ app.get('/imgs/flags/question', async (req, res) => {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
       ?item wdt:P31 wd:Q6256; 
       wdt:P41 ?image. 
-      FILTER NOT EXISTS { ?item wdt:P41 wd:Q3024110 } 
-    }`
+    }
+    LIMIT 200`
   const question = JSON.parse(await wiq.getQuestionAndImages(query,"flags","belongs to"));
   res.json(question);
 });
@@ -112,14 +133,66 @@ app.get('/imgs/flags/question', async (req, res) => {
 */
 app.get('/imgs/cities/question', async (req, res) => {
   //Gets city images and their associated names
-  const query = `SELECT ?item ?itemLabel ?image WHERE 
-    {
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-      ?item wdt:P31 wd:Q515;
+  const query = `SELECT ?item ?itemLabel ?image WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    ?item wdt:P31 wd:Q515.
+    ?item wdt:P18 ?image. 
+  }
+  LIMIT 200`
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
+  res.json(question);
+});
+
+/**
+ * Returns the needed information to construct a question of the form
+ * "Which of the following images corresponds to xMonument?" with 4 options
+ * @param {} req - Not used
+ * @param {Object} res - Contains the question (question) and the monuments (images)
+*/
+app.get('/imgs/monuments/question', async (req, res) => {
+  //Gets monument images and their associated names
+  const query = `SELECT ?item ?itemLabel ?image WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    ?item wdt:P31 wd:Q4989906;
       wdt:P18 ?image.
-      FILTER NOT EXISTS { ?item wdt:P41 wd:Q3024110. }
-    }
-    LIMIT 100`
+  }
+  LIMIT 200`
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
+  res.json(question);
+});
+
+/**
+ * Returns the needed information to construct a question of the form
+ * "Which of the following tourist attractions corresponds to xTouristAttraction?" with 4 options
+ * @param {} req - Not used
+ * @param {Object} res - Contains the question (question) and the tourist attractions (images)
+*/
+app.get('/imgs/tourist_attractions/question', async (req, res) => {
+  //Gets attractions images and their associated names
+  const query = `SELECT ?item ?itemLabel ?image WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    ?item wdt:P31 wd:Q570116;
+      wdt:P18 ?image.
+  }
+  LIMIT 200`
+  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
+  res.json(question);
+});
+
+/**
+ * Returns the needed information to construct a question of the form
+ * "Which of the following images corresponds to xFood?" with 4 options
+ * @param {} req - Not used
+ * @param {Object} res - Contains the question (question) and the foods (images)
+*/
+app.get('/imgs/foods/question', async (req, res) => {
+  //Gets food images and their associated names
+  const query = `SELECT ?item ?itemLabel ?image WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    ?item wdt:P31 wd:Q8195619;
+      wdt:P18 ?image.
+  }
+  LIMIT 200`
   const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
   res.json(question);
 });
