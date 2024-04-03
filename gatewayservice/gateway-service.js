@@ -68,6 +68,36 @@ app.get('/imgs/cities/question', async (req, res) => {
   }
 });
 
+app.get('/imgs/monuments/question', async (req, res) => {
+  try {
+    // Forward the request to the question service
+    const questionResponse = await axios.get(questionServiceUrl+'/imgs/monuments/question', req.body);
+    res.json(questionResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+app.get('/imgs/tourist_attractions/question', async (req, res) => {
+  try {
+    // Forward the request to the question service
+    const questionResponse = await axios.get(questionServiceUrl+'/imgs/tourist_attractions/question', req.body);
+    res.json(questionResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+app.get('/imgs/foods/question', async (req, res) => {
+  try {
+    // Forward the request to the question service
+    const questionResponse = await axios.get(questionServiceUrl+'/imgs/foods/question', req.body);
+    res.json(questionResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
 app.post('/imgs/answer', async (req, res) => {
   try {
     const answer = req.body.answer;
