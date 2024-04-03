@@ -43,10 +43,22 @@ app.get('/rankings', async (req, res) => {
     const loggedUser = await User.findById(userId)
     const userRanking = getRankingFor(loggedUser) */
     const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
-      return { 
-        ranking: index+1, 
-        points: user.points, 
-        user: user.username }
+      return {
+        // User global data
+        user: user.username,
+        ranking: index+1,
+        points: user.ranking.total_points,
+        questions: user.ranking.total_questions,
+        correct: user.ranking.total_correct,
+        wrong: user.ranking.total_wrong,
+
+        // User cathegories data
+        flags: user.ranking.score_flags,
+        cities: user.ranking.score_cities,
+        foods: user.ranking.score_foods,
+        monuments: user.ranking.score_monuments,
+        tourist: user.ranking.score_tourist,
+      }
     })
 
     //res.json(userRanking, usersRanking)
