@@ -105,11 +105,6 @@ app.post('/imgs/answer', async (req, res) => {
 
     // Forward the request to the question service
     const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', {answer, username }, { headers: {'Content-Type': 'text/plain'} });
-
-    if (questionResponse.data.correct === "true"){
-      await axios.post(userServiceUrl+'/addpoints', {username: username } );
-      console.log("done");
-    }
     
     res.json(questionResponse.data);
   } catch (error) {
