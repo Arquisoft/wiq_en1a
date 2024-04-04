@@ -50,7 +50,6 @@ class WIQ_API{
     for (let i = 0; i < numOfChosen; i++) {
       this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
     }
-
     const associates = []
     const imgs = []
     let finalChosenLabels = []
@@ -207,6 +206,8 @@ app.get('/imgs/foods/question', async (req, res) => {
 app.post('/imgs/answer', (req, res) => {
   const answer = req.body;
 
+  console.log(correctImg)
+
   if(correctImg==answer){
     res.status(200).json({
       correct: "true"
@@ -214,11 +215,13 @@ app.post('/imgs/answer', (req, res) => {
   } else {
     res.status(200).json({
       correct: "false",
-      country: `${imgToAssociatedMap.get(answer)}`
+      associate: `${imgToAssociatedMap.get(answer)}`
     })
   }
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Questions service listening on http://localhost:${port}`);
 });
+
+module.exports = server
