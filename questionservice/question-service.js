@@ -204,6 +204,7 @@ app.get('/imgs/foods/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * associate will be returned as well
 */
+/*
 app.post('/imgs/answer', async (req, res) => {
   const { answer, username } = req.body;
 
@@ -236,12 +237,11 @@ app.post('/imgs/answer', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+*/
 
 
-/*
 app.post('/imgs/answer', (req, res) => {
-  const { answer, username } = req.body;
-
+  const { answer, username } =JSON.parse(req.body);
 
   if(correctImg==answer){
     res.status(200).json({
@@ -255,8 +255,7 @@ app.post('/imgs/answer', (req, res) => {
     })
   }
 });
-
 app.listen(port, () => {
   console.log(`Questions service listening on http://localhost:${port}`);
 });
-*/
+

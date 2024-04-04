@@ -101,8 +101,10 @@ app.get('/imgs/foods/question', async (req, res) => {
 app.post('/imgs/answer', async (req, res) => {
   try {
     const answer = req.body.answer;
+    const username = req.body.username;
+
     // Forward the request to the question service
-    const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', answer, { headers: {'Content-Type': 'text/plain'} });
+    const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', {answer, username }, { headers: {'Content-Type': 'text/plain'} });
     res.json(questionResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
