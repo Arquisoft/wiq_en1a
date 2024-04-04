@@ -42,7 +42,9 @@ app.get('/rankings', async (req, res) => {
     const userId = decoded.userId
     const loggedUser = await User.findById(userId)
     const userRanking = getRankingFor(loggedUser) */
-    const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
+    const usersRanking = (await User.find()
+      .sort({"ranking.total_points": -1})) // TODO: fix total_points property is not found
+      .map( (user, index) => {
       return {
         // User global data
         user: user.username,
