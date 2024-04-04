@@ -204,12 +204,49 @@ app.get('/imgs/foods/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * associate will be returned as well
 */
+app.post('/imgs/answer', async (req, res) => {
+  const { answer, username } = req.body;
+
+  try {
+    // Check if the answer is correct
+    if (correctImg === answer) {
+      // Check if the username exists
+      const user = await User.findOne({ username });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Add points to the user
+      user.points += 1;
+      await user.save();
+
+      // Send response indicating correct answer and updated user
+      res.status(200).json({
+        correct: true
+      });
+    } else {
+      // Send response indicating incorrect answer
+      res.status(200).json({
+        correct: false,
+        country: `${imgToAssociatedMap.get(answer)}`
+      });
+    }
+  } catch (error) {
+    // Send error response if any exception occurs
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
+/*
 app.post('/imgs/answer', (req, res) => {
-  const answer = req.body;
+  const { answer, username } = req.body;
+
 
   if(correctImg==answer){
     res.status(200).json({
-      correct: "true"
+      correct: "true",
+      user: username
     })
   } else {
     res.status(200).json({
@@ -222,3 +259,4 @@ app.post('/imgs/answer', (req, res) => {
 app.listen(port, () => {
   console.log(`Questions service listening on http://localhost:${port}`);
 });
+*/

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 const Question = (props) => {
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
     const [question, setQuestion] = useState([]);
     const [loading, setLoading] = useState(true);
     const [counter, setCounter] = useState(0);
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState(0);
+    const auth = useAuthUser();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -41,7 +43,7 @@ const Question = (props) => {
     const answerQuestion = async (answer) => {
         try {
             setLoading(true);
-            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer });
+            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer: answer, username: auth.username });
             const res = await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`);
             if ( result.data.correct === "true" ) {
                 setScore(score +1);
