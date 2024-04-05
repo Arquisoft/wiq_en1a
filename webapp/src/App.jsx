@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import AddUser from './components/AddUser';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
-import Rankings from './components/Rankings';
+import RankingsLayout from './components/ranking/RankingLayout';
 import Game from './components/Game';
 import MainPage from './components/MainPage';
 
@@ -21,7 +21,7 @@ function App() {
         <Route path='/' element={<MainPage/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<AddUser />} />
-        <Route path='/rankings' element={<Rankings />} />
+        <Route path='/rankings' element={<RankingsLayout />} />
         <Route path='/play' element={<Game />} />
       </Routes>
     </BrowserRouter>
