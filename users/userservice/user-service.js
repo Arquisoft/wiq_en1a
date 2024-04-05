@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+const R = require('ramda');
 
 const User = require('./user-model')
 
@@ -35,22 +36,32 @@ async function getRankingFor(loggedUser) {
   return { ranking: ranking, points: loggedUser.points, user: loggedUser.username }
 }
 
-app.get('/rankings', async (req, res) => {
+app.get('/rankings/:filter', async (req, res) => {
   try {
     /* const { token } = req.cookies
     const decoded = jwt.verify(token, 'your-secret-key')
     const userId = decoded.userId
     const loggedUser = await User.findById(userId)
     const userRanking = getRankingFor(loggedUser) */
-    const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
-      return { 
-        ranking: index+1, 
-        points: user.points, 
-        user: user.username }
+
+    const category = req.params.filter;
+    const usersRanking = (await User.find());
+    const ascendingUsers = R.sortBy(R.prop("ranking." + category + ".points"), usersRanking);
+    const sortedUsers = R.reverse(ascendingUsers);
+    const sortedRanking = sortedUsers.map( (user, index) => {
+      return {
+        // User global data
+        name: user.username,
+        position: index+1,
+        points: user.ranking[category].points,
+        questions: user.ranking[category].questions,
+        correct: user.ranking[category].correct,
+        wrong: user.ranking[category].wrong
+      }
     })
 
     //res.json(userRanking, usersRanking)
-    res.json(usersRanking)
+    res.json(sortedRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }

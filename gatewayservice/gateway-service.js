@@ -110,10 +110,10 @@ app.post('/imgs/answer', async (req, res) => {
 });
 
 
-app.get('/rankings', async (req, res) => {
+app.get('/rankings/:filter', async (req, res) => {
   try {
     // Forward the request to the user service
-    const userResponse = await axios.get(userServiceUrl+'/rankings', req.body);
+    const userResponse = await axios.get(userServiceUrl+'/rankings/' + req.params.filter, req.body);
     res.json(userResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
