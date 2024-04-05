@@ -45,7 +45,6 @@ app.get('/rankings/:filter', async (req, res) => {
     const userRanking = getRankingFor(loggedUser) */
 
     const category = req.params.filter;
-    console.log(category);
     const usersRanking = (await User.find());
     const ascendingUsers = R.sortBy(R.prop("ranking." + category + ".points"), usersRanking);
     const sortedUsers = R.reverse(ascendingUsers);
