@@ -18,110 +18,98 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now, 
     },
+
     ranking: {
-      total_points: {
-        type: Number,
-        default: 0,
-      },
-      total_questions: {
-        type: Number,
-        default: 0,
-      },
-      total_correct: {
-        type: Number,
-        default: 0,
-      },
-      total_wrong: {
-        type: Number,
-        default: 0,
+      global: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
       },
 
-      score_flags: {
-        points_flags: {
+      flags: {
+        points: {
           type: Number,
           default: 0,
         },
-        questions_flags: {
+        questions: {
           type: Number,
           default: 0,
         },
-        correct_flags: {
+        correct: {
           type: Number,
           default: 0,
         },
-        wrong_flags: {
-          type: Number,
-          default: 0,
-        },
-      },
-      score_cities: {
-        points_cities: {
-          type: Number,
-          default: 0,
-        },
-        questions_cities: {
-          type: Number,
-          default: 0,
-        },
-        correct_cities: {
-          type: Number,
-          default: 0,
-        },
-        wrong_cities: {
+        wrong: {
           type: Number,
           default: 0,
         },
       },
-      score_monuments: {
-        points_monuments: {
+
+      cities: {
+        points: {
           type: Number,
           default: 0,
         },
-        questions_monuments: {
+        questions: {
           type: Number,
           default: 0,
         },
-        correct_monuments: {
+        correct: {
           type: Number,
           default: 0,
         },
-        wrong_monuments: {
-          type: Number,
-          default: 0,
-        },
-      },
-      score_tourist: {
-        points_tourist: {
-          type: Number,
-          default: 0,
-        },
-        questions_tourist: {
-          type: Number,
-          default: 0,
-        },
-        correct_tourist: {
-          type: Number,
-          default: 0,
-        },
-        wrong_tourist: {
+        wrong: {
           type: Number,
           default: 0,
         },
       },
-      score_foods: {
-        points_foods: {
+
+      monuments: {
+        points: {
           type: Number,
           default: 0,
         },
-        questions_foods: {
+        questions: {
           type: Number,
           default: 0,
         },
-        correct_foods: {
+        correct: {
           type: Number,
           default: 0,
         },
-        wrong_foods: {
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      food: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
           type: Number,
           default: 0,
         },

@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+const R = require('ramda');
 
 const User = require('./user-model')
 
@@ -35,36 +36,33 @@ async function getRankingFor(loggedUser) {
   return { ranking: ranking, points: loggedUser.points, user: loggedUser.username }
 }
 
-app.get('/rankings', async (req, res) => {
+app.get('/rankings/:filter', async (req, res) => {
   try {
     /* const { token } = req.cookies
     const decoded = jwt.verify(token, 'your-secret-key')
     const userId = decoded.userId
     const loggedUser = await User.findById(userId)
     const userRanking = getRankingFor(loggedUser) */
-    const usersRanking = (await User.find()
-      .sort({"ranking.total_points": -1})) // TODO: fix total_points property is not found
-      .map( (user, index) => {
+
+    const category = req.params.filter;
+    console.log(category);
+    const usersRanking = (await User.find());
+    const ascendingUsers = R.sortBy(R.prop("ranking." + category + ".points"), usersRanking);
+    const sortedUsers = R.reverse(ascendingUsers);
+    const sortedRanking = sortedUsers.map( (user, index) => {
       return {
         // User global data
-        user: user.username,
-        ranking: index+1,
-        points: user.ranking.total_points,
-        questions: user.ranking.total_questions,
-        correct: user.ranking.total_correct,
-        wrong: user.ranking.total_wrong,
-
-        // User cathegories data
-        flags: user.ranking.score_flags,
-        cities: user.ranking.score_cities,
-        foods: user.ranking.score_foods,
-        monuments: user.ranking.score_monuments,
-        tourist: user.ranking.score_tourist,
+        name: user.username,
+        position: index+1,
+        points: user.ranking[category].points,
+        questions: user.ranking[category].questions,
+        correct: user.ranking[category].correct,
+        wrong: user.ranking[category].wrong
       }
     })
 
     //res.json(userRanking, usersRanking)
-    res.json(usersRanking)
+    res.json(sortedRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }
