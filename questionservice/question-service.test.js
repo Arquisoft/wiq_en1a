@@ -90,10 +90,11 @@ describe('Question Service', () => {
             }
             counter++
         }
+        question = response.body.question
         const responseAnswer = await request(app)
             .post("/imgs/answer")
-            .set('Content-Type', 'text/plain')
-            .send(correctImage)
+            .set('Content-Type', 'application/json')
+            .send({answer:correctImage, question:question})
         expect(responseAnswer.body.correct).toBe("true")
     });
 
@@ -114,10 +115,11 @@ describe('Question Service', () => {
             }
             counter++
         }
+        question = response.body.question
         const responseAnswer = await request(app)
             .post("/imgs/answer")
-            .set('Content-Type', 'text/plain')
-            .send(incorrectImageAnswer)
+            .set('Content-Type', 'application/json')
+            .send({answer:incorrectImageAnswer, question:question})
         expect(responseAnswer.body.correct).toBe("false")
         expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectImageAnswer))
     });

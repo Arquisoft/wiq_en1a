@@ -8,10 +8,10 @@ const app = express();
 const port = 8010;
 
 app.use(express.static('public'));
-app.use(express.text());
+app.use(express.json());
 
-var correctImg
 var imgToAssociatedMap = new Map()
+var answerToQuestionMap = new Map()
 
 class WIQ_API{
   /**
@@ -27,8 +27,6 @@ class WIQ_API{
    * @returns - A JSON with the question (question) and the images (images)
    */
   async getQuestionAndImages(query, imgTypeName, relation) {
-    //Reset the map for the new question
-    imgToAssociatedMap = new Map()
 
     //Num of fetched items
     const itemsNum = 200 
@@ -83,10 +81,13 @@ class WIQ_API{
     //Choose a random item of the chosen to make the question
     const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
     const chosenAssociate = associates[chosenNum]
-    correctImg = imgs[chosenNum]
+    let correctImg = imgs[chosenNum]
+
+    const question = `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`
+    answerToQuestionMap.set(correctImg,question)
 
     const questionAndImages = {
-      question: `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`,
+      question: question,
       images: [`${imgs[0]}`,`${imgs[1]}`,`${imgs[2]}`,`${imgs[3]}`]
     }
 
@@ -198,22 +199,27 @@ app.get('/imgs/foods/question', async (req, res) => {
 
 /**
  * Gets a response indicating if the chosen img was correct or not
- * @param {string} req - img url selected by the player
+ * @param {Object} req - img url selected by the player and the question he is answering
  * @param {Object} res - JSON containing whether the answer was correct "true" 
  * or not "false". In case it was incorrect, the chosen 
  * associate will be returned as well
 */
 app.post('/imgs/answer', (req, res) => {
-  const answer = req.body;
+  const obj = req.body;
 
-  if(correctImg==answer){
+  //console.log(obj)
+
+  if(obj.question==answerToQuestionMap.get(obj.answer)){
+    //console.log("Correct")
     res.status(200).json({
       correct: "true"
     })
   } else {
+    //console.log("Incorrect")
+    //console.log(imgToAssociatedMap.get(obj.answer))
     res.status(200).json({
       correct: "false",
-      associate: `${imgToAssociatedMap.get(answer)}`
+      associate: `${imgToAssociatedMap.get(obj.answer)}`
     })
   }
 });
