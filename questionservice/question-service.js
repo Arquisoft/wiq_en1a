@@ -55,7 +55,7 @@ class WIQ_API{
     let finalChosenLabels = []
     //I filter in case the label does not have a proper name
     //and just a wikidata identifier (Q followed by numbers)
-    const regex = /^Q\d+$/
+    const regex = /Q\d*/
     while(regex.test(data.results.bindings[chosenNums[0]].itemLabel.value)){
       this.#getRandomNumNotInSetAndUpdate(itemsNum,chosenNums)
       chosenNums[0] = chosenNums.pop()
@@ -72,12 +72,12 @@ class WIQ_API{
       finalChosenLabels.push(data.results.bindings[chosenNums[i+1]].itemLabel.value)
     }
 
-    let counter = chosenNums.length
+    let counter = 0
     while(chosenNums.length>0){
       imgs.push(data.results.bindings[chosenNums.pop()].image.value)
       associates.push(finalChosenLabels.pop())
       imgToAssociatedMap.set(imgs[counter], associates[counter])
-      counter--
+      counter++
     }
 
     //Choose a random item of the chosen to make the question
@@ -205,8 +205,6 @@ app.get('/imgs/foods/question', async (req, res) => {
 */
 app.post('/imgs/answer', (req, res) => {
   const answer = req.body;
-
-  console.log(correctImg)
 
   if(correctImg==answer){
     res.status(200).json({

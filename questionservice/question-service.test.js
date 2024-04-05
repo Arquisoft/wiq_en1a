@@ -15,8 +15,8 @@ jest.spyOn(global, 'fetch').mockImplementation(() => {
     let result = { results: {bindings: []}  }
     for(let i=1;i<=100;i++){
         //Simulating there is maximum number of repeated itemLabels (between the valid ones)
-        result.results.bindings.push({itemLabel: {value: "itemName1"} , image:{value: "imageUrlX"+i}})
-        imgsToAssociatesMap.set("imageUrlX"+i, "itemName1")
+        result.results.bindings.push({itemLabel: {value: "itemName1"} , image:{value: "imageUrl1_"+i}})
+        imgsToAssociatesMap.set("imageUrl1_"+i, "itemName1")
     }
     for(let i=101;i<=195;i++){
         //Simulating there are invalid itemLabels
@@ -26,7 +26,7 @@ jest.spyOn(global, 'fetch').mockImplementation(() => {
     for(let i=1;i<=4;i++){
         //Chosen elements (One of them will be one of the 196 elems with itemLabel 'itemName1' and 'imageUrlX')
         result.results.bindings.push({itemLabel: {value: "itemName"+i} , image:{value: "imageUrl"+i}})
-        imgsToAssociatesMap.set("imageUrl"+i, "itemName"+i)
+        imgsToAssociatesMap.set("imageUrl"+i,"itemName"+i)
     }
     return Promise.resolve({ json: () => Promise.resolve(result) });
 });
@@ -35,7 +35,7 @@ describe('Question Service', () => {
     // Test /imgs/flags/question endpoint
     it('should return a flags question with 4 images as options', async () => {
         const response = await request(app).get('/imgs/flags/question');
-        const itemLabelsSet = getItemLabelsIfDifferent(response.body);
+        const itemLabelsSet = getItemLabelsIfDifferent(response.body.images);
         
         checkInvalidElementsNotChosen(itemLabelsSet);
         checkQuestionValidity("Which of the following flags belongs to",response.body.question, itemLabelsSet);
@@ -77,17 +77,23 @@ describe('Question Service', () => {
     it('should inform if the answer is correct', async () => {
         //First I ask a question
         const response = await request(app).get('/imgs/foods/question');
-        regex = new RegExp(`Which of the following foods corresponds to (\\w+)\\?`);
+        regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
         const match = response.body.question.match(regex);
         const correctAnswerLabel = match && match[1];
         //I get and send the correct answer
-        const correctImage = imgsToAssociatesMap.get(correctAnswerLabel)
-        console.log(response.body.question)
+        let correctImage
+        let counter = 0
+        while(true){
+            if(correctAnswerLabel==imgsToAssociatesMap.get(response.body.images[counter])){
+                correctImage = response.body.images[counter]
+                break;
+            }
+            counter++
+        }
         const responseAnswer = await request(app)
             .post("/imgs/answer")
             .set('Content-Type', 'text/plain')
             .send(correctImage)
-        //console.log(responseAnswer.body)
         expect(responseAnswer.body.correct).toBe("true")
     });
 
@@ -95,24 +101,25 @@ describe('Question Service', () => {
     it('should inform the answer is incorrect and what is the element associated to the answer', async () => {
         //First I ask a question
         const response = await request(app).get('/imgs/foods/question');
-        regex = new RegExp(`Which of the following foods corresponds to (\\w+)\\?`);
+        regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
         const match = response.body.question.match(regex);
         const correctAnswerLabel = match && match[1];
-        //I get the correct answer
-        const correctImage = imgsToAssociatesMap.get(correctAnswerLabel)
-        //I choose an incorrect answer
-        let incorrectAnswer
-        for(let i=0;i<4;i++){
-            if(response.body.images[i]!=correctImage){
-                incorrectAnswer = response.body.images[i]
-                break
+        //I get an incorrect answer
+        let incorrectImageAnswer
+        let counter = 0
+        while(true){
+            if(correctAnswerLabel!=imgsToAssociatesMap.get(response.body.images[counter])){
+                incorrectImageAnswer = response.body.images[counter]
+                break;
             }
+            counter++
         }
         const responseAnswer = await request(app)
             .post("/imgs/answer")
-            .send(incorrectAnswer)
+            .set('Content-Type', 'text/plain')
+            .send(incorrectImageAnswer)
         expect(responseAnswer.body.correct).toBe("false")
-        // expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectAnswer))
+        expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectImageAnswer))
     });
 });
 
