@@ -102,9 +102,10 @@ app.post('/imgs/answer', async (req, res) => {
   try {
     const answer = req.body.answer;
     const username = req.body.username;
+    const category = req.body.category;
 
     // Forward the request to the question service
-    const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', {answer, username }, { headers: {'Content-Type': 'text/plain'} });
+    const questionResponse = await axios.post(questionServiceUrl+'/imgs/answer', {answer, username, category }, { headers: {'Content-Type': 'text/plain'} });
     
     res.json(questionResponse.data);
   } catch (error) {

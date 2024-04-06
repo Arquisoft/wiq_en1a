@@ -43,7 +43,7 @@ const Question = (props) => {
     const answerQuestion = async (answer) => {
         try {
             setLoading(true);
-            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer: answer, username: auth.username });
+            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer: answer, username: auth.username, category: props.category });
             const res = await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`);
             if ( result.data.correct === "true" ) {
                 setScore(score +1);

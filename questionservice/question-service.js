@@ -234,14 +234,17 @@ function validateRequiredFields(req, requiredFields) {
 */
 
 app.post('/imgs/answer', async (req, res) => {
-  const { answer, username } =JSON.parse(req.body);
+  const { answer, username, category } =JSON.parse(req.body);
 
   if(correctImg==answer){
-    await axios.post(userServiceUrl+'/addpoints', {username: username } );
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: username, category: category, correct: "true" } );
     res.status(200).json({
       correct: "true",
     })
   } else {
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: username, category: category, correct: "false" } );
     res.status(200).json({
       correct: "false",
       country: `${imgToAssociatedMap.get(answer)}`

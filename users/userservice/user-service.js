@@ -69,15 +69,37 @@ app.get('/rankings/:filter', async (req, res) => {
 
 
  app.post("/addpoints", async (req, res) => {
-   try {
-     validateRequiredFields(req, ['username']);
+  const username = req.body.username;
+  const category = req.body.category;
+  const correct = req.body.correct;
+
+
+  try {
+     validateRequiredFields(req, ['username','category','correct']);
      const user = await User.findOne({
        username: req.body.username
      });
      if (!user) {
        throw new Error('User not found');
      }
-     user.points += 1;
+
+     // updates global and category questions
+     user.ranking.global.questions += 1;
+     user.ranking[category].questions += 1;
+
+
+     // Answer is correct
+     if ( correct === "true"){
+      user.ranking[category].points += 1;
+      user.ranking[category].correct += 1;
+      user.ranking.global.points += 1;
+      user.ranking.global.correct += 1;
+     }
+     else{ // Answer is wrong
+      user.ranking[category].wrong += 1;
+      user.ranking.global.wrong += 1;
+     }
+
      await user.save();
      res.status(200).json(user);
    } catch (error) {
