@@ -37,10 +37,10 @@ const Question = (props) => {
         }
     };
 
-    const answerQuestion = async (answer) => {
+    const answerQuestion = async (answer, question) => {
         try {
             setLoading(true);
-            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer });
+            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer:answer, question:question }, { headers: {'Content-Type': 'application/json'}});
             const res = await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`);
             setQuestion(res.data);
             setLoading(false);
@@ -74,7 +74,7 @@ const Question = (props) => {
                         {question.images.map(image => (
                             <button className="transition-transform transform-gpu hover:scale-105 rounded-xl mx-8 my-8 max-h-52 max-w-80">
                                 <img src={image} alt='Loading image...' className="rounded-lg object-contain shadow-md"
-                                    onClick={() => answerQuestion(image)}></img>
+                                    onClick={() => answerQuestion(image,question.question)}></img>
                             </button>
                         ))}
                     </div>
