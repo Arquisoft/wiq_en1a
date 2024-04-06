@@ -33,35 +33,17 @@ See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 docum
 There you will find links and examples about ADR.
 
 ****
+
+[options="header", cols="1,1,1,1"]
 |===
-| Constraints | Explanation
-| Title
-| Web Server Platform: A Comprehensive Overview
-| Context
-| Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It's a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.
-| Decision
-| Oracle Cloud
-| Status
-| Proposed 
-| Consequences
-| We need to suppoort the web application with the leasr cost possible
-|===
+| What we have to decide | Options/Proposals - Reasoning  | Status | Decision - Reasoning
+| Which cloud service provider to use for deploying the webapp
+| *Oracle Cloud* - We have access to a VM with this provider with 24/7 free activity
+| Decided
+| *Oracle Cloud* - All advantages
 
-
-
-
-
-
-|===
-| Constraints | Explanation
-| Title
-| FrontEnd: What users see
-| Context
-| Choosing the right web server platform involves balancing technical requirements, stakeholder preferences, user considerations, and project constraints. It's a critical decision that impacts performance, security, user experience, and project success. Achieving alignment across these factors is essential for making an informed choice.
-| Decision
-| JavaScript and React
-| Status
-| Proposed 
-| Consequences
-| It is important that the developers are used or can get used to the proposed lenguage with ease so its easier to mantain the code and for future developers to understand it.
+| Which technologies are we going to use for developing the front end
+| React - It is a modern framework which is easy to learn and provides usefull predefined components that save time
+| Decided
+| React - We have a reference already implemented and its capabilities are what we need
 |===
