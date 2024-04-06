@@ -27,10 +27,10 @@ mongo.once('open', function () {
 
 
 app.use(express.static('public'));
-app.use(express.text());
+app.use(express.json());
 
-var correctImg
 var imgToAssociatedMap = new Map()
+var answerToQuestionMap = new Map()
 
 class WIQ_API{
   /**
@@ -46,8 +46,6 @@ class WIQ_API{
    * @returns - A JSON with the question (question) and the images (images)
    */
   async getQuestionAndImages(query, imgTypeName, relation) {
-    //Reset the map for the new question
-    imgToAssociatedMap = new Map()
 
     //Num of fetched items
     const itemsNum = 200 
@@ -69,13 +67,12 @@ class WIQ_API{
     for (let i = 0; i < numOfChosen; i++) {
       this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
     }
-
     const associates = []
     const imgs = []
     let finalChosenLabels = []
     //I filter in case the label does not have a proper name
     //and just a wikidata identifier (Q followed by numbers)
-    const regex = /^Q\d+$/
+    const regex = /Q\d*/
     while(regex.test(data.results.bindings[chosenNums[0]].itemLabel.value)){
       this.#getRandomNumNotInSetAndUpdate(itemsNum,chosenNums)
       chosenNums[0] = chosenNums.pop()
@@ -92,21 +89,24 @@ class WIQ_API{
       finalChosenLabels.push(data.results.bindings[chosenNums[i+1]].itemLabel.value)
     }
 
-    let counter = chosenNums.length
+    let counter = 0
     while(chosenNums.length>0){
       imgs.push(data.results.bindings[chosenNums.pop()].image.value)
       associates.push(finalChosenLabels.pop())
       imgToAssociatedMap.set(imgs[counter], associates[counter])
-      counter--
+      counter++
     }
 
     //Choose a random item of the chosen to make the question
     const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
     const chosenAssociate = associates[chosenNum]
-    correctImg = imgs[chosenNum]
+    let correctImg = imgs[chosenNum]
+
+    const question = `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`
+    answerToQuestionMap.set(correctImg,question)
 
     const questionAndImages = {
-      question: `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`,
+      question: question,
       images: [`${imgs[0]}`,`${imgs[1]}`,`${imgs[2]}`,`${imgs[3]}`]
     }
 
@@ -227,78 +227,44 @@ function validateRequiredFields(req, requiredFields) {
 
 /**
  * Gets a response indicating if the chosen img was correct or not
- * @param {string} req - img url selected by the player
+ * @param {Object} req - img url selected by the player and the question he is answering
  * @param {Object} res - JSON containing whether the answer was correct "true" 
  * or not "false". In case it was incorrect, the chosen 
  * associate will be returned as well
 */
-
 app.post('/imgs/answer', async (req, res) => {
-  const { answer, username, category } =JSON.parse(req.body);
+  const obj = req.body;
 
-  if(correctImg==answer){
+  if(obj.question==answerToQuestionMap.get(obj.answer)){
     await axios.post(userServiceUrl+'/addpoints', 
-      {username: username, category: category, correct: "true" } );
+      {username: obj.username, category: obj.category, correct: "true" } );
     res.status(200).json({
       correct: "true",
     })
   } else {
     await axios.post(userServiceUrl+'/addpoints', 
-      {username: username, category: category, correct: "false" } );
+      {username: obj.username, category: obj.category, correct: "false" } );
+
     res.status(200).json({
       correct: "false",
-      country: `${imgToAssociatedMap.get(answer)}`
+      associate: `${imgToAssociatedMap.get(obj.answer)}`
     })
   }
 });
-
-/*
-app.post('/imgs/answer', async (req, res) => {
-  const { answer, username } =JSON.parse(req.body);
-
-  try {
-
-    // Check if the answer is correct
-    if (correctImg === answer) {
-      // Check if the username exists
-      const user = await User.findOne({  
-        username: username 
-      });
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      // Add points to the user
-      user.points += 1;
-      await user.save();
-
-      // Send response indicating correct answer and updated user
-      res.status(200).json({
-        correct: true
-      });
-    } else {
-      // Send response indicating incorrect answer
-      res.status(200).json({
-        correct: false,
-        country: `${imgToAssociatedMap.get(answer)}`
-      });
-    }
-  } catch (error) {
-    // Send error response if any exception occurs
-    console.log(error);
-    res.status(400).json({ error: error.message });
-  }
-});
-*/
 
 const server = app.listen(port, () => {
   console.log(`Questions service listening on http://localhost:${port}`);
 });
 
-/*
-// Listen for the 'close' event on the Express.js server
-server.on('close', () => {
-  // Close the Mongoose connection
-  mongoose.connection.close();
-});*/
+module.exports = server
 
+
+/**
+ * 
+ *   const { answer, username, category } =JSON.parse(req.body);
+
+  if(correctImg==answer){
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: username, category: category, correct: "true" } );
+ * 
+ */
