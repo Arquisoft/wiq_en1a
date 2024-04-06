@@ -7,6 +7,25 @@ const express = require('express');
 const app = express();
 const port = 8010;
 
+const axios = require('axios');
+const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+
+/*
+const User = require('../users/userservice/user-model');
+const mongoose = require('mongoose');
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
+mongoose.connect(mongoUri);
+
+const mongo = mongoose.connection;
+
+// Check connection done correctly
+mongo.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongo.once('open', function () {
+  console.log('Connected to MongoDB successfully');
+});
+*/
+
+
 app.use(express.static('public'));
 app.use(express.json());
 
@@ -197,6 +216,15 @@ app.get('/imgs/foods/question', async (req, res) => {
   res.json(question);
 });
 
+
+function validateRequiredFields(req, requiredFields) {
+  for (const field of requiredFields) {
+    if (!(field in req.body)) {
+      throw new Error(`Missing required field: ${field}`);
+    }
+  }
+}
+
 /**
  * Gets a response indicating if the chosen img was correct or not
  * @param {Object} req - img url selected by the player and the question he is answering
@@ -204,19 +232,19 @@ app.get('/imgs/foods/question', async (req, res) => {
  * or not "false". In case it was incorrect, the chosen 
  * associate will be returned as well
 */
-app.post('/imgs/answer', (req, res) => {
+app.post('/imgs/answer', async (req, res) => {
   const obj = req.body;
 
-  //console.log(obj)
-
   if(obj.question==answerToQuestionMap.get(obj.answer)){
-    //console.log("Correct")
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: obj.username, category: obj.category, correct: "true" } );
     res.status(200).json({
-      correct: "true"
+      correct: "true",
     })
   } else {
-    //console.log("Incorrect")
-    //console.log(imgToAssociatedMap.get(obj.answer))
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: obj.username, category: obj.category, correct: "false" } );
+
     res.status(200).json({
       correct: "false",
       associate: `${imgToAssociatedMap.get(obj.answer)}`
@@ -229,3 +257,14 @@ const server = app.listen(port, () => {
 });
 
 module.exports = server
+
+
+/**
+ * 
+ *   const { answer, username, category } =JSON.parse(req.body);
+
+  if(correctImg==answer){
+    await axios.post(userServiceUrl+'/addpoints', 
+      {username: username, category: category, correct: "true" } );
+ * 
+ */

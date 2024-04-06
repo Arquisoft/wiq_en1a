@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 const Question = (props) => {
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
     const [question, setQuestion] = useState([]);
     const [loading, setLoading] = useState(true);
     const [counter, setCounter] = useState(0);
+    const [score, setScore] = useState(0);
+    const auth = useAuthUser();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -40,12 +43,20 @@ const Question = (props) => {
     const answerQuestion = async (answer, question) => {
         try {
             setLoading(true);
-            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, { answer:answer, question:question }, { headers: {'Content-Type': 'application/json'}});
+
+            const result = await axios.post(`${apiEndpoint}/${props.type}/answer`, 
+                { answer: answer, question:question, username: auth.username, category: props.category },
+                { headers: {'Content-Type': 'application/json'}});
+
             const res = await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`);
+            if ( result.data.correct === "true" ) {
+                setScore(score +1);
+            }
             setQuestion(res.data);
             setLoading(false);
             setCounter(0);
 
+            
         } catch (error) {
             console.log(error);
         }
@@ -58,6 +69,9 @@ const Question = (props) => {
 
     return (
         <div className="bg-slate-50 shadow-lg rounded-md p-4 mx-auto max-w-2xl mt-16">
+            <div className="absolute bottom-0 left-0 p-2 bg-gray-200 rounded-md">
+                Score: {score}
+            </div>
             {loading ? (
                 <h1 className="font-bold text-2xl text-gray-800 pl-8"><div class="flex justify-center items-center h-screen">
                     <div class="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
