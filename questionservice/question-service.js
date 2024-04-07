@@ -32,7 +32,7 @@ app.use(express.json());
 var imgToAssociatedMap = new Map()
 var answerToQuestionMap = new Map()
 
-class WIQ_API{
+class WIQ_API {
   /**
    * Extracts from wikidata images and their associates, then selects 4 images and one of
    * their associates for the question so the question is constructed with it as the target
@@ -48,12 +48,12 @@ class WIQ_API{
   async getQuestionAndImages(query, imgTypeName, relation) {
 
     //Num of fetched items
-    const itemsNum = 200 
+    const itemsNum = 200
 
     //Required by wikidata to accept the request
     const headers = new Headers();
     headers.append('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-    +' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
+      + ' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
 
     //Constructing the url for the wikidata request
     var url = wbk.sparqlQuery(query);
@@ -73,24 +73,24 @@ class WIQ_API{
     //I filter in case the label does not have a proper name
     //and just a wikidata identifier (Q followed by numbers)
     const regex = /Q\d*/
-    while(regex.test(data.results.bindings[chosenNums[0]].itemLabel.value)){
-      this.#getRandomNumNotInSetAndUpdate(itemsNum,chosenNums)
+    while (regex.test(data.results.bindings[chosenNums[0]].itemLabel.value)) {
+      this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
       chosenNums[0] = chosenNums.pop()
     }
     finalChosenLabels.push(data.results.bindings[chosenNums[0]].itemLabel.value);
-    for(let i=0;i<numOfChosen-1;i++){
+    for (let i = 0; i < numOfChosen - 1; i++) {
       //I check if there are repeated labels
       //(More efficient than in the query) and if it is a proper label
-      while(finalChosenLabels.includes(data.results.bindings[chosenNums[i+1]].itemLabel.value)
-        || regex.test(data.results.bindings[chosenNums[i+1]].itemLabel.value)){
+      while (finalChosenLabels.includes(data.results.bindings[chosenNums[i + 1]].itemLabel.value)
+        || regex.test(data.results.bindings[chosenNums[i + 1]].itemLabel.value)) {
         this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
-        chosenNums[i+1] = chosenNums.pop()
+        chosenNums[i + 1] = chosenNums.pop()
       }
-      finalChosenLabels.push(data.results.bindings[chosenNums[i+1]].itemLabel.value)
+      finalChosenLabels.push(data.results.bindings[chosenNums[i + 1]].itemLabel.value)
     }
 
     let counter = 0
-    while(chosenNums.length>0){
+    while (chosenNums.length > 0) {
       imgs.push(data.results.bindings[chosenNums.pop()].image.value)
       associates.push(finalChosenLabels.pop())
       imgToAssociatedMap.set(imgs[counter], associates[counter])
@@ -98,27 +98,27 @@ class WIQ_API{
     }
 
     //Choose a random item of the chosen to make the question
-    const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen,chosenNums)
+    const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen, chosenNums)
     const chosenAssociate = associates[chosenNum]
     let correctImg = imgs[chosenNum]
 
     const question = `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`
-    answerToQuestionMap.set(correctImg,question)
+    answerToQuestionMap.set(correctImg, question)
 
     const questionAndImages = {
       question: question,
-      images: [`${imgs[0]}`,`${imgs[1]}`,`${imgs[2]}`,`${imgs[3]}`]
+      images: [`${imgs[0]}`, `${imgs[1]}`, `${imgs[2]}`, `${imgs[3]}`]
     }
 
     return JSON.stringify(questionAndImages)
   }
 
-  #getRandomNumNotInSetAndUpdate(numLimit, set){
+  #getRandomNumNotInSetAndUpdate(numLimit, set) {
     let randomNumber;
-        do {
-            randomNumber = Math.floor(Math.random() * numLimit);
-        } while (set.includes(randomNumber)); // Ensure the number is unique
-        set.push(randomNumber);
+    do {
+      randomNumber = Math.floor(Math.random() * numLimit);
+    } while (set.includes(randomNumber)); // Ensure the number is unique
+    set.push(randomNumber);
     return randomNumber
   }
 }
@@ -140,8 +140,8 @@ app.get('/imgs/flags/question', async (req, res) => {
       wdt:P41 ?image. 
     }
     LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"flags","belongs to"));
-  res.json(question);
+  const question = JSON.parse(await wiq.getQuestionAndImages(query, "flags", "belongs to"));
+  res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
 /**
@@ -158,8 +158,8 @@ app.get('/imgs/cities/question', async (req, res) => {
     ?item wdt:P18 ?image. 
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
-  res.json(question);
+  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
+  res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
 /**
@@ -176,8 +176,8 @@ app.get('/imgs/monuments/question', async (req, res) => {
       wdt:P18 ?image.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
-  res.json(question);
+  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
+  res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
 /**
@@ -194,8 +194,8 @@ app.get('/imgs/tourist_attractions/question', async (req, res) => {
       wdt:P18 ?image.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
-  res.json(question);
+  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
+  res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
 /**
@@ -205,6 +205,7 @@ app.get('/imgs/tourist_attractions/question', async (req, res) => {
  * @param {Object} res - Contains the question (question) and the foods (images)
 */
 app.get('/imgs/foods/question', async (req, res) => {
+
   //Gets food images and their associated names
   const query = `SELECT ?item ?itemLabel ?image WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
@@ -212,8 +213,8 @@ app.get('/imgs/foods/question', async (req, res) => {
       wdt:P18 ?image.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query,"images","corresponds to"));
-  res.json(question);
+  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
+  res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
 
@@ -233,22 +234,26 @@ function validateRequiredFields(req, requiredFields) {
  * associate will be returned as well
 */
 app.post('/imgs/answer', async (req, res) => {
-  const obj = req.body;
+  try {
+    const obj = req.body;
 
-  if(obj.question==answerToQuestionMap.get(obj.answer)){
-    await axios.post(userServiceUrl+'/addpoints', 
-      {username: obj.username, category: obj.category, correct: "true" } );
-    res.status(200).json({
-      correct: "true",
-    })
-  } else {
-    await axios.post(userServiceUrl+'/addpoints', 
-      {username: obj.username, category: obj.category, correct: "false" } );
+    if (obj.question == answerToQuestionMap.get(obj.answer)) {
+      await axios.post(userServiceUrl + '/addpoints',
+        { username: obj.username, category: obj.category, correct: "true" });
+      res.status(200).json({
+        correct: "true",
+      })
+    } else {
+      await axios.post(userServiceUrl + '/addpoints',
+        { username: obj.username, category: obj.category, correct: "false" });
 
-    res.status(200).json({
-      correct: "false",
-      associate: `${imgToAssociatedMap.get(obj.answer)}`
-    })
+      res.status(200).json({
+        correct: "false",
+        associate: `${imgToAssociatedMap.get(obj.answer)}`
+      })
+    }
+  } catch (e) { //SIEMPRE RODEAR CON TRY CATCH
+    res.status(500).json({ error: e.message })
   }
 });
 
