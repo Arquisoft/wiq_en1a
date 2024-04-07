@@ -34,8 +34,8 @@ const RankingsLayout = () => {
                             Monuments
                         </button>
                         <button className="flex items-center px-4 py-2 text-gray-100 rounded-lg hover:bg-[#73689b]"
-                            onClick={() => handleFilterClick('food')}>
-                            Food
+                            onClick={() => handleFilterClick('foods')}>
+                            Foods
                         </button>
                     </nav>
                 </div>
