@@ -27,22 +27,9 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-// Function to get the user's ranking data
-async function getRankingFor(loggedUser) {
-  const users = await User.find().sort({points: -1})
-  const ranking = users.indexOf( (user) => user._id == loggedUser._id)
-
-  return { ranking: ranking, points: loggedUser.points, user: loggedUser.username }
-}
-
+// Get the ranking list for a specified category
 app.get('/rankings/:filter', async (req, res) => {
   try {
-    /* const { token } = req.cookies
-    const decoded = jwt.verify(token, 'your-secret-key')
-    const userId = decoded.userId
-    const loggedUser = await User.findById(userId)
-    const userRanking = getRankingFor(loggedUser) */
-
     const category = req.params.filter;
     const usersRanking = (await User.find()).sort((a, b) => b.ranking[category].points - a.ranking[category].points)
     .map((user, index) => {
@@ -57,8 +44,10 @@ app.get('/rankings/:filter', async (req, res) => {
       }
     })
 
-    //res.json(userRanking, usersRanking)
-    res.status(200).json(usersRanking)
+    if (usersRanking.length == 0 || usersRanking == null || usersRanking == undefined)
+      res.status(400).json("Error: category not found")
+    else
+      res.status(200).json(usersRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }

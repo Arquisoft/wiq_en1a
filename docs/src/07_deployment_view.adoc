@@ -43,7 +43,29 @@ See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentatio
 ****
 
 === Infrastructure Level 1
+An overall of the infrastructure elements used to execute the system can be seen in the following diagram.
+[plantuml,"Deployment view L1",png]
+----
+node "User Computer" {
+  component WC as "Web Client"
+}
 
+node "WIQ Server"{
+  component GS as "Gateway Service"
+  component WA as "Web Application"
+}
+
+node "Wikidata Server"{
+  component WAPI as "Wikidata API"
+}
+
+
+GS-[dashed]->WAPI
+WA-[dashed]->GS
+WC-[dashed]->WA
+WA-[dashed]->WC
+WC-[dashed]->GS
+----
 [role="arc42help"]
 ****
 Describe (usually in a combination of diagrams, tables, and text):
@@ -55,19 +77,7 @@ Describe (usually in a combination of diagrams, tables, and text):
 
 For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
 ****
-
-_**<Overview Diagram>**_
-
-Motivation::
-
-_<explanation in text form>_
-
-Quality and/or Performance Features::
-
-_<explanation in text form>_
-
-Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+The gateway service works as an adapter between the micro services and the web client. The web application is the main interface for the user to interact with the system. The wikidata API is used to fetch data from wikidata to generate questions. We must consider the gateway service a black box.
 
 
 === Infrastructure Level 2
@@ -79,16 +89,42 @@ Here you can include the internal structure of (some) infrastructure elements fr
 Please copy the structure from level 1 for each selected element.
 ****
 
-==== _<Infrastructure Element 1>_
+==== _WIQ Server_
+[plantuml,"Deployment view L2",png]
+----
+node "WIQ Server"{
+  component GS as "Gateway Service"
+  component WA as "Web Application"
+  component US as "User Service"
+  component AS as "Authorization Service"
+  component QS as "Question Service"
+  database MDB as "Mongo DB"
+}
 
-_<diagram + explanation>_
 
-==== _<Infrastructure Element 2>_
 
-_<diagram + explanation>_
 
-...
+GS-[dashed]->WA
+WA-[dashed]->GS
 
-==== _<Infrastructure Element n>_
+GS-[dashed]->AS
+AS-[dashed]->GS
 
-_<diagram + explanation>_
+GS-[dashed]->US
+US-[dashed]->GS
+
+GS-[dashed]->QS
+QS-[dashed]->GS
+
+AS-[dashed]->MDB
+MDB-[dashed]->AS
+
+US-[dashed]->MDB
+MDB-[dashed]->US
+
+QS-[dashed]->MDB
+MDB-[dashed]->QS
+----
+The architecture of WIQ is based on microservices. Gateway service is the main entry point for the system. The web application is the main interface for the user to interact with the system. The user service is responsible for managing users. The authorization service is responsible for managing user permissions. The question service is responsible for generating questions. The mongo database is used to store data.
+
+
