@@ -55,11 +55,6 @@ image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutti
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 
-=== _Domain model and terminology_
-
-
-
-
 === _Microservice based system_
 
 Different business functionallities will be developed in different independent services.

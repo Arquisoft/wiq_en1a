@@ -26,7 +26,7 @@ See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 do
 
 [options="header", cols="1,1,1,1"]
 |===
-|Risk |Why it exists |Severity - Explanation |Possible solutions
+|Risk/Technical debt |Why it exists |Severity - Explanation |Possible solutions
 
 |Use of wikibase-sdk version 8 (not final)
 |It is the last version that supports 'require', which is needed to use express in the same module

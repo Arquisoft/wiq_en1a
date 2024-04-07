@@ -42,44 +42,44 @@ Keep these excerpts as short as possible. Balance readability of this document w
 See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
 
 ****
-The functional requirements have been grouped into the different microservices the web application will have.
+
+The functional requirements are the following:
+* The application must be accesible through the web
+* Users must be able to register into the system
+* Users must be able to see data about their past games (score, correct/wrong answers, number of questions answered...)
+* Questions must be automatically generated from Wikidata.
+* Questions must be answered before some specific time.
+* Each question must have one right answer and several incorrect ones or distractors. Both the right answer and the distractors should be automatically generated.
+* The system must give access to the information about the users through an API.
+* The system must give access to information about the generated questions through an API.
+
+
+The functional requirements have been grouped into the different microservices the web application will have:
 
 ==== User and Authorization Services
 [decimal]
 . The User service allows the user to
 [arabic]
-.. Register.
-.. Delete the account.
-.. Update the account.
-.. Recover the password.
+.. Register
 . The authorization service allows the user to 
 [arabic]
-.. Log in.
-.. Log out.
-. A user can retrieve the following information from the User service
+.. Log in
+
+==== Ranking Service
+. A user can retrieve the following information from the Ranking service
 [arabic]
-.. Name.
-.. Email.
-.. Profile picture.
-.. Questions answered.
-. The system must be able to manage the user's access to the system.
+.. Points scored
+.. Number of questions answered
+.. Correct answers
+.. Incorrect answers
+. The system must be able to manage the user's access to the system
 
 ==== Question Service
 [decimal, start=5]
-. The Question service retrieves questions generated from wikidata.
-. A user can retrieve the following information from the Question service
+. The question service provides the following functionallities
 [arabic]
-.. Select a category.
-.. Select a difficulty.
-.. Select a question.
-.. Select an answer.
-. Questions must be stored in a database.
-. The database used is MongoDB.
-. Questions are classified by
-[arabic]
-.. Category.
-.. Difficulty.
-. The questions should be selected randomly.
+.. Generate a random question from a given category with 4 options
+.. Validate the answer and update the score accordingly
 
 === Quality Goals
 

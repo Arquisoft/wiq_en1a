@@ -31,40 +31,28 @@ Architects need a clear understanding of the areas where they have creative free
 |===
 | Constraints | Explanation
 
-| *Privacy (by SOLID)*
-| The web application must be able to save in a secure and persistence way.
-
 | *GitHub*
 | It will be used to coordinate the projects work, tracks changes and manage workflow.
 
-| *Time*
-| The web application will be developed along this course, that means our time is limited and we require an efficient time management.
-
 
 | *Documentation*
-| In order to keep it clean, efficient and simple it will follow Arc42 method.
+| In order to keep it clean, efficient and simple, it will follow Arc42 method and be deployed to be able to look at it at any time.
+
+
+| *Deployment*
+| The project has to be deployed when a release is made
 
 
 | *Time*
 | Since the project will be done in this semester our time is limited, and we need to stick to the deadlines and manage our time in an efficient way.
 
 
-| *Code*
-| The code requires a small description of what it does. In addition, we must build it in a clean way and that is easy to expand and can adapt to changes in an easy way.
+| *Testing*
+| We need to have a good coverage of unitary testing (80%+) and some acceptance testing covering all the webapp functionallity
 
 
-| *Test*
-| The test has to be correctly tested in order to accomplish the desired behavior.
-
-
-| Node.js
-| Open-source, cross-platform JavaScript runtime environment and library for running web applications outside the client’s browser.
-
-| *Ruby*
-| Dynamic, open source programming language with a focus on simplicity and productivity.
-
-| *JavaScript*
-| Programming language that allows you to implement complex features on web page.
+| *Wikidata*
+| It has to be used for the question generation.
 |===
 
 
