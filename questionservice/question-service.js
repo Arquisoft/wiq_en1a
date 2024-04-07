@@ -10,21 +10,6 @@ const port = 8010;
 const axios = require('axios');
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 
-/*
-const User = require('../users/userservice/user-model');
-const mongoose = require('mongoose');
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
-mongoose.connect(mongoUri);
-
-const mongo = mongoose.connection;
-
-// Check connection done correctly
-mongo.on('error', console.error.bind(console, 'MongoDB connection error:'));
-mongo.once('open', function () {
-  console.log('Connected to MongoDB successfully');
-});
-*/
-
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -257,14 +242,3 @@ const server = app.listen(port, () => {
 });
 
 module.exports = server
-
-
-/**
- * 
- *   const { answer, username, category } =JSON.parse(req.body);
-
-  if(correctImg==answer){
-    await axios.post(userServiceUrl+'/addpoints', 
-      {username: username, category: category, correct: "true" } );
- * 
- */
