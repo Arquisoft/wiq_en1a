@@ -96,7 +96,26 @@ const userSchema = new mongoose.Schema({
         },
       },
 
-      food: {
+      tourist_attractions: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      foods: {
         points: {
           type: Number,
           default: 0,
