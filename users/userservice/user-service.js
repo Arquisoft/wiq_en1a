@@ -119,7 +119,7 @@ app.post('/adduser', async (req, res) => {
         });
 
         await newUser.save();
-        res.status(200).json({response: "User added correctly"});
+        res.status(200).json(newUser);
     } catch (error) {
         res.status(400).json({ error: error.message }); 
     }});
