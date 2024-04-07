@@ -26,7 +26,7 @@ const AddUser = () => {
       navigate('/login');
     } catch (error) {
       if(error.response===undefined){
-        setError("Error: There was a problem...");
+        setError("There was a problem...");
       }
       else{
         setError(error.response.data.error);
