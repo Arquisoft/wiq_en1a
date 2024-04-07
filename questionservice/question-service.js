@@ -202,15 +202,6 @@ app.get('/imgs/foods/question', async (req, res) => {
   res.json(question); //LOS STATUSS!!!!!!!!!!!
 });
 
-
-function validateRequiredFields(req, requiredFields) {
-  for (const field of requiredFields) {
-    if (!(field in req.body)) {
-      throw new Error(`Missing required field: ${field}`);
-    }
-  }
-}
-
 /**
  * Gets a response indicating if the chosen img was correct or not
  * @param {Object} req - img url selected by the player and the question he is answering
