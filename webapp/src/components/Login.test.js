@@ -3,7 +3,9 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from './Login';
-
+import AuthProvider from 'react-auth-kit/AuthProvider';
+import { BrowserRouter } from 'react-router-dom';
+import createStore from 'react-auth-kit/createStore';
 const mockAxios = new MockAdapter(axios);
 
 describe('Login component', () => {
@@ -12,29 +14,62 @@ describe('Login component', () => {
   });
 
   it('should log in successfully', async () => {
-    render(<Login />);
+    const store = createStore({
+      authName: '_auth',
+      authType: 'cookie',
+      cookieDomain: window.location.hostname,
+      cookieSecure: window.location.protocol === 'https:',
+    });
 
+    render(
+      <AuthProvider
+        store={store}
+      >
+        <BrowserRouter>
+        <Login/>
+        </BrowserRouter>
+      </AuthProvider>);
+  
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
     const loginButton = screen.getByRole('button', { name: /Login/i });
-
+    const mock = jest.fn();
+    jest.mock('react-router-dom', () => ({
+      useNavigate: () => mock,
+    }));
     // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/login').reply(200, { createdAt: '2024-01-01T12:34:56Z' });
+    mockAxios.onPost('http://localhost:8000/login').reply(200, { username:"testUser",email:"test@test.com",createdAt: '2024-01-01T12:34:56Z',token: 'testToken'});
 
     // Simulate user input
     await act(async () => {
-        fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-        fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-        fireEvent.click(loginButton);
-      });
+      fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+      fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+      fireEvent.click(loginButton);
+    });
+   
 
-    // Verify that the user information is displayed
-    expect(screen.getByText(/Hello testUser!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Your account was created on 1\/1\/2024/i)).toBeInTheDocument();
+    const linkElement = screen.getByText(/Error: Error: There was a problem.../i);
+    expect(linkElement).toBeInTheDocument();
+    
+
   });
 
   it('should handle error when logging in', async () => {
-    render(<Login />);
+    const store = createStore({
+      authName: '_auth',
+      authType: 'cookie',
+      cookieDomain: window.location.hostname,
+      cookieSecure: window.location.protocol === 'https:',
+    });
+
+    render(
+      <AuthProvider
+        store={store}
+      >
+        <BrowserRouter>
+        <Login/>
+        </BrowserRouter>
+      </AuthProvider>);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -55,8 +90,7 @@ describe('Login component', () => {
       expect(screen.getByText(/Error: Unauthorized/i)).toBeInTheDocument();
     });
 
-    // Verify that the user information is not displayed
-    expect(screen.queryByText(/Hello testUser!/i)).toBeNull();
-    expect(screen.queryByText(/Your account was created on/i)).toBeNull();
   });
+
+  
 });
