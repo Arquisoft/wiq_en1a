@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const R = require('ramda');
 
 const User = require('./user-model')
 
@@ -45,10 +44,8 @@ app.get('/rankings/:filter', async (req, res) => {
     const userRanking = getRankingFor(loggedUser) */
 
     const category = req.params.filter;
-    const usersRanking = (await User.find());
-    const ascendingUsers = R.sortBy(R.prop("ranking." + category + ".points"), usersRanking);
-    const sortedUsers = R.reverse(ascendingUsers);
-    const sortedRanking = sortedUsers.map( (user, index) => {
+    const usersRanking = (await User.find()).sort((a, b) => b.ranking[category].points - a.ranking[category].points)
+    .map((user, index) => {
       return {
         // User global data
         name: user.username,
@@ -61,7 +58,7 @@ app.get('/rankings/:filter', async (req, res) => {
     })
 
     //res.json(userRanking, usersRanking)
-    res.json(sortedRanking)
+    res.status(200).json(usersRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }

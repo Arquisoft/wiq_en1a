@@ -25,7 +25,12 @@ const AddUser = () => {
       setOpenSnackbar(true);
       navigate('/login');
     } catch (error) {
-      setError(error.response.data.error);
+      if(error.response===undefined){
+        setError("Error: There was a problem...");
+      }
+      else{
+        setError(error.response.data.error);
+      }
     }
   };
 
