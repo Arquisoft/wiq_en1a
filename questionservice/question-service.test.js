@@ -1,4 +1,5 @@
 const request = require('supertest');
+const axios = require('axios');
 const app = require('./question-service'); 
 
 afterAll(async () => {
@@ -7,6 +8,8 @@ afterAll(async () => {
 
 // Mock the fetch function
 global.fetch = jest.fn();
+// Mock axios
+jest.mock('axios');
 
 var imgsToAssociatesMap = new Map()
 
@@ -32,6 +35,17 @@ jest.spyOn(global, 'fetch').mockImplementation(() => {
 });
 
 describe('Question Service', () => {
+    axios.post.mockImplementation((url, data) => {
+        if (url.endsWith('/addpoints')) {
+            if(data.correct=="true"){
+                return Promise.resolve({ response: "Correct answer handled" });
+            } else if (data.correct=="false"){
+                return Promise.resolve({ response: "Incorrect answer handled" });
+            }
+            return Promise.resolve({ response: "Something went wrong" });
+        } 
+    });
+
     // Test /imgs/flags/question endpoint
     it('should return a flags question with 4 images as options', async () => {
         const response = await request(app).get('/imgs/flags/question');
@@ -94,7 +108,7 @@ describe('Question Service', () => {
         const responseAnswer = await request(app)
             .post("/imgs/answer")
             .set('Content-Type', 'application/json')
-            .send({answer:correctImage, question:question})
+            .send({answer:correctImage, question:question, username:"username", category:"foods"})
         expect(responseAnswer.body.correct).toBe("true")
     });
 
@@ -119,7 +133,7 @@ describe('Question Service', () => {
         const responseAnswer = await request(app)
             .post("/imgs/answer")
             .set('Content-Type', 'application/json')
-            .send({answer:incorrectImageAnswer, question:question})
+            .send({answer:incorrectImageAnswer, question:question, username:"username", category:"foods"})
         expect(responseAnswer.body.correct).toBe("false")
         expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectImageAnswer))
     });
