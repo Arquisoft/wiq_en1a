@@ -977,7 +977,7 @@ the past games of all users in a ranking.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Context%20Diagram.png" alt="Context Diagram" width="1031" height="578">
+<img src="./images/Context%20Diagram.png" alt="Context Diagram" width="272" height="483">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1186,7 +1186,7 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Whitebox%20overall%20system.png" alt="Whitebox overall system" width="1028" height="578">
+<img src="./images/Whitebox%20overall%20system.png" alt="Whitebox overall system" width="297" height="410">
 </div>
 </div>
 <div class="dlist">
@@ -1325,7 +1325,7 @@ answer them, getting a consequent score update.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/questions%20API%20(WhiteBox).png" alt="questions API (WhiteBox)" width="1008" height="578">
+<img src="./images/questions%20API%20(WhiteBox).png" alt="questions API (WhiteBox)" width="389" height="337">
 </div>
 </div>
 <div class="dlist">
@@ -1553,6 +1553,14 @@ when your infrastructure is more complex.</p>
 </div>
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
+<div class="paragraph">
+<p>An overall of the infrastructure elements used to execute the system can be seen in the following diagram.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Deployment%20view%20L1.png" alt="Deployment view L1" width="427" height="362">
+</div>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1580,23 +1588,7 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 <div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Motivation</dt>
-<dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
-</dd>
-<dt class="hdlist1">Quality and/or Performance Features</dt>
-<dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
-</dd>
-<dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
-<dd>
-<p><em>&lt;description of the mapping&gt;</em></p>
-</dd>
-</dl>
+<p>The gateway service works as an adapter between the micro services and the web client. The web application is the main interface for the user to interact with the system. The wikidata API is used to fetch data from wikidata to generate questions. We must consider the gateway service a black box.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1612,24 +1604,14 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_infrastructure_element_1">7.2.1. <em>&lt;Infrastructure Element 1&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
+<h4 id="_wiq_server">7.2.1. <em>WIQ Server</em></h4>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Deployment%20view%20L2.png" alt="Deployment view L2" width="446" height="448">
 </div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_2">7.2.2. <em>&lt;Infrastructure Element 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
 </div>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_infrastructure_element_n">7.2.3. <em>&lt;Infrastructure Element n&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;diagram + explanation&gt;</em></p>
+<p>The architecture of WIQ is based on microservices. Gateway service is the main entry point for the system. The web application is the main interface for the user to interact with the system. The user service is responsible for managing users. The authorization service is responsible for managing user permissions. The question service is responsible for generating questions. The mongo database is used to store data.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -2147,7 +2129,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-05 19:08:54 +0100
+Last updated 2024-02-11 21:54:06 +0100
 </div>
 </div>
 </body>
