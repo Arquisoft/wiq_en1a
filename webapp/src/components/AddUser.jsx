@@ -13,7 +13,7 @@ const AddUser = () => {
   const [cpassword, setcPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
   const addUser = async () => {
     try {
@@ -26,7 +26,7 @@ const AddUser = () => {
       navigate('/login');
     } catch (error) {
       if(error.response===undefined){
-        setError("Error: There was a problem...");
+        setError("There was a problem...");
       }
       else{
         setError(error.response.data.error);
