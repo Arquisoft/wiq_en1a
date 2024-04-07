@@ -18,6 +18,7 @@ const Login = () => {
   const loginUser = async () => {
     try {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password }).then((res) => {
+       
         if (res.status === 200) {
           if (signIn({
             auth: {
@@ -35,14 +36,22 @@ const Login = () => {
             navigate('/');
           } else {
             //Throw error
+
             throw new Error('Error while signing in');
           }
+
         }    
       });
 
       setOpenSnackbar(true);
     } catch (error) {
-      setError(error.response.data.error);
+      if(error.response===undefined){
+        setError("Error: There was a problem...");
+      }
+      else{
+        setError(error.response.data.error);
+      }
+
     }
   };
 
