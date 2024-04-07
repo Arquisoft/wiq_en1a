@@ -13,7 +13,7 @@ const AddUser = () => {
   const [cpassword, setcPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
   const addUser = async () => {
     try {
