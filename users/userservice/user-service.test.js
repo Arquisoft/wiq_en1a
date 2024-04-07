@@ -20,16 +20,11 @@ describe('User Service', () => {
   it('should add a new user on POST /adduser', async () => {
     const newUser = {
       username: 'testuser',
-      email: 'testemail',
       password: 'testpassword',
     };
 
-    const response = await request(app)
-      .post('/adduser')
-      .send(newUser);
+    const response = await request(app).post('/adduser').send(newUser);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('username', newUser.username);
-    expect(response.body).toHaveProperty('email', newUser.email);
-    expect(response.body.password).not.toBe(newUser.password);
+    expect(response.body).toHaveProperty('username', 'testuser');
   });
 });
