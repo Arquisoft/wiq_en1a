@@ -31,7 +31,7 @@ describe('Question page', () => {
 
     await waitFor(() => {
         expect(screen.getByText(/Which of the following flags belongs to/i)).toBeInTheDocument();
-        expect(screen.getByText(/Score/i)).toBeInTheDocument();
+        expect(screen.getByText(/Score/i)).toBeInTheDocument(); 
     });
 
     let imgs = []
