@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+  title: Gatewayservice API
+  description: Gateway OpenAPI specification.
+  version: 0.2.0
+servers:
+  - url: http://localhost:8000
+    description: Local Server
+  - url: http://158.179.217.182:8000
+    description: WIQ Server
+paths:
+  /adduser:
+    post:
+      summary: Register in WIQ.
+      operationId: addUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User ID.
+                  example: student
+                email:
+                  type: string
+                  description: User email.
+                  example: UOXXXXXX@uniovi.es
+                password:
+                  type: string
+                  description: User password.
+                  example: securepass
+      responses:
+        '200':
+          description: User added successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: User ID
+                  emial:
+                    type: string
+                    description: User ID
+                  password:
+                    type: string
+                    description: Hashed password
+                    example: $2b$10$ZKdNYLWFQxzt5Rei/YTc/OsZNi12YiWz30JeUFHNdAt7MyfmkTuvC
+                  _id:
+                    type: string
+                    description: Identification
+                    example: 65f756db3fa22d227a4b7c7d
+                  createdAt:
+                    type: string
+                    description: Creation date.
+                    example: '2024-03-17T20:47:23.935Z'
+                  points:
+                    type: integer
+                    example: '0'
+                  ___v:
+                    type: integer
+                    example: '0'                                        
+        '400':
+          description: Failed to add user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: getaddrinfo EAI_AGAIN mongodb
+  /health:
+    get:
+      summary: Check the health status of the service.
+      operationId: checkHealth
+      responses:
+        '200':
+          description: Service is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Health status.
+                    example: OK
+  /login:
+    post:
+      summary: Log in to the system.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User ID.
+                  example: student
+                password:
+                  type: string
+                  description: User password.
+                  example: pass
+      responses:
+        '200':
+          description: Login successful. Returns user token, username, and creation date.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: User token.
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY3NTZkYjNmYTIyZDIyN2E0YjdjN2QiLCJpYXQiOjE3MTA3MDg3NDUsImV4cCI6MTcxMDcxMjM0NX0.VMG_5DOyQ4GYlJQRcu1I6ICG1IGzuo2Xuei093ONHxw
+                  username:
+                    type: string
+                    description: Username.
+                    example: student
+                  email:
+                    type: string
+                    description: Email.
+                    example: UOXXXXXX@uniovi.es
+                  createdAt:
+                    type: string
+                    description: Creation date.
+                    example: '2024-03-17T20:47:23.935Z'
+        '401':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Shows the error info..
+                    example: Invalid credentials
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+  /imgs/flags/question:
+    get:
+      summary: Get the flags for a question.
+      operationId: getFlags
+      responses:
+        '200':
+          description: Flags retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                    description: Question.
+                    example: "Which of these flags belongs to Kenya?"
+                  flags:
+                    type: array
+                    items:
+                      type: string
+                    example: 
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg" 
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Grenada.svg"
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wales.svg"
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Palau.svg"
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+        # '400':
+        #   description: Failed to retrieve flags.
+        #   content:
+        #     application/json:
+        #       schema:
+        #         type: object
+        #         properties:
+        #           error:
+        #             type: string
+        #             description: Error information.
+        #             example: Failed to retrieve flags
+  /imgs/cities/question:
+    get:
+      summary: Get the cities for a question.
+      operationId: getCities
+      responses:
+        '200':
+          description: cities retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                    description: Question.
+                    example: "Which of the following images corresponds to Łódź?"
+                  cities:
+                    type: array
+                    items:
+                      type: string
+                    example: 
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/00%20sea%20towers%20%28April%202018%29.jpg"
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Sebastian%20Glapinski%202017%20%28Unsplash%29.jpg"
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/2019%20-%20Schweriner%20Schloss%20-%201.jpg"
+                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Stockholm%20gamlastan%20etc.jpg"
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+        # '400':
+        #   description: Failed to retrieve cities.
+        #   content:
+        #     application/json:
+        #       schema:
+        #         type: object
+        #         properties:
+        #           error:
+        #             type: string
+        #             description: Error information.
+        #             example: Failed to retrieve cities
+
+  /imgs/answer:
+    post:
+      summary: Check the answer to a question.
+      operationId: checkAnswer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answer:
+                  type: string
+                  description: Answer.
+                  example: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg"
+      responses:
+        '200':
+          description: Answer is correct.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  correct:
+                    type: string
+                    description: Result.
+                    example: "true"
+        '400':
+          description: Answer is incorrect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  correct:
+                    type: string
+                    description: Result.
+                    example: "false"
+                  country:
+                    type: string
+                    description: Correct answer.
+                    example: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg"
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+  /rankings:
+    get:
+      summary: Get the rankings.
+      operationId: getRankings
+      responses:
+        '200':
+          description: Rankings retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  
+                      ranking:
+                        type: integer
+                        description: User ranking position
+                      points:
+                        type: integer
+                        description: User points
+                      user:
+                        type: string
+                        description: User ID
+                example: 
+                  - ranking: 1
+                    points: 100
+                    user: student
+                  - ranking: 2
+                    points: 90
+                    user: student2
+                  - ranking: 3
+                    points: 80
+                    user: student3
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+        '400':
+          description: Failed to retrieve rankings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Failed to retrieve rankings

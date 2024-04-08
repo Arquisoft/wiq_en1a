@@ -19,7 +19,7 @@ docker compose --profile dev up --build
 ## Meet our Team
 We are students of Software Architecture in the University of Oviedo. This web application is the laboratory project of the subject. We hope you like our webapp and we are welcomed to proposals of new content by our Issues.
 
-You can check our Documentation [here](https://arquisoft.github.io/wiq_en1a/) where all the tecnical details are explained
+You can check our Documentation [here](https://arquisoft.github.io/wiq_en1a/) where all the tecnical details are explained. Moreover, you can check our API for your free use, using Swagger, [here](http://158.179.217.182:8000/api-doc).
 
 ### Developers
 

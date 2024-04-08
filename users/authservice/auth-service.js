@@ -11,7 +11,7 @@ const port = 8002;
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
 mongoose.connect(mongoUri);
 
 // Function to validate required fields in the request body
@@ -53,29 +53,7 @@ const server = app.listen(port, () => {
   console.log(`Auth Service listening at http://localhost:${port}`);
 });
 
-app.get('/self', async (req, res) => {
-  try {
 
-      const token = req.headers.authorization;
-      let id = {};
-      if (!token) {
-        return res.status(403).json({ error: 'No token provided' });
-    }
-    jwt.verify(token, 'your-secret-key', (err, decoded) => {
-      if (err) {
-          return res.status(500).json({ error: 'Failed to authenticate token' });
-      }
-      
-      // If everything is good, save the user id to request for use in other routes
-      id = decoded.userId;
-     
-  });
-      const user = await User.findById(id);
-      res.status(200).json(user);
-  } catch (error) {
-      res.status(500).json({ error: error.message });
-  }
-});
 
 server.on('close', () => {
     // Close the Mongoose connection

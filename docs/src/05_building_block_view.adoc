@@ -40,6 +40,9 @@ See https://docs.arc42.org/section-5/[Building Block View] in the arc42 document
 
 ****
 
+The system is based on having a player interact with a GUI which makes use of different APIs that hold most of the 
+important functionallity
+
 === Whitebox Overall System
 
 [role="arc42help"]
@@ -71,11 +74,11 @@ actor Player
 rectangle "WIQ Game (Level 1)"{
 [WIQ Game GUI]
 [UsersAPI]
-[GeneratedQuestionsAPI] #BurlyWood
+[questionsAPI] #BurlyWood
 Player ..> (WIQ Game GUI)
-[GeneratedQuestionsAPI] ..> Wikidata
+[questionsAPI] ..> Wikidata
 [WIQ Game GUI] ..> UsersAPI
-[WIQ Game GUI] ..> GeneratedQuestionsAPI
+[WIQ Game GUI] ..> questionsAPI
 }
 ----
 
@@ -92,8 +95,8 @@ Contained Black boxes::
 |WIQ Game GUI
 |Main window in which questions are shown and can be answered by the player. The latter can also see past scores.
 
-|Generated Questions API
-|In charge of generating the questions
+|questions API
+|In charge of generating the questions and validating the answer
 
 |UsersAPI
 |In charge of keeping track of the data of the users (registration and scores)
@@ -150,25 +153,29 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-==== Generated Questions API (White Box)
+==== questions API (White Box)
+
+This is the Component that holds the functionallity for the main purpose of the webapp: Allowing players to see questions and 
+answer them, getting a consequent score update.
 
 [role="arc42help"]
 ****
 ...describes the internal structure of _building block 1_.
 ****
 
-[plantuml,"Generated Questions API (WhiteBox)",png]
+[plantuml,"questions API (WhiteBox)",png]
 ----
 [Wikidata]
 [wikibase-sdk] <<library>>
 [WIQ Game GUI]
 database MongoDB
 
-rectangle "GenedQuestsAPI (Level 2)"{
-[GenQuestsService] ..> [wikibase-sdk]
-[GenQuestsService] ..> [Wikidata]
-[GenQuestsService] <--> MongoDB
-[WIQ Game GUI] ..> [GenQuestsService] : new Question
+rectangle "questionsAPI (Level 2)"{
+[question-service] ..> [wikibase-sdk]
+[question-service] ..> [Wikidata]
+[question-service] <--> MongoDB
+[WIQ Game GUI] ..> [question-service] : new question
+[WIQ Game GUI] ..> [question-service] : validate answer
 }
 ----
 
@@ -182,8 +189,8 @@ Contained Black boxes::
 |===
 |Name |Responsibility
 
-|GenQuestsService
-|Receives different petitions regarding the generation of questions and responds accordingly.
+|question-service
+|Receives different petitions regarding the generation of questions and validation of answers and responds accordingly.
 
 |wikibase-sdk
 |External library that facilitates and simplifies the use of wikidata for the generation of questions.

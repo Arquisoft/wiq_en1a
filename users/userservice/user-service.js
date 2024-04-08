@@ -13,7 +13,7 @@ const port = 8001;
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
 mongoose.connect(mongoUri);
 
 
@@ -27,52 +27,71 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-// Function to get the user's ranking data
-async function getRankingFor(loggedUser) {
-  const users = await User.find().sort({points: -1})
-  const ranking = users.indexOf( (user) => user._id == loggedUser._id)
-
-  return { ranking: ranking, points: loggedUser.points, user: loggedUser.username }
-}
-
-app.get('/rankings', async (req, res) => {
+// Get the ranking list for a specified category
+app.get('/rankings/:filter', async (req, res) => {
   try {
-    /* const { token } = req.cookies
-    const decoded = jwt.verify(token, 'your-secret-key')
-    const userId = decoded.userId
-    const loggedUser = await User.findById(userId)
-    const userRanking = getRankingFor(loggedUser) */
-    const usersRanking = (await User.find().sort({points: -1})).map( (user, index) => {
-      return { 
-        ranking: index+1, 
-        points: user.points, 
-        user: user.username }
+    const category = req.params.filter;
+    const usersRanking = (await User.find()).sort((a, b) => b.ranking[category].points - a.ranking[category].points)
+    .map((user, index) => {
+      return {
+        // User global data
+        name: user.username,
+        position: index+1,
+        points: user.ranking[category].points,
+        questions: user.ranking[category].questions,
+        correct: user.ranking[category].correct,
+        wrong: user.ranking[category].wrong
+      }
     })
 
-    //res.json(userRanking, usersRanking)
-    res.json(usersRanking)
+    if (usersRanking.length == 0 || usersRanking == null || usersRanking == undefined)
+      res.status(400).json("Error: category not found")
+    else
+      res.status(200).json(usersRanking)
   } catch (error) {
     res.status(400).json({ error: error.message }); 
   }
 })
 
 
-app.post("/addpoints", async (req, res) => {
+ app.post("/addpoints", async (req, res) => {
+  const username = req.body.username;
+  const category = req.body.category;
+  const correct = req.body.correct;
+
+
   try {
-    validateRequiredFields(req, ['username']);
-    const user = await User.findOne({
-      username: req.body.username
-    });
-    if (!user) {
-      throw new Error('User not found');
-    }
-    user.points += 1;
-    await user.save();
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+     validateRequiredFields(req, ['username','category','correct']);
+     const user = await User.findOne({
+       username: req.body.username
+     });
+     if (!user) {
+       throw new Error('User not found');
+     }
+
+     // updates global and category questions
+     user.ranking.global.questions += 1;
+     user.ranking[category].questions += 1;
+
+
+     // Answer is correct
+     if ( correct === "true"){
+      user.ranking[category].points += 1;
+      user.ranking[category].correct += 1;
+      user.ranking.global.points += 1;
+      user.ranking.global.correct += 1;
+     }
+     else{ // Answer is wrong
+      user.ranking[category].wrong += 1;
+      user.ranking.global.wrong += 1;
+     }
+
+     await user.save();
+     res.status(200).json(user);
+   } catch (error) {
+     res.status(400).json({ error: error.message });
+   }
+ });
 
 app.post('/adduser', async (req, res) => {
     try {
@@ -89,7 +108,7 @@ app.post('/adduser', async (req, res) => {
         });
 
         await newUser.save();
-        res.json(newUser);
+        res.status(200).json(newUser);
     } catch (error) {
         res.status(400).json({ error: error.message }); 
     }});

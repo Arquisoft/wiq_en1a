@@ -36,10 +36,32 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
+// Test /login
 describe('Auth Service', () => {
+  // Test for successful login
   it('Should perform a login operation /login', async () => {
     const response = await request(app).post('/login').send(user);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('username', 'testuser');
   });
+
+  // Test for invalid credentials
+  it('Should respond with 401 for invalid credentials', async () => {
+    const response = await request(app)
+      .post('/login')
+      .send({ username: 'invaliduser', password: 'invalidpassword' });
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty('error', 'Invalid credentials');
+  });
+
+  // Test for missing fields
+  it('Should respond with 400 for missing fields', async () => {
+    const response = await request(app).post('/login').send({ username: 'testuser' });
+    expect(response.status).toBe(500);
+    expect(response.body).toHaveProperty('error', 'Internal Server Error');
+  });
+
+
 });
+
+// 

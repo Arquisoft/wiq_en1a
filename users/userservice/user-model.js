@@ -18,12 +18,121 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now, 
     },
-    points: {
-      type: Number,
-      default: function() {
-        // Generate a random integer between 0 and 100
-        return Math.floor(Math.random() * 101);
-      }
+
+    ranking: {
+      global: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      flags: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      cities: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      monuments: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      tourist_attractions: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
+
+      foods: {
+        points: {
+          type: Number,
+          default: 0,
+        },
+        questions: {
+          type: Number,
+          default: 0,
+        },
+        correct: {
+          type: Number,
+          default: 0,
+        },
+        wrong: {
+          type: Number,
+          default: 0,
+        },
+      },
     }
 });
 
