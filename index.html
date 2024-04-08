@@ -607,15 +607,35 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </div>
 <div class="paragraph">
-<p>The functional requirements are the following:
-* The application must be accesible through the web
-* Users must be able to register into the system
-* Users must be able to see data about their past games (score, correct/wrong answers, number of questions answered&#8230;&#8203;)
-* Questions must be automatically generated from Wikidata.
-* Questions must be answered before some specific time.
-* Each question must have one right answer and several incorrect ones or distractors. Both the right answer and the distractors should be automatically generated.
-* The system must give access to the information about the users through an API.
-* The system must give access to information about the generated questions through an API.</p>
+<p>The functional requirements are the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The application must be accesible through the web</p>
+</li>
+<li>
+<p>Users must be able to register into the system</p>
+</li>
+<li>
+<p>Users must be able to see data about their past games (score, correct/wrong answers, number of questions answered&#8230;&#8203;)</p>
+</li>
+<li>
+<p>Questions must be automatically generated from Wikidata.</p>
+</li>
+<li>
+<p>Questions must be answered before some specific time.</p>
+</li>
+<li>
+<p>Each question must have one right answer and several incorrect ones or distractors. Both the right answer and the distractors should be automatically generated.</p>
+</li>
+<li>
+<p>The system must give access to the information about the users through an API.</p>
+</li>
+<li>
+<p>The system must give access to information about the generated questions through an API.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>The functional requirements have been grouped into the different microservices the web application will have:</p>
@@ -1025,21 +1045,47 @@ the past games of all users in a ranking.</p>
 <h2 id="section-solution-strategy">4. Solution Strategy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The web application is based on MERN stack, a full-stack combination of technologies for developing JavaScript applications fast.
-* <strong>Node:</strong> the JavaScript runtime environment.
-* <strong>MongoDB:</strong> chosen technology for the persistance of the system, that provides a non-relational database approach.
-* <strong>Express and Node:</strong> they make up the middle tier of the application, providing a powerful server platform.
-* <strong>React:</strong> front-end framework that will solve the client interfaces of the application.</p>
+<p>The web application is based on MERN stack, a full-stack combination of technologies for developing JavaScript applications fast.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Node:</strong> the JavaScript runtime environment.</p>
+</li>
+<li>
+<p><strong>MongoDB:</strong> chosen technology for the persistance of the system, that provides a non-relational database approach.</p>
+</li>
+<li>
+<p><strong>Express and Node:</strong> they make up the middle tier of the application, providing a powerful server platform.</p>
+</li>
+<li>
+<p><strong>React:</strong> front-end framework that will solve the client interfaces of the application.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Regarding the deployment of the application, the strategy chosen is a <strong>cloud-based</strong> system. This decision was motivated because of the nature of
 the project, since a web application needs to be live and accesible at any moment.
-The server will be an ARM <strong>Linux VM on Oracle</strong>, where some <strong>dockerized microservices</strong> will be deployed:
-* users service
-* authentication service
-* questions service
-* web application
-* gateway</p>
+The server will be an ARM <strong>Linux VM on Oracle</strong>, where some <strong>dockerized microservices</strong> will be deployed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>users service</p>
+</li>
+<li>
+<p>authentication service</p>
+</li>
+<li>
+<p>questions service</p>
+</li>
+<li>
+<p>web application</p>
+</li>
+<li>
+<p>gateway</p>
+</li>
+</ul>
 </div>
 <div class="sidebarblock arc42help">
 <div class="content">
@@ -1401,31 +1447,10 @@ answer them, getting a consequent score update.</p>
 </li>
 </ul>
 </div>
-<hr>
-<div class="paragraph">
-<p>actor User
-entity WEBC as "Web Client"
-entity GW as "Gateway"
-database DB as "MongoDB"
-entity QU as "Questions API"
-entity USERS as "Users Service API"</p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/playing_diagram.png" alt="playing diagram" width="808" height="634">
 </div>
-<div class="paragraph">
-<p>User &#8594; WEBC: Select a category to play
-WEBC &#8594; GW: Get a question
-GW &#8594; QU: Get a question
-QU &#8594; QU: Store question and answer
-QU &#8594; GW: Send question to client
-GW &#8594; WEBC: Send question to client
-User &#8594; WEBC: Answer question
-WEBC &#8594; GW: Send answer
-GW &#8594; QU: Send answer
-QU &#8594; QU: Check answer
-QU &#8594; USERS: Update user points
-USERS &#8594; DB: Modify user data
-QU &#8594; GW: Send result and new question
-GW &#8594; WEBC: Send result and new question
----</p>
 </div>
 <div class="sidebarblock arc42help">
 <div class="content">
