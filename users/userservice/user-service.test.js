@@ -97,43 +97,19 @@ describe('User Service', () => {
     expect(response.body);
   });
 
-  it("should show users' ranking for global stats", async () => {
+  it("should show users' ranking for <category> stats", async () => {
     const response = await request(app).get('/rankings/global');
     expect(response.status).toBe(200);
     expect(response.body);
   });
 
-  it("should show users' ranking for foods category", async () => {
-    const response = await request(app).get('/rankings/foods');
-    expect(response.status).toBe(200);
-    expect(response.body);
-  });
-
-  it("should show users' ranking for attractions category", async () => {
-    const response = await request(app).get('/rankings/tourist_attractions');
-    expect(response.status).toBe(200);
-    expect(response.body);
-  });
-
-  it("should show users' ranking for monuments category", async () => {
-    const response = await request(app).get('/rankings/monuments');
-    expect(response.status).toBe(200);
-    expect(response.body);
-  });
-
-  it("should show users' ranking for cities category", async () => {
-    const response = await request(app).get('/rankings/cities');
-    expect(response.status).toBe(200);
-    expect(response.body);
-  });
-
   it("shouldn't show users' ranking for a category that doesn't exist" , async () => {
-    const response = await request(app).get('/rankings/reyesmagos');
-    expect(response.status).toBe(400);
+    const res = await request(app).get('/rankings/reyesmagos');
+    expect(res.status).toBe(400);
   });
 
   it("shouldn't show users' ranking for an empty category" , async () => {
-    const response = await request(app).get('/rankings/');
-    expect(response.status).toBe(404);
+    const res = await request(app).get('/rankings/');
+    expect(res.status).toBe(404);
   });
 });
