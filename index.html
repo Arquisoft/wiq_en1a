@@ -467,9 +467,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
 <li><a href="#_user_authentication">6.1. User authentication</a></li>
-<li><a href="#_access_to_user_data_via_api">6.2. Access to user data via API</a></li>
-<li><a href="#_access_to_questions_data_via_api">6.3. Access to questions data via API</a></li>
-<li><a href="#_game">6.4. Game</a></li>
+<li><a href="#_rankings">6.2. Rankings</a></li>
+<li><a href="#_playing">6.3. Playing</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -1026,27 +1025,21 @@ the past games of all users in a ranking.</p>
 <h2 id="section-solution-strategy">4. Solution Strategy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The system will follow <strong>MERN Stack</strong> as they key technologies for its development. MERN Stack is composed of four technologies: MongoDB, Express,
-React and Node.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>MongoDB:</strong> chosen technology for the persistance of the system, that provides a non-relational database approach.</p>
-</li>
-<li>
-<p><strong>Express and Node:</strong> they make up the middle tier of the application, providing a powerful server platform.</p>
-</li>
-<li>
-<p><strong>React:</strong> front-end framework that will solve the client interfaces of the application.</p>
-</li>
-</ul>
+<p>The web application is based on MERN stack, a full-stack combination of technologies for developing JavaScript applications fast.
+* <strong>Node:</strong> the JavaScript runtime environment.
+* <strong>MongoDB:</strong> chosen technology for the persistance of the system, that provides a non-relational database approach.
+* <strong>Express and Node:</strong> they make up the middle tier of the application, providing a powerful server platform.
+* <strong>React:</strong> front-end framework that will solve the client interfaces of the application.</p>
 </div>
 <div class="paragraph">
 <p>Regarding the deployment of the application, the strategy chosen is a <strong>cloud-based</strong> system. This decision was motivated because of the nature of
 the project, since a web application needs to be live and accesible at any moment.
-The server will be an ARM <strong>Linux VM on Oracle</strong>, where some <strong>containers</strong> for different charasteristics of the system will be <strong>deployed with
-Docker</strong> (MongoDB database for example)</p>
+The server will be an ARM <strong>Linux VM on Oracle</strong>, where some <strong>dockerized microservices</strong> will be deployed:
+* users service
+* authentication service
+* questions service
+* web application
+* gateway</p>
 </div>
 <div class="sidebarblock arc42help">
 <div class="content">
@@ -1385,48 +1378,54 @@ answer them, getting a consequent score update.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_access_to_user_data_via_api">6.2. Access to user data via API</h3>
+<h3 id="_rankings">6.2. Rankings</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Clients access the users data through an API</p>
+<p>Users can see the rankings for a specific category</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/users%20diagram.png" alt="users diagram" width="211" height="227">
+<img src="./images/rankings_diagram.png" alt="rankings diagram" width="849" height="531">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_access_to_questions_data_via_api">6.3. Access to questions data via API</h3>
+<h3 id="_playing">6.3. Playing</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Clients access the questions data through an API</p>
+<p>An overview of the runtime scenario of a game.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/questions%20diagram.png" alt="questions diagram" width="224" height="227">
+<hr>
+<div class="paragraph">
+<p>actor User
+entity WEBC as "Web Client"
+entity GW as "Gateway"
+database DB as "MongoDB"
+entity QU as "Questions API"
+entity USERS as "Users Service API"</p>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_game">6.4. Game</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Users can play a Q&amp;A game</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/game%20diagram.png" alt="game diagram" width="387" height="365">
-</div>
+<div class="paragraph">
+<p>User &#8594; WEBC: Select a category to play
+WEBC &#8594; GW: Get a question
+GW &#8594; QU: Get a question
+QU &#8594; QU: Store question and answer
+QU &#8594; GW: Send question to client
+GW &#8594; WEBC: Send question to client
+User &#8594; WEBC: Answer question
+WEBC &#8594; GW: Send answer
+GW &#8594; QU: Send answer
+QU &#8594; QU: Check answer
+QU &#8594; USERS: Update user points
+USERS &#8594; DB: Modify user data
+QU &#8594; GW: Send result and new question
+GW &#8594; WEBC: Send result and new question
+---</p>
 </div>
 <div class="sidebarblock arc42help">
 <div class="content">
