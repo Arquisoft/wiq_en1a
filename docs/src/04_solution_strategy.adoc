@@ -3,6 +3,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-solution-strategy]]
 == Solution Strategy
 The web application is based on MERN stack, a full-stack combination of technologies for developing JavaScript applications fast.
+
 * *Node:* the JavaScript runtime environment.
 * *MongoDB:* chosen technology for the persistance of the system, that provides a non-relational database approach.
 * *Express and Node:* they make up the middle tier of the application, providing a powerful server platform.
@@ -11,6 +12,7 @@ The web application is based on MERN stack, a full-stack combination of technolo
 Regarding the deployment of the application, the strategy chosen is a *cloud-based* system. This decision was motivated because of the nature of
 the project, since a web application needs to be live and accesible at any moment.
 The server will be an ARM *Linux VM on Oracle*, where some *dockerized microservices* will be deployed:
+
 * users service
 * authentication service
 * questions service

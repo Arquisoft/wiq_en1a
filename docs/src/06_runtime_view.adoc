@@ -35,7 +35,7 @@ GW -> WEBC: Send category statistics
 * An overview of the runtime scenario of a game.
 
 [plantuml, "playing_diagram", png]
----
+----
 actor User
 entity WEBC as "Web Client"
 entity GW as "Gateway"
@@ -57,7 +57,7 @@ QU -> USERS: Update user points
 USERS -> DB: Modify user data
 QU -> GW: Send result and new question
 GW -> WEBC: Send result and new question
----
+----
 
 [role="arc42help"]
 ****
