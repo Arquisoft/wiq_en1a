@@ -31,6 +31,28 @@ describe('Question page', () => {
 
     await waitFor(() => {
         expect(screen.getByText(/Which of the following flags belongs to/i)).toBeInTheDocument();
+        expect(screen.getByText(/Score/i)).toBeInTheDocument(); 
+    });
+
+    let imgs = []
+    imgs = screen.getAllByRole("button")
+    expect(imgs.length).toBe(4)
+  });
+
+
+  it('should render a flags question if category is foods', async () => {
+    useAuthUser.mockReturnValue({ username: 'testUser' });
+
+    mockAxios.onGet('http://localhost:8000/imgs/foods/question').reply(200, 
+    {
+        question: "Which of the following images corresponds to Tortilla?", 
+        images:["TortillaImage","PaellaImage","CachopoImage","ChocoImage"]
+    });
+
+    render(<Question type="imgs" category="foods"/>);
+
+    await waitFor(() => {
+        expect(screen.getByText(/Which of the following images corresponds to/i)).toBeInTheDocument();
         expect(screen.getByText(/Score/i)).toBeInTheDocument();
     });
 
@@ -39,3 +61,6 @@ describe('Question page', () => {
     expect(imgs.length).toBe(4)
   });
 });
+
+
+

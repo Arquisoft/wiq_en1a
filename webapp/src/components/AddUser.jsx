@@ -70,7 +70,7 @@ const AddUser = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <TextField
-        name="password"
+        name="cpassword"
      
         margin="normal"
         fullWidth
