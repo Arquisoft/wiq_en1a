@@ -6,44 +6,59 @@ ifndef::imagesdir[:imagesdir: ../images]
 * Users will log in through the web interface of the application.
 * The system stores in database (MongoDB) the users of the application. Any data relative to them is accessed via the database of the system and displayed to them on the web interface.
 
-=== Access to user data via API
-* Clients access the users data through an API
+=== Rankings
+* Users can see the rankings for a specific category
 
-[plantuml,"users diagram",png]
+[plantuml,"rankings_diagram",png]
 ----
-entity Client
-database API as "Users API"
-Client -> API: Data querying request
-API --> Client: Retrieved data
+entity User
+entity WEBC as "Web Client"
+entity GW as "Gateway"
+entity USERS as "Users service"
+database DB as "MongoDB"
+
+User -> WEBC: Navigate to rankings page
+WEBC -> GW: Get global statistics
+GW -> USERS: Get global statistics
+USERS -> DB: Get statistics matching the specified category
+USERS -> GW: Send global statistics
+GW -> WEBC: Send global statistics
+User -> WEBC: Select a category
+WEBC -> GW: Get category statistics
+GW -> USERS: Get category statistics
+USERS -> DB: Get statistics matching the specified category
+USERS -> GW: Send category statistics
+GW -> WEBC: Send category statistics
 ----
 
-=== Access to questions data via API
-* Clients access the questions data through an API
+=== Playing
+* An overview of the runtime scenario of a game.
 
-[plantuml,"questions diagram",png]
-----
-entity Client
-database API as "Questions API"
-Client -> API: Data querying request
-API --> Client: Retrieved data
-----
-
-=== Game
-* Users can play a Q&A game
-
-[plantuml,"game diagram",png]
-----
+[plantuml, "playing_diagram", png]
+---
 actor User
-entity App
-database QAPI as "Questions API"
-database UAPI as "Users API"
-User -> App: Start Game
-App -> QAPI: Get Questions
-QAPI --> App: Send Questions
-App -> User: Show Question
-User --> App: Answer Question
-App -> UAPI: Update User Data
-----
+entity WEBC as "Web Client"
+entity GW as "Gateway"
+database DB as "MongoDB"
+entity QU as "Questions API"
+entity USERS as "Users Service API"
+
+User -> WEBC: Select a category to play
+WEBC -> GW: Get a question
+GW -> QU: Get a question
+QU -> QU: Store question and answer
+QU -> GW: Send question to client
+GW -> WEBC: Send question to client
+User -> WEBC: Answer question
+WEBC -> GW: Send answer
+GW -> QU: Send answer
+QU -> QU: Check answer
+QU -> USERS: Update user points
+USERS -> DB: Modify user data
+QU -> GW: Send result and new question
+GW -> WEBC: Send result and new question
+---
+
 [role="arc42help"]
 ****
 .Contents
