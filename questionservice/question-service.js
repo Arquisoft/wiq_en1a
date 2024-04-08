@@ -8,7 +8,7 @@ const app = express();
 const port = 8010;
 
 const axios = require('axios');
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 
 
 app.use(express.static('public'));
@@ -214,13 +214,13 @@ app.post('/imgs/answer', async (req, res) => {
     const obj = req.body;
 
     if (obj.question == answerToQuestionMap.get(obj.answer)) {
-      await axios.post(apiEndpoint + '/addpoints',
+      await axios.post(userServiceUrl + '/addpoints',
         { username: obj.username, category: obj.category, correct: "true" });
       res.status(200).json({
         correct: "true",
       })
     } else {
-      await axios.post(apiEndpoint + '/addpoints',
+      await axios.post(userServiceUrl + '/addpoints',
         { username: obj.username, category: obj.category, correct: "false" });
 
       res.status(200).json({
