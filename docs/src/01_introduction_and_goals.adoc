@@ -44,6 +44,7 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 ****
 
 The functional requirements are the following:
+
 * The application must be accesible through the web
 * Users must be able to register into the system
 * Users must be able to see data about their past games (score, correct/wrong answers, number of questions answered...)
