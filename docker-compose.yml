@@ -48,12 +48,14 @@ services:
     build: ./questionservice
     depends_on:
       - mongodb
+      - userservice
     ports:
       - "8010:8010"
     networks:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+      USER_SERVICE_URL: http://userservice:8001
     # platform: linux/arm64
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
