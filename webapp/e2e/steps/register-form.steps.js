@@ -54,7 +54,9 @@ defineFeature(feature, test => {
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="cpassword"]', password);      
 
-      mockAxios.onPost('http://localhost:8000/adduser').reply(200, { username:  "t1", email: "t1email", password: "t1pass" });
+     // mockAxios.onPost('http://localhost:8000/adduser').reply(200, { username:  "t1", email: "t1email", password: "t1pass" });
+     mockAxios.onPost('http://localhost:8000/adduser').reply(200, { username:"t1",email:"t1email",password: 't1pass'});
+
 
       await expect(page).toClick('button', { text: 'Register' })
     });
