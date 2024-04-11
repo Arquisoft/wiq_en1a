@@ -34,13 +34,8 @@ const Question = (props) => {
         }
     }, [counter]);
 
-    useEffect(() => {
-        console.log(renderedImages)
-    }, [renderedImages]);
-
 
     const fetchQuestions = async () => {
-        console.log("Questions are going to be fetched")
         try {
             setRenderedImages(0)
             let auxQuestions = []
@@ -48,7 +43,6 @@ const Question = (props) => {
                 let question = ((await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`)).data)
                 auxQuestions.push(question)
             }
-            console.log(auxQuestions)
             setQuestions(auxQuestions)
             setLoading(false)
         } catch (error) {
@@ -57,7 +51,6 @@ const Question = (props) => {
     };
 
     const answerQuestion = async (answer, question) => {
-        console.log("Answered question: "+currentQuestion)
         try {
             setLoading(true);
             setRenderedImages(0)
