@@ -37,7 +37,9 @@ jobs:
     - run: npm --prefix users/userservice install
     - run: npm --prefix gatewayservice install
     - run: npm --prefix webapp install
+    - run: CI=false
     - run: npm --prefix webapp run build
+    - run: CI=true
     - run: npm --prefix webapp run test:e2e
   
   docker-push-webapp:
