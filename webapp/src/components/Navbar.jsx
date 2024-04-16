@@ -21,9 +21,14 @@ function Navbar() {
                     <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                         <li><Link className="md:p-4 py-3 px-0 block font-bold text-gray-600 hover:text-gray-900" to='/play' >Play</Link></li>
                         <li><Link className="md:p-4 py-3 px-0 block font-bold text-gray-600 hover:text-gray-900" to="/rankings">Rankings</Link></li>
+
+                        {isAuthenticated() && (
+                            <li><Link className="md:p-4 py-3 px-0 block font-bold text-gray-600 hover:text-gray-900" to="/userprofile">UserProfile</Link></li>
+                        )}
                         {isAuthenticated() ? <button class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => Logout()}>
                             Logout
-                        </button> : <li><Link className="md:p-4 py-3 px-0 block font-bold text-sky-500 hover:text-sky-800" to="/login">Sign in</Link></li>}
+                        </button> 
+                         : <li><Link className="md:p-4 py-3 px-0 block font-bold text-sky-500 hover:text-sky-800" to="/login">Sign in</Link></li>}
                     </ul>
                 </nav>
             </div>
