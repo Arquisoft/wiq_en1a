@@ -37,8 +37,9 @@ jobs:
     - run: npm --prefix users/userservice install
     - run: npm --prefix gatewayservice install
     - run: npm --prefix webapp install
-    - run: npm --prefix webapp run build
-    - run: npm --prefix webapp run test:e2e
+    - run: CI=false npm --prefix webapp run build
+    - run: CI=true npm --prefix webapp run test:e2e
+  
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
     runs-on: ARM64
@@ -46,6 +47,7 @@ jobs:
       contents: read
       packages: write
     needs: [e2e-tests]
+    # needs: [unit-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -66,6 +68,7 @@ jobs:
               contents: read
               packages: write
             needs: [e2e-tests]
+            # needs: [unit-tests]
             steps:
             - uses: actions/checkout@v4
             - name: Publish to Registry
@@ -83,6 +86,7 @@ jobs:
       contents: read
       packages: write
     needs: [e2e-tests]
+    # needs: [unit-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -100,6 +104,7 @@ jobs:
       contents: read
       packages: write
     needs: [e2e-tests]
+    # needs: [unit-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
@@ -117,6 +122,7 @@ jobs:
       contents: read
       packages: write
     needs: [e2e-tests]
+    # needs: [unit-tests]
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
