@@ -14,7 +14,7 @@ describe('Navbar', () => {
         // Reset mock function calls before each test
         jest.clearAllMocks();
     });
-    
+
   it('renders authenticated user links and logout button', () => {
     useIsAuthenticated.mockReturnValue(() => true);
     const { getByText } = render(
@@ -43,4 +43,5 @@ describe('Navbar', () => {
     expect(getByText('Rankings')).toBeInTheDocument();
     expect(getByText('Sign in')).toBeInTheDocument();
   });
+  
 });
