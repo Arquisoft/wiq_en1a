@@ -27,7 +27,7 @@ const Question = (props) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (renderedImages == imagesPerQuestion) {
+            if (renderedImages === imagesPerQuestion) {
                 setCounter((prevCounter) => prevCounter + 0.4);
             }
         }, 40);
@@ -129,7 +129,7 @@ const Question = (props) => {
                     <div className="grid grid-cols-2 mt-10 item">
                         {questions[currentQuestion].images.map(image => (
                             <button className="transition-transform transform-gpu hover:scale-105 rounded-xl mx-8 my-8 max-h-52 max-w-80">
-                                <img src={image} alt='Loading image...' className="rounded-lg object-contain shadow-md"
+                                <img src={image} alt='Loading ...' className="rounded-lg object-contain shadow-md"
                                     onClick={async () => await answerQuestion(image, questions[currentQuestion].question)}
                                     onLoad={() => setRenderedImages(renderedImages => renderedImages + 1)}></img>
                             </button>
