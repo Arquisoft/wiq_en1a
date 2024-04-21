@@ -14,23 +14,25 @@ const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 app.use(express.static('public'));
 app.use(express.json());
 
-var imgToAssociatedMap = new Map()
+var elemToAssociatedMap = new Map()
 var answerToQuestionMap = new Map()
 
 class WIQ_API {
   /**
-   * Extracts from wikidata images and their associates, then selects 4 images and one of
+   * Extracts from wikidata elements and their associates, then selects 4 elements and one of
    * their associates for the question so the question is constructed with it as the target
    * for the answer.
    * 
    * @param {string} query - SPARQL query for wikidata that has to use 
-   * an 'image' variable and an 'itemLabel' variable, respectively containing
-   * the image urls and the name of the associated entities (For example, flags and countries)
-   * @param {string} imgTypeName - Name of what the images represent
-   * @param {string} relation - Relation of the images with the question associated element
-   * @returns - A JSON with the question (question) and the images (images)
+   * an 'elem' variable and an 'itemLabel' variable, respectively containing
+   * the needed elements and the name of the associated entities (For example, flags and countries)
+   * @param {string} elemTypeName - Name of what the elements represent
+   * @param {string} relation - Relation of the elements with the question associated element
+   * @param {boolean} useElemAsItemLabel - Indicates if the itemLabels are used as the options instead of the elems
+   * @returns - A JSON with the question (question) and the elements (elems)
    */
-  async getQuestionAndImages(query, imgTypeName, relation) {
+  async getQuestionAndElements(query, elemTypeName, relation, useElemAsItemLabel) {
+    (useElemAsItemLabel==undefined)?(useElemAsItemLabel=false):(undefined)
 
     //Num of fetched items
     const itemsNum = 200
@@ -53,7 +55,7 @@ class WIQ_API {
       this.#getRandomNumNotInSetAndUpdate(itemsNum, chosenNums)
     }
     const associates = []
-    const imgs = []
+    const elems = []
     let finalChosenLabels = []
     //I filter in case the label does not have a proper name
     //and just a wikidata identifier (Q followed by numbers)
@@ -75,27 +77,36 @@ class WIQ_API {
     }
 
     let counter = 0
-    while (chosenNums.length > 0) {
-      imgs.push(data.results.bindings[chosenNums.pop()].image.value)
-      associates.push(finalChosenLabels.pop())
-      imgToAssociatedMap.set(imgs[counter], associates[counter])
-      counter++
+    if(useElemAsItemLabel){
+      while (chosenNums.length > 0) {
+        elems.push(finalChosenLabels.pop())
+        associates.push(data.results.bindings[chosenNums.pop()].elem.value)
+        elemToAssociatedMap.set(elems[counter], associates[counter])
+        counter++
+      }
+    } else {
+      while (chosenNums.length > 0) {
+        elems.push(data.results.bindings[chosenNums.pop()].elem.value)
+        associates.push(finalChosenLabels.pop())
+        elemToAssociatedMap.set(elems[counter], associates[counter])
+        counter++
+      }
     }
 
     //Choose a random item of the chosen to make the question
     const chosenNum = this.#getRandomNumNotInSetAndUpdate(numOfChosen, chosenNums)
     const chosenAssociate = associates[chosenNum]
-    let correctImg = imgs[chosenNum]
+    let correctElem = elems[chosenNum]
 
-    const question = `Which of the following ${imgTypeName} ${relation} ${chosenAssociate}?`
-    answerToQuestionMap.set(correctImg, question)
+    const question = `Which of the following ${elemTypeName} ${relation} ${chosenAssociate}?`
+    answerToQuestionMap.set(correctElem, question)
 
-    const questionAndImages = {
+    const questionAndElems = {
       question: question,
-      images: [`${imgs[0]}`, `${imgs[1]}`, `${imgs[2]}`, `${imgs[3]}`]
+      elems: [`${elems[0]}`, `${elems[1]}`, `${elems[2]}`, `${elems[3]}`]
     }
 
-    return JSON.stringify(questionAndImages)
+    return JSON.stringify(questionAndElems)
   }
 
   #getRandomNumNotInSetAndUpdate(numLimit, set) {
@@ -114,92 +125,116 @@ const wiq = new WIQ_API()
  * Returns the needed information to construct a question of the form
  * "Which of the following flags belongs to xCountry?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the flags (images)
+ * @param {Object} res - Contains the question (question) and the flags (elems)
 */
 app.get('/imgs/flags/question', async (req, res) => {
   //Gets flag images and their associated country names
-  const query = `SELECT ?item ?itemLabel ?image WHERE 
+  const query = `SELECT ?item ?itemLabel ?elem WHERE 
     { 
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
       ?item wdt:P31 wd:Q6256; 
-      wdt:P41 ?image. 
+      wdt:P41 ?elem. 
     }
     LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query, "flags", "belongs to"));
-  res.json(question); //LOS STATUSS!!!!!!!!!!!
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "flags", "belongs to"));
+  res.status(200).json(question);
 });
 
 /**
  * Returns the needed information to construct a question of the form
  * "Which of the following images corresponds to xCity?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the cities (images)
+ * @param {Object} res - Contains the question (question) and the cities (elems)
 */
 app.get('/imgs/cities/question', async (req, res) => {
   //Gets city images and their associated names
-  const query = `SELECT ?item ?itemLabel ?image WHERE {
+  const query = `SELECT ?item ?itemLabel ?elem WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     ?item wdt:P31 wd:Q515.
-    ?item wdt:P18 ?image. 
+    ?item wdt:P18 ?elem. 
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
-  res.json(question); //LOS STATUSS!!!!!!!!!!!
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "images", "corresponds to"));
+  res.status(200).json(question);
 });
 
 /**
  * Returns the needed information to construct a question of the form
  * "Which of the following images corresponds to xMonument?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the monuments (images)
+ * @param {Object} res - Contains the question (question) and the monuments (elems)
 */
 app.get('/imgs/monuments/question', async (req, res) => {
   //Gets monument images and their associated names
-  const query = `SELECT ?item ?itemLabel ?image WHERE {
+  const query = `SELECT ?item ?itemLabel ?elem WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     ?item wdt:P31 wd:Q4989906;
-      wdt:P18 ?image.
+      wdt:P18 ?elem.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
-  res.json(question); //LOS STATUSS!!!!!!!!!!!
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "images", "corresponds to"));
+  res.status(200).json(question);
 });
 
 /**
  * Returns the needed information to construct a question of the form
  * "Which of the following tourist attractions corresponds to xTouristAttraction?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the tourist attractions (images)
+ * @param {Object} res - Contains the question (question) and the tourist attractions (elems)
 */
 app.get('/imgs/tourist_attractions/question', async (req, res) => {
   //Gets attractions images and their associated names
-  const query = `SELECT ?item ?itemLabel ?image WHERE {
+  const query = `SELECT ?item ?itemLabel ?elem WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     ?item wdt:P31 wd:Q570116;
-      wdt:P18 ?image.
+      wdt:P18 ?elem.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
-  res.json(question); //LOS STATUSS!!!!!!!!!!!
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "images", "corresponds to"));
+  res.status(200).json(question); 
 });
 
 /**
  * Returns the needed information to construct a question of the form
  * "Which of the following images corresponds to xFood?" with 4 options
  * @param {} req - Not used
- * @param {Object} res - Contains the question (question) and the foods (images)
+ * @param {Object} res - Contains the question (question) and the foods (elems)
 */
 app.get('/imgs/foods/question', async (req, res) => {
 
   //Gets food images and their associated names
-  const query = `SELECT ?item ?itemLabel ?image WHERE {
+  const query = `SELECT ?item ?itemLabel ?elem WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     ?item wdt:P31 wd:Q8195619;
-      wdt:P18 ?image.
+      wdt:P18 ?elem.
   }
   LIMIT 200`
-  const question = JSON.parse(await wiq.getQuestionAndImages(query, "images", "corresponds to"));
-  res.json(question); //LOS STATUSS!!!!!!!!!!!
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "images", "corresponds to"));
+  res.status(200).json(question); 
+});
+
+/**
+ * Returns the needed information to construct a question of the form
+ * "Which of the following options corresponds to this song with YoutubeID x?" with 4 options
+ * @param {} req - Not used
+ * @param {Object} res - Contains the question (question), the options (elems) and the youtube ID 
+ * of the correct answer (ytID)
+*/
+app.get('/videos/songs/question', async (req, res) => {
+
+  //Gets song videos and their associated youtube ids
+  const query = `SELECT ?item ?itemLabel ?elem WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    ?item wdt:P31 wd:Q7366.
+    ?item wdt:P1651 ?elem.
+  }
+  LIMIT 200`
+  const question = JSON.parse(await wiq.getQuestionAndElements(query, "options", "corresponds to this song with YoutubeID", true));
+  var regex = /YoutubeID\s(\w+)/i;
+  var match = question.question.match(regex);
+  var videoId = match ? match[1] : null;
+  question["ytID"] = videoId
+  res.status(200).json(question);
 });
 
 /**
@@ -225,10 +260,35 @@ app.post('/imgs/answer', async (req, res) => {
 
       res.status(200).json({
         correct: "false",
-        associate: `${imgToAssociatedMap.get(obj.answer)}`
+        associate: `${elemToAssociatedMap.get(obj.answer)}`
       })
     }
   } catch (e) { //SIEMPRE RODEAR CON TRY CATCH
+    res.status(500).json({ error: e.message })
+  }
+});
+
+/**
+ * Provisional
+*/
+app.post('/videos/answer', async (req, res) => {
+  try {
+    const obj = req.body;
+
+    console.log(obj)
+
+    if (obj.question == answerToQuestionMap.get(obj.answer)) {
+      res.status(200).json({
+        correct: "true",
+      })
+    } else {
+
+      res.status(200).json({
+        correct: "false",
+        associate: `${elemToAssociatedMap.get(obj.answer)}`
+      })
+    }
+  } catch (e) { 
     res.status(500).json({ error: e.message })
   }
 });

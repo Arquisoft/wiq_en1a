@@ -10,6 +10,7 @@ const Game = () => {
     const [monumentGameStarted, setMonumentGameStarted] = useState(false);
     const [touristAttractionGameStarted, setTouristAttractionGameStarted] = useState(false);
     const [foodGameStarted, setFoodGameStarted] = useState(false);
+    const [songsGameStarted, setSongGameStarted] = useState(false);
     const isAuthenticated = useIsAuthenticated();
     const navigate = useNavigate();
     const auth = useAuthUser();
@@ -28,6 +29,9 @@ const Game = () => {
     const startFoodsGame = () => {
         setFoodGameStarted(!foodGameStarted);
     };
+    const startSongsGame = () => {
+        setSongGameStarted(!songsGameStarted);
+    };
     useEffect(() => {
         if (!isAuthenticated()) {
             navigate("/login");
@@ -37,13 +41,14 @@ const Game = () => {
     return (
         <div>
             {isAuthenticated()? (flagGameStarted || cityGameStarted || monumentGameStarted
-                 || touristAttractionGameStarted || foodGameStarted) ?(
+                 || touristAttractionGameStarted || foodGameStarted || songsGameStarted) ?(
                 <div>
                     {flagGameStarted && <Question type="imgs" category="flags"/>}
                     {cityGameStarted && <Question type="imgs" category="cities"/>}
                     {monumentGameStarted && <Question type="imgs" category="monuments"/>}
                     {touristAttractionGameStarted && <Question type="imgs" category="tourist_attractions"/>}
                     {foodGameStarted && <Question type="imgs" category="foods"/>}
+                    {songsGameStarted && <Question type="videos" category="songs"/>}
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center mt-16">
@@ -67,6 +72,10 @@ const Game = () => {
                     <button onClick={startFoodsGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
                         transition-transform transform-gpu hover:scale-105">
                     Food
+                    </button>
+                    <button onClick={startSongsGame} className="mt-10 border border-red-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                        transition-transform transform-gpu hover:scale-105">
+                    Song
                     </button>
                 </div>
             ):""}
