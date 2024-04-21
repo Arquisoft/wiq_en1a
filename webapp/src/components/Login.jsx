@@ -1,23 +1,23 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const signIn = useSignIn();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
     try {
-      const response = await axios.post(`${apiEndpoint}/login`, { username, password }).then((res) => {
+      await axios.post(`${apiEndpoint}/login`, { username, password }).then((res) => {
 
         if (res.status === 200) {
           if (signIn({
