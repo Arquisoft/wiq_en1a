@@ -9,7 +9,7 @@ const ImgGameReport = (props) => {
         navigate("/rankings");
     }
     return (
-        <div>
+        <div >
             <div class=" bg-gradient-to-br  from-purple-900 via-indigo-900 to-blue-900">
                 <div class=" justify-center mx-auto max-w-3xl px-6 py-12">
                     <div class="justify-center text-center">
