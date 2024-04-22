@@ -17,18 +17,19 @@ const AddUser = () => {
 
   const addUser = async () => {
     try {
-      if(password!==cpassword){
+      if (password !== cpassword) {
         setError("Passwords do not match");
         return;
       }
       await axios.post(`${apiEndpoint}/adduser`, { username, email, password });
       setOpenSnackbar(true);
       navigate('/login');
+
     } catch (error) {
-      if(error.response===undefined){
+      if (error.response === undefined) {
         setError("There was a problem...");
       }
-      else{
+      else {
         setError(error.response.data.error);
       }
     }
@@ -39,6 +40,7 @@ const AddUser = () => {
   };
 
   return (
+    
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Typography component="h1" variant="h5">
         Register
@@ -71,7 +73,7 @@ const AddUser = () => {
       />
       <TextField
         name="cpassword"
-     
+
         margin="normal"
         fullWidth
         label="Confirm Password"
@@ -85,11 +87,16 @@ const AddUser = () => {
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
           <Link to="/login">Already have an account? Log in here.</Link>
         </Typography>
+
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
-      {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-      )}
+      {
+        error && (
+          <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+        )
+      }
     </Container>
+
+    
   );
 };
 
