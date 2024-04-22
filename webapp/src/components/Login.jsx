@@ -1,16 +1,17 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Snackbar } from '@mui/material';
+
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-// import { useNavigate } from 'react-router-dom';
+import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const signIn = useSignIn();
-  // const navigate = useNavigate();
+   const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -33,8 +34,8 @@ const Login = () => {
             }
           })) { // Only if you are using refreshToken feature
             // Redirect or do-something
-            // navigate('/');
-            window.location.href = '/';
+             navigate('/');
+            //window.location.href = '/';
           } else {
             //Throw error
 
