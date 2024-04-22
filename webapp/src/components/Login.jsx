@@ -88,7 +88,7 @@ const Login = () => {
         Log In
       </Button>
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        <Link to="/login">New around here? Create account.</Link>
+        <Link to="/register">New around here? Create account.</Link>
       </Typography>
 
 
