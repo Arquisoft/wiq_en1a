@@ -26,6 +26,7 @@ const Question = (props) => {
     }, []);
 
     useEffect(() => {
+        console.log("Hmmm")
         const interval = setInterval(() => {
             if (renderedImages === imagesPerQuestion) {
                 setCounter((prevCounter) => prevCounter + 0.4);
@@ -133,7 +134,8 @@ const Question = (props) => {
                     <h1 className="font-bold text-3xl text-gray-800 pl-8">{questions[currentQuestion].question}</h1>
                     <div class="relative h-5 rounded-full overflow-hidden bg-gray-300 mt-20 mx-10">
                         <div class="absolute top-0 bottom-0 left-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-500"
-                            style={{ width: counter + "%" }}></div>
+                            style={{ width: counter + "%" }}
+                            data-testid="time-bar"></div>
                     </div>
                     <div className="grid grid-cols-2 mt-10 item">
                         {questions[currentQuestion].images.map(image => (
