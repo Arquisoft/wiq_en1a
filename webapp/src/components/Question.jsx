@@ -49,12 +49,18 @@ const Question = (props) => {
     const fetchQuestions = async () => {
         try {
             setRenderedImages(0)
-            let auxQuestions = []
+            let promises = []
+            let questions = []
             for (let i = 0; i < questionsPerGame; i++) {
-                let question = ((await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`)).data)
-                auxQuestions.push(question)
+                let question = axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`)
+                promises.push(question)
             }
-            setQuestions(auxQuestions)
+            let responses = await Promise.all(promises)
+            for (let i = 0; i < questionsPerGame; i++) {
+                let question = responses.pop().data
+                questions.push(question)
+            }
+            setQuestions(questions)
             setLoading(false)
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -62,6 +68,9 @@ const Question = (props) => {
     };
 
     const answerQuestion = async (answer, question) => {
+        if(counter==0){
+            return
+        }
         try {
             setLoading(true);
             setRenderedImages(0)
