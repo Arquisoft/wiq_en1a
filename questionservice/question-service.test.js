@@ -18,8 +18,8 @@ jest.spyOn(global, 'fetch').mockImplementation(() => {
     let result = { results: {bindings: []}  }
     for(let i=1;i<=100;i++){
         //Simulating there is maximum number of repeated itemLabels (between the valid ones)
-        result.results.bindings.push({itemLabel: {value: "itemName1"} , image:{value: "imageUrl1_"+i}})
-        imgsToAssociatesMap.set("imageUrl1_"+i, "itemName1")
+        result.results.bindings.push({itemLabel: {value: "itemName"+i} , image:{value: "imageUrl1_"+i}})
+        imgsToAssociatesMap.set("imageUrl1_"+i, "itemName"+i)
     }
     for(let i=101;i<=195;i++){
         //Simulating there are invalid itemLabels
