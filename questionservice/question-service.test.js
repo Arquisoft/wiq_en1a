@@ -113,7 +113,7 @@ describe('Question Service', () => {
     });
 
     //Test /imgs/answer endpoint (Incorrect answer)
-    it('should inform the answer is incorrect and what is the element associated to the answer', async () => {
+    it('should inform the answer is incorrect and what is the correct answer', async () => {
         //First I ask a question
         const response = await request(app).get('/imgs/foods/question');
         regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
@@ -135,7 +135,7 @@ describe('Question Service', () => {
             .set('Content-Type', 'application/json')
             .send({answer:incorrectImageAnswer, question:question, username:"username", category:"foods"})
         expect(responseAnswer.body.correct).toBe("false")
-        expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectImageAnswer))
+        expect(responseAnswer.body.correctImg).toBe([...imgsToAssociatesMap].find(([key, val]) => val == correctAnswerLabel)[0])
     });
 });
 
