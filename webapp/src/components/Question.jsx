@@ -26,7 +26,6 @@ const Question = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log("Hmmm")
         const interval = setInterval(() => {
             if (renderedImages === imagesPerQuestion) {
                 setCounter((prevCounter) => prevCounter + 0.4);
