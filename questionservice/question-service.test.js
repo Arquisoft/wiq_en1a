@@ -18,8 +18,8 @@ jest.spyOn(global, 'fetch').mockImplementation(() => {
     let result = { results: {bindings: []}  }
     for(let i=1;i<=100;i++){
         //Simulating there is maximum number of repeated itemLabels (between the valid ones)
-        result.results.bindings.push({itemLabel: {value: "itemName1"} , image:{value: "imageUrl1_"+i}})
-        imgsToAssociatesMap.set("imageUrl1_"+i, "itemName1")
+        result.results.bindings.push({itemLabel: {value: "itemName"+i} , image:{value: "imageUrl1_"+i}})
+        imgsToAssociatesMap.set("imageUrl1_"+i, "itemName"+i)
     }
     for(let i=101;i<=195;i++){
         //Simulating there are invalid itemLabels
@@ -113,7 +113,7 @@ describe('Question Service', () => {
     });
 
     //Test /imgs/answer endpoint (Incorrect answer)
-    it('should inform the answer is incorrect and what is the element associated to the answer', async () => {
+    it('should inform the answer is incorrect and what is the correct answer if answering incorrectly', async () => {
         //First I ask a question
         const response = await request(app).get('/imgs/foods/question');
         regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
@@ -135,7 +135,24 @@ describe('Question Service', () => {
             .set('Content-Type', 'application/json')
             .send({answer:incorrectImageAnswer, question:question, username:"username", category:"foods"})
         expect(responseAnswer.body.correct).toBe("false")
-        expect(responseAnswer.body.associate).toBe(imgsToAssociatesMap.get(incorrectImageAnswer))
+        expect(responseAnswer.body.correctImg).toBe([...imgsToAssociatesMap].find(([key, val]) => val == correctAnswerLabel)[0])
+    });
+
+    //Test /imgs/answer endpoint (Timeout)
+    it('should inform the answer is incorrect and what is the correct answer if a timeout happens', async () => {
+        //First I ask a question
+        const response = await request(app).get('/imgs/foods/question');
+        regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
+        const match = response.body.question.match(regex);
+        const correctAnswerLabel = match && match[1];
+        
+        question = response.body.question
+        const responseAnswer = await request(app)
+            .post("/imgs/answer")
+            .set('Content-Type', 'application/json')
+            .send({answer:"TimeOut1234;", question:question, username:"username", category:"foods"})
+        expect(responseAnswer.body.correct).toBe("false")
+        expect(responseAnswer.body.correctImg).toBe([...imgsToAssociatesMap].find(([key, val]) => val == correctAnswerLabel)[0])
     });
 });
 

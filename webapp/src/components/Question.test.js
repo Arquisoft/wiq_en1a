@@ -96,6 +96,22 @@ describe('Question page', () => {
     });
 
     await act(async () => {
+      fireEvent.load(screen.getAllByRole("img")[0])
+      fireEvent.load(screen.getAllByRole("img")[1])
+      fireEvent.load(screen.getAllByRole("img")[2])
+      fireEvent.load(screen.getAllByRole("img")[3])
+    });
+
+    // Wait for the component to render
+    await waitFor(() => {
+      const time_bar = screen.getByTestId('time-bar');
+      expect(time_bar).toBeInTheDocument();
+      const widthStyle = time_bar.style.width;
+      const widthValue = parseFloat(widthStyle);
+      expect(widthValue).toBeGreaterThan(0);
+    });
+
+    await act(async () => {
       fireEvent.click(screen.getAllByRole("img")[0]);
     });
 
@@ -119,7 +135,7 @@ describe('Question page', () => {
     mockAxios.onPost('http://localhost:8000/imgs/answer').reply(200, 
     {
       correct: "false",
-      associate: "Poland"
+      correctImg: "https://commons.wikimedia.org/wiki/File:Flag_of_Spain.svg"
     });
 
     render(<Question type="imgs" category="flags"/>);

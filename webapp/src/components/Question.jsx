@@ -49,12 +49,18 @@ const Question = (props) => {
     const fetchQuestions = async () => {
         try {
             setRenderedImages(0)
-            let auxQuestions = []
+            let promises = []
+            let questions = []
             for (let i = 0; i < questionsPerGame; i++) {
-                let question = ((await axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`)).data)
-                auxQuestions.push(question)
+                let question = axios.get(`${apiEndpoint}/${props.type}/${props.category}/question`)
+                promises.push(question)
             }
-            setQuestions(auxQuestions)
+            let responses = await Promise.all(promises)
+            for (let i = 0; i < questionsPerGame; i++) {
+                let question = responses.pop().data
+                questions.push(question)
+            }
+            setQuestions(questions)
             setLoading(false)
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -62,6 +68,9 @@ const Question = (props) => {
     };
 
     const answerQuestion = async (answer, question) => {
+        if(counter==0){
+            return
+        }
         try {
             setLoading(true);
             setRenderedImages(0)
@@ -124,7 +133,8 @@ const Question = (props) => {
                     <h1 className="font-bold text-3xl text-gray-800 pl-8">{questions[currentQuestion].question}</h1>
                     <div class="relative h-5 rounded-full overflow-hidden bg-gray-300 mt-20 mx-10">
                         <div class="absolute top-0 bottom-0 left-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-500"
-                            style={{ width: counter + "%" }}></div>
+                            style={{ width: counter + "%" }}
+                            data-testid="time-bar"></div>
                     </div>
                     <div className="grid grid-cols-2 mt-10 item">
                         {questions[currentQuestion].images.map(image => (
