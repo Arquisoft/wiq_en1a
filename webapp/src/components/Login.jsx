@@ -65,7 +65,7 @@ const Login = () => {
 
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Typography component="h1" variant="h5">
-        Register
+        Log in to WIQ
       </Typography>
       <TextField
         name="username"
@@ -76,15 +76,6 @@ const Login = () => {
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
-        name="email"
-        type='email'
-        margin="normal"
-        fullWidth
-        label="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
         name="password"
         margin="normal"
         fullWidth
@@ -93,21 +84,11 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <TextField
-        name="cpassword"
-
-        margin="normal"
-        fullWidth
-        label="Confirm Password"
-        type="password"
-        value={cpassword}
-        onChange={(e) => setcPassword(e.target.value)}
-      />
-      <Button variant="contained" color="primary" onClick={addUser}>
-        Register
+      <Button variant="contained" color="primary" onClick={loginUser}>
+        Log In
       </Button>
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        <Link to="/login">Already have an account? Log in here.</Link>
+        <Link to="/register">New around here? Create account.</Link>
       </Typography>
 
 
