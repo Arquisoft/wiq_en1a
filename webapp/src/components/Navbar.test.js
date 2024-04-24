@@ -27,7 +27,7 @@ describe('Navbar', () => {
     expect(getByText('Play')).toBeInTheDocument();
     expect(getByText('Rankings')).toBeInTheDocument();
     expect(getByText('UserProfile')).toBeInTheDocument();
-    expect(getByText('Logout')).toBeInTheDocument();
+    expect(getByText('Log out')).toBeInTheDocument();
   });
 
   it('renders unauthenticated user links and sign-in link', () => {
@@ -41,7 +41,7 @@ describe('Navbar', () => {
     expect(getByText('WIQ')).toBeInTheDocument();
     expect(getByText('Play')).toBeInTheDocument();
     expect(getByText('Rankings')).toBeInTheDocument();
-    expect(getByText('Sign in')).toBeInTheDocument();
+    expect(getByText('Log In')).toBeInTheDocument();
   });
   
 });
