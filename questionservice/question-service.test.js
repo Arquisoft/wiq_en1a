@@ -113,7 +113,7 @@ describe('Question Service', () => {
     });
 
     //Test /imgs/answer endpoint (Incorrect answer)
-    it('should inform the answer is incorrect and what is the correct answer', async () => {
+    it('should inform the answer is incorrect and what is the correct answer if answering incorrectly', async () => {
         //First I ask a question
         const response = await request(app).get('/imgs/foods/question');
         regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
@@ -134,6 +134,23 @@ describe('Question Service', () => {
             .post("/imgs/answer")
             .set('Content-Type', 'application/json')
             .send({answer:incorrectImageAnswer, question:question, username:"username", category:"foods"})
+        expect(responseAnswer.body.correct).toBe("false")
+        expect(responseAnswer.body.correctImg).toBe([...imgsToAssociatesMap].find(([key, val]) => val == correctAnswerLabel)[0])
+    });
+
+    //Test /imgs/answer endpoint (Timeout)
+    it('should inform the answer is incorrect and what is the correct answer if a timeout happens', async () => {
+        //First I ask a question
+        const response = await request(app).get('/imgs/foods/question');
+        regex = new RegExp(`Which of the following images corresponds to (\\w+)\\?`);
+        const match = response.body.question.match(regex);
+        const correctAnswerLabel = match && match[1];
+        
+        question = response.body.question
+        const responseAnswer = await request(app)
+            .post("/imgs/answer")
+            .set('Content-Type', 'application/json')
+            .send({answer:"TimeOut1234;", question:question, username:"username", category:"foods"})
         expect(responseAnswer.body.correct).toBe("false")
         expect(responseAnswer.body.correctImg).toBe([...imgsToAssociatesMap].find(([key, val]) => val == correctAnswerLabel)[0])
     });
