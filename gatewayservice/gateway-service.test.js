@@ -283,7 +283,7 @@ it('should forward get Foods request to question service', async () => {
   });
 
   // Test /ranking/user
-  it('should inform that the health is OK if the service is operative', async () => {
+  it('should respond with the ranking info of the given user', async () => {
 
     // Send POST request to gateway endpoint
     const response = await request(app)

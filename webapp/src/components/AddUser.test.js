@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, act, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from './AddUser';
@@ -107,6 +107,16 @@ describe('AddUser component', () => {
     // Wait for the error Snackbar to be open
     await waitFor(() => {
       expect(screen.getByText("Error: Passwords do not match")).toBeInTheDocument();
+    });
+
+    //Close the snackbar by clicking outside
+    await act(async ()=>{
+      fireEvent.click(screen.getAllByText("Username")[1])
+    })
+
+    //Snackbar has to have been closed
+    await waitFor(() => {
+      expect(screen.queryByText("Error: Passwords do not match")).not.toBeInTheDocument();
     });
   });
 });
