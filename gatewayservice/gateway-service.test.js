@@ -59,7 +59,7 @@ describe('Gateway Service', () => {
     }
   });
 
-  axios.get.mockImplementation((url) => {
+  axios.get.mockImplementation((url,data) => {
     if (url.endsWith('/imgs/flags/question')) {
       return generateMockResponse(url, [
         { item: 'Flag0', itemLabel: 'Country0', image: 'flag0.jpg' },
@@ -87,8 +87,16 @@ describe('Gateway Service', () => {
       ]);
     } else if (url.endsWith('/rankings/category1')) {
       return Promise.resolve({ data: mockUserData });
+    } else if (url.endsWith('/ranking/user')) {
+      return Promise.resolve({data:{
+        username: data.params.username,
+        category: data.params.category,
+        points: 5,
+        questions: 7,
+        correct: 5,
+        wrong: 2
+      }});
     }
-
   });
 
   // Test /login endpoint
@@ -263,6 +271,37 @@ it('should forward get Foods request to question service', async () => {
   
   });
 
+  // Test /health endpoint
+  it('should inform that the health is OK if the service is operative', async () => {
 
+    // Send POST request to gateway endpoint
+    const response = await request(app)
+      .get('/health')
+
+    // Verify response body
+    expect(response.body.status).toEqual('OK');
+  });
+
+  // Test /ranking/user
+  it('should inform that the health is OK if the service is operative', async () => {
+
+    // Send POST request to gateway endpoint
+    const response = await request(app)
+      .get('/ranking/user')
+      .query({
+          username: "username",
+          category: "category"
+        })
+
+    // Verify response body
+    expect(response.body).toEqual({
+      username: "username",
+      category: "category",
+      points: 5,
+      questions: 7,
+      correct: 5,
+      wrong: 2
+    });
+  });
 
 });
