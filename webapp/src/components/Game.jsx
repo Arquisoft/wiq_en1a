@@ -35,41 +35,43 @@ const Game = () => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <div>
-            {isAuthenticated()? (flagGameStarted || cityGameStarted || monumentGameStarted
-                 || touristAttractionGameStarted || foodGameStarted) ?(
-                <div>
-                    {flagGameStarted && <Question type="imgs" category="flags"/>}
-                    {cityGameStarted && <Question type="imgs" category="cities"/>}
-                    {monumentGameStarted && <Question type="imgs" category="monuments"/>}
-                    {touristAttractionGameStarted && <Question type="imgs" category="tourist_attractions"/>}
-                    {foodGameStarted && <Question type="imgs" category="foods"/>}
+        <div className="bg-[#4c2185]" style={{ height: "92.9vh" }}>
+            {isAuthenticated() ? (flagGameStarted || cityGameStarted || monumentGameStarted
+                || touristAttractionGameStarted || foodGameStarted) ? (
+                <div className="flex justify-center content-center pt-10 h-auto">
+                    {flagGameStarted && <Question type="imgs" category="flags" />}
+                    {cityGameStarted && <Question type="imgs" category="cities" />}
+                    {monumentGameStarted && <Question type="imgs" category="monuments" />}
+                    {touristAttractionGameStarted && <Question type="imgs" category="tourist_attractions" />}
+                    {foodGameStarted && <Question type="imgs" category="foods" />}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center mt-16">
-                    <h1 className="text-6xl font-bold text-zinc-700">{auth.username}, Let's Play! Guess the...</h1>
-                    <button onClick={startFlagsGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-6xl font-bold text-center text-white pt-5">{auth.username}, Let's Play! Guess the...</h1>
+                    <div className="grid grid-cols-1 p-7 gap-5">
+                        <button onClick={startFlagsGame} className="w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 
                         transition-transform transform-gpu hover:scale-105">
-                    Flag
-                    </button>
-                    <button onClick={startCitiesGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                            Flag
+                        </button>
+                        <button onClick={startCitiesGame} className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10
                         transition-transform transform-gpu hover:scale-105">
-                    City
-                    </button>
-                    <button onClick={startMonumentsGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                            City
+                        </button>
+                        <button onClick={startMonumentsGame} className="w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10  
                         transition-transform transform-gpu hover:scale-105">
-                    Monument
-                    </button>
-                    <button onClick={startTouristAttractionsGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                            Monument
+                        </button>
+                        <button onClick={startTouristAttractionsGame} className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10
                         transition-transform transform-gpu hover:scale-105">
-                    Tourist attraction
-                    </button>
-                    <button onClick={startFoodsGame} className="mt-10 border border-blue-500 text-blue-500 font-bold text-2xl py-2 px-4 rounded-full 
+                            Tourist attraction
+                        </button>
+                        <button onClick={startFoodsGame} className="w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10  
                         transition-transform transform-gpu hover:scale-105">
-                    Food
-                    </button>
+                            Food
+                        </button>
+                    </div>
                 </div>
-            ):""}
+            ) : ""}
         </div>
     )
 };
