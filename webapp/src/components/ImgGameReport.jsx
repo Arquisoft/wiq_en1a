@@ -22,7 +22,7 @@ const ImgGameReport = (props) => {
                             <div class="rounded-md shadow">
                                 <a href=""
                                     onClick={props.restartGame}
-                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg">
                                     Restart Game
                                 </a>
                             </div>
@@ -32,7 +32,7 @@ const ImgGameReport = (props) => {
                             <div class="mt-3 sm:mt-0 sm:ml-3">
                                 <a href=""
                                     onClick={loadRankings}
-                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
+                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg">
                                     See Rankings
                                 </a>
                             </div>
@@ -45,7 +45,7 @@ const ImgGameReport = (props) => {
 
                 {answers.map((answer) => {
                     return (
-                        <div class="flex flex-col rounded-2xl w-80 bg-[#ffffff] shadow-xl" key={answer.associate}>
+                        <div class="flex flex-col rounded-2xl bg-[#ffffff] shadow-xl" key={answer.associate}>
                             <figure class="flex justify-center items-center rounded-2xl">
                                 <img src={answer.associate} alt="Card Preview" class="rounded-t-2xl"></img>
                             </figure>

@@ -26,7 +26,7 @@ describe('Navbar', () => {
     expect(getByText('WIQ')).toBeInTheDocument();
     expect(getByText('Play')).toBeInTheDocument();
     expect(getByText('Rankings')).toBeInTheDocument();
-    expect(getByText('UserProfile')).toBeInTheDocument();
+    expect(getByText('My Profile')).toBeInTheDocument();
     expect(getByText('Log out')).toBeInTheDocument();
   });
 

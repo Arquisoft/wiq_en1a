@@ -117,19 +117,19 @@ const Question = (props) => {
 
 
     return (
-        finished ? <ImgGameReport score={score} answers={answers} restartGame={restartGame} /> :
-        <div className="bg-slate-50 shadow-lg rounded-md p-4 mx-auto max-w-2xl mt-16">
+        finished ? <div className="bg-white"><ImgGameReport score={score} answers={answers} restartGame={restartGame}  /></div> :
+        <div className="bg-slate-50 shadow-lg rounded-md p-4 mx-auto max-w-2xl ">
             <div className="absolute bottom-0 left-0 p-2 bg-gray-200 rounded-md">
                 Score: {score}
             </div>
             {loading ? (
                 <>
-                    <h1 className="font-bold text-2xl text-gray-800 pl-8"><div class="flex justify-center items-center h-screen">
+                    <h1 className="font-bold text-2xl text-gray-800 pl-8"><div class="flex justify-center items-center h-fit">
                         <div class="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
                     </div></h1>
                 </>
             ) :  (
-                <>
+                <div>
                     <h1 className="font-bold text-3xl text-gray-800 pl-8">{questions[currentQuestion].question}</h1>
                     <div class="relative h-5 rounded-full overflow-hidden bg-gray-300 mt-20 mx-10">
                         <div class="absolute top-0 bottom-0 left-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-500"
@@ -145,7 +145,7 @@ const Question = (props) => {
                             </button>
                         ))}
                     </div>
-                </>
+                </div>
             )}
         </div>
     )
