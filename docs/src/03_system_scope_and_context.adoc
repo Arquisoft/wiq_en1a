@@ -60,11 +60,11 @@ actor Player
 
 [WIQ Game] <<system>>
 [UsersAPI] <<internal>>
-[questionsAPI] <<internal>>
+[QuestionsAPI] <<internal>>
 Player ..> (WIQ Game) : register/login
-[questionsAPI] ..> Wikidata
+[QuestionsAPI] ..> Wikidata
 [WIQ Game] ..> UsersAPI
-[WIQ Game] ..> questionsAPI
+[WIQ Game] ..> QuestionsAPI
 ----
 
 [cols="e,2e" options="header"]
@@ -80,12 +80,9 @@ Player ..> (WIQ Game) : register/login
 |Wikidata
 |External data repository from which questions are generated
 
-|MongoDB
-|Database for storing players' info and scores
-
 |Users Info API
 |Manages data of users, both registration/login data and their past scores
 
-|questions API
+|Questions API
 |Manages generation of questions from Wikidata
 |===
