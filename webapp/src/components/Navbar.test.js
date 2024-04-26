@@ -43,5 +43,17 @@ describe('Navbar', () => {
     expect(getByText('Rankings')).toBeInTheDocument();
     expect(getByText('Log In')).toBeInTheDocument();
   });
+  it('calls signOut when Log out button is clicked', () => {
+    useIsAuthenticated.mockReturnValue(() => true);
+    useSignOut.mockReturnValue(() => {});
+    const { getByText } = render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(getByText('Log out'));
+    expect(useSignOut).toHaveBeenCalled();
+  });
   
 });
