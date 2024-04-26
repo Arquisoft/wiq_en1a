@@ -13,6 +13,25 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mock,
 }));
 
+async function loadImages(){
+  await act(async () => {
+    fireEvent.load(screen.getAllByRole("img")[0])
+    fireEvent.load(screen.getAllByRole("img")[1])
+    fireEvent.load(screen.getAllByRole("img")[2])
+    fireEvent.load(screen.getAllByRole("img")[3])
+  });
+}
+
+async function waitForTimeBarStart(){
+  await waitFor(() => {
+    const time_bar = screen.getByTestId('time-bar');
+    expect(time_bar).toBeInTheDocument();
+    const widthStyle = time_bar.style.width;
+    const widthValue = parseFloat(widthStyle);
+    expect(widthValue).toBeGreaterThan(0);
+  });
+}
+
 describe('Question page', () => {
   beforeEach(() => {
     mockAxios.reset();
@@ -95,21 +114,8 @@ describe('Question page', () => {
       expect(screen.getByText(/Which of the following/i)).toBeInTheDocument();
     });
 
-    await act(async () => {
-      fireEvent.load(screen.getAllByRole("img")[0])
-      fireEvent.load(screen.getAllByRole("img")[1])
-      fireEvent.load(screen.getAllByRole("img")[2])
-      fireEvent.load(screen.getAllByRole("img")[3])
-    });
-
-    // Wait for the component to render
-    await waitFor(() => {
-      const time_bar = screen.getByTestId('time-bar');
-      expect(time_bar).toBeInTheDocument();
-      const widthStyle = time_bar.style.width;
-      const widthValue = parseFloat(widthStyle);
-      expect(widthValue).toBeGreaterThan(0);
-    });
+    await loadImages()
+    await waitForTimeBarStart()
 
     await act(async () => {
       fireEvent.click(screen.getAllByRole("img")[0]);
@@ -151,6 +157,52 @@ describe('Question page', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Score/i).textContent).toBe("Score: 0")
+    })
+  });
+
+  it('should finish the game and render the report, from which game can be restarted', async () => {
+    useAuthUser.mockReturnValue({ username: 'testUser' });
+
+    mockAxios.onGet('http://localhost:8000/imgs/flags/question').reply(200, 
+    {
+        question: "Which of the following flags belongs to Spain?", 
+        images:["https://commons.wikimedia.org/wiki/File:Flag_of_Spain.svg"
+        ,"https://commons.wikimedia.org/wiki/File:Flag_of_England.svg"
+        ,"https://commons.wikimedia.org/wiki/File:Flag_of_Poland.svg"
+        ,"https://commons.wikimedia.org/wiki/File:Flag_of_Germany.svg"]
+    });
+
+    mockAxios.onPost('http://localhost:8000/imgs/answer').reply(200, 
+    {
+      correct: "false",
+      correctImg: "https://commons.wikimedia.org/wiki/File:Flag_of_Spain.svg"
+    });
+
+    render(<Question type="imgs" category="flags"/>);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Which of the following/i)).toBeInTheDocument();
+    });
+
+    const questionsPerGame = 10;
+    for(let i=0;i<questionsPerGame;i++){
+      await loadImages()
+      await waitForTimeBarStart()
+      await act(async () => {
+        fireEvent.click(screen.getAllByRole("img")[2]);
+      });
+    }
+
+    await waitFor(() => {
+      expect(screen.queryByText("Game Over!")).toBeInTheDocument()
+    })
+
+    await act(async ()=>{
+      fireEvent.click(screen.getByText("Restart Game"))
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Which of the following/i)).toBeInTheDocument()
     })
   });
 });
