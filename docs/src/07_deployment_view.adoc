@@ -121,9 +121,6 @@ MDB-[dashed]->AS
 
 US-[dashed]->MDB
 MDB-[dashed]->US
-
-QS-[dashed]->MDB
-MDB-[dashed]->QS
 ----
 The architecture of WIQ is based on microservices. Gateway service is the main entry point for the system. The web application is the main interface for the user to interact with the system. The user service is responsible for managing users. The authorization service is responsible for managing user permissions. The question service is responsible for generating questions. The mongo database is used to store data.
 
