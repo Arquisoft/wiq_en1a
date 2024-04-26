@@ -55,6 +55,15 @@ image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutti
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 
+=== _Continuous integration and development_
+
+Our way of working with github is having one developing branch towards which all pull requests are done 
+and have to be reviewed by at least one team member. 
+Sonar Cloud is set up so we know the testing coverage and whether we pass the quality gate with every pull request.
+Once there is enough change in the develop branch with respect to the main one and it has enough quality we can 
+merge them and make a release.
+
+
 === _Microservice based system_
 
 Different business functionallities will be developed in different independent services.
