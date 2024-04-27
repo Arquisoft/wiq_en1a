@@ -44,8 +44,7 @@ const UserProfile = () => {
         <li></li>
       </ul>
       <div
-        class="flex flex-col bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900"
-        style={{ height: "92.9vh" }}
+        class="flex flex-col bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 min-h-screen"
       ></div>
     </div>
   ) : (
@@ -63,8 +62,7 @@ const UserProfile = () => {
         <li></li>
       </ul>
       <div
-        class="flex flex-col bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900"
-        style={{ height: "92.9vh" }}
+        class="flex flex-col bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 min-h-screen"
       >
         <div className="items-center text-center text-gray-100 px-16 pb-8">
           <h2 className="my-8 text-2xl font-bold text-white md:text-4xl">
