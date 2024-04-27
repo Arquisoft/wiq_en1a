@@ -12,6 +12,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
+
 mongoose.connect(mongoUri);
 
 // Function to validate required fields in the request body
