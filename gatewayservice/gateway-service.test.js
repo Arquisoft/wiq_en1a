@@ -90,7 +90,6 @@ describe('Gateway Service', () => {
     } else if (url.endsWith('/ranking/user')) {
       return Promise.resolve({data:{
         username: data.params.username,
-        category: data.params.category,
         points: 5,
         questions: 7,
         correct: 5,
@@ -290,13 +289,11 @@ it('should forward get Foods request to question service', async () => {
       .get('/ranking/user')
       .query({
           username: "username",
-          category: "category"
         })
 
     // Verify response body
     expect(response.body).toEqual({
       username: "username",
-      category: "category",
       points: 5,
       questions: 7,
       correct: 5,

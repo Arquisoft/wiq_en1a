@@ -35,7 +35,20 @@ const Game = () => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <div className="bg-[#4c2185]" style={{ height: "92.9vh" }}>
+        <div class="area">
+            <ul class="circles">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+        <div className="bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{ height: "92.9vh" }}>
             {isAuthenticated() ? (flagGameStarted || cityGameStarted || monumentGameStarted
                 || touristAttractionGameStarted || foodGameStarted) ? (
                 <div className="flex justify-center content-center pt-10 h-auto">
@@ -72,6 +85,7 @@ const Game = () => {
                     </div>
                 </div>
             ) : ""}
+        </div>
         </div>
     )
 };
