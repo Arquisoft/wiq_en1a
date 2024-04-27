@@ -48,7 +48,7 @@ const Game = () => {
 				<li></li>
 				<li></li>
 			</ul>
-        <div className="bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{ height: "92.9vh" }}>
+        <div className="bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 min-h-screen">
             {isAuthenticated() ? (flagGameStarted || cityGameStarted || monumentGameStarted
                 || touristAttractionGameStarted || foodGameStarted) ? (
                 <div className="flex justify-center content-center pt-10 h-auto">
