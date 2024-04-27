@@ -479,8 +479,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#_microservice_based_system">8.1. <em>Microservice based system</em></a></li>
-<li><a href="#_gateway_service_routing">8.2. <em>Gateway service routing</em></a></li>
+<li><a href="#_continuous_integration_and_development">8.1. <em>Continuous integration and development</em></a></li>
+<li><a href="#_microservice_based_system">8.2. <em>Microservice based system</em></a></li>
+<li><a href="#_gateway_service_routing">8.3. <em>Gateway service routing</em></a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Architecture Decisions</a></li>
@@ -575,7 +576,12 @@ These include</p>
 </div>
 </div>
 <div class="paragraph">
-<p>In these points, the main goals and functional requirements will be explained. In order to give context on how the webapp will be developed.</p>
+<p>This project&#8217;s aim, in summary, is developing a public web application which has a game consisting on answering multiple choice questions
+with one correct answer generated using Wikidata. For reference of the general mechanic, see the spanish quiz program 'Saber y Ganar' and
+its game mode 'Descartando'</p>
+</div>
+<div class="paragraph">
+<p>Next, important basic aspects of the project will be described in order to give context on how the webapp will be developed.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -826,7 +832,7 @@ These stakeholders determine the extent and the level of detail of your work and
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Role/Name</th>
-<th class="tableblock halign-left valign-top">Contact</th>
+<th class="tableblock halign-left valign-top">Members</th>
 <th class="tableblock halign-left valign-top">Expectations</th>
 </tr>
 </thead>
@@ -840,11 +846,6 @@ These stakeholders determine the extent and the level of detail of your work and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Teachers</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pablo González</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">In charge of supervising the student&#8217;s teamwork, ensuring the work accomplishes the goals in the best way possible and helping in the development and solving doubts.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Bussineses</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RTve has hired software development company HappySw</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Emphasis the SOLID part of the web and have a high understanding of this area</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Users</strong></p></td>
@@ -996,7 +997,7 @@ the past games of all users in a ranking.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Context%20Diagram.png" alt="Context Diagram" width="272" height="483">
+<img src="./images/Context%20Diagram.png" alt="Context Diagram" width="275" height="485">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1024,16 +1025,16 @@ the past games of all users in a ranking.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>External data repository from which questions are generated</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Database for storing players' info and scores</em></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Users Info API</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Manages data of users, both registration/login data and their past scores</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>questions API</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Questions API</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Manages generation of questions from Wikidata</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Database for storing players' info and scores</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1225,7 +1226,7 @@ In the best case you will get away with examples or simple signatures.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Whitebox%20overall%20system.png" alt="Whitebox overall system" width="297" height="410">
+<img src="./images/Whitebox%20overall%20system.png" alt="Whitebox overall system" width="300" height="410">
 </div>
 </div>
 <div class="dlist">
@@ -1350,7 +1351,7 @@ Leave out normal, simple, boring or standardized parts of your system</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_questions_api_white_box">5.2.1. questions API (White Box)</h4>
+<h4 id="_questions_api_white_box">5.2.1. Questions API (White Box)</h4>
 <div class="paragraph">
 <p>This is the Component that holds the functionallity for the main purpose of the webapp: Allowing players to see questions and
 answer them, getting a consequent score update.</p>
@@ -1364,7 +1365,7 @@ answer them, getting a consequent score update.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/questions%20API%20(WhiteBox).png" alt="questions API (WhiteBox)" width="389" height="337">
+<img src="./images/Questions%20API%20(WhiteBox).png" alt="Questions API (WhiteBox)" width="261" height="335">
 </div>
 </div>
 <div class="dlist">
@@ -1395,10 +1396,6 @@ answer them, getting a consequent score update.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>wikibase-sdk</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>External library that facilitates and simplifies the use of wikidata for the generation of questions.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Data about users and their scores is stored here</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1449,7 +1446,7 @@ answer them, getting a consequent score update.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/playing_diagram.png" alt="playing diagram" width="808" height="634">
+<img src="./images/playing_diagram.png" alt="playing diagram" width="903" height="634">
 </div>
 </div>
 <div class="sidebarblock arc42help">
@@ -1631,7 +1628,7 @@ when your infrastructure is more complex.</p>
 <h4 id="_wiq_server">7.2.1. <em>WIQ Server</em></h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Deployment%20view%20L2.png" alt="Deployment view L2" width="446" height="448">
+<img src="./images/Deployment%20view%20L2.png" alt="Deployment view L2" width="581" height="448">
 </div>
 </div>
 <div class="paragraph">
@@ -1745,7 +1742,17 @@ on this list.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_microservice_based_system">8.1. <em>Microservice based system</em></h3>
+<h3 id="_continuous_integration_and_development">8.1. <em>Continuous integration and development</em></h3>
+<div class="paragraph">
+<p>Our way of working with github is having one developing branch towards which all pull requests are done
+and have to be reviewed by at least one team member.
+Sonar Cloud is set up so we know the testing coverage and whether we pass the quality gate with every pull request.
+Once there is enough change in the develop branch with respect to the main one and it has enough quality we can
+merge them and make a release.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_microservice_based_system">8.2. <em>Microservice based system</em></h3>
 <div class="paragraph">
 <p>Different business functionallities will be developed in different independent services.
 This will ensure that if one of them fails, the rest are still working (For example,
@@ -1757,7 +1764,7 @@ without colliding with the rest.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_gateway_service_routing">8.2. <em>Gateway service routing</em></h3>
+<h3 id="_gateway_service_routing">8.3. <em>Gateway service routing</em></h3>
 <div class="paragraph">
 <p>We will use a speciallized service that will route the requests to the corresponding service, acting as
 a single entry point for the application. Requests to the services are much simpler as only the api base
