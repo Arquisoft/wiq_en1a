@@ -57,6 +57,7 @@ the past games of all users in a ranking.
 ----
 actor Player
 [Wikidata] <<external>>
+database MongoDB
 
 [WIQ Game] <<system>>
 [UsersAPI] <<internal>>
@@ -65,6 +66,7 @@ Player ..> (WIQ Game) : register/login
 [QuestionsAPI] ..> Wikidata
 [WIQ Game] ..> UsersAPI
 [WIQ Game] ..> QuestionsAPI
+[UsersAPI] <--> MongoDB
 ----
 
 [cols="e,2e" options="header"]
@@ -85,4 +87,7 @@ Player ..> (WIQ Game) : register/login
 
 |Questions API
 |Manages generation of questions from Wikidata
+
+|MongoDB
+|Database for storing players' info and scores
 |===
