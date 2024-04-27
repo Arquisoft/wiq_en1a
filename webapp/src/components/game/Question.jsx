@@ -118,7 +118,7 @@ const Question = (props) => {
 
     return (
         finished ? <div className="bg-white"><ImgGameReport score={score} answers={answers} restartGame={restartGame}  /></div> :
-        <div className="bg-slate-50 shadow-lg rounded-md p-4 mx-auto max-w-2xl ">
+        <div className="bg-slate-100 shadow-lg rounded-md p-4 mx-auto max-w-2xl ">
             <div className="absolute bottom-0 left-0 p-2 bg-gray-200 rounded-md">
                 Score: {score}
             </div>
@@ -138,8 +138,8 @@ const Question = (props) => {
                     </div>
                     <div className="grid grid-cols-2 mt-10 item">
                         {questions[currentQuestion].images.map(image => (
-                            <button className="transition-transform transform-gpu hover:scale-105 rounded-xl mx-8 my-8 max-h-52 max-w-80">
-                                <img src={image} alt='Loading ...' className="rounded-lg object-contain shadow-md"
+                            <button className="flex flex-auto transition-transform transform-gpu hover:scale-105 rounded-xl mx-8 my-8">
+                                <img src={image} alt='Loading ...' className="rounded-lg object-contain max-w-48 max-h-36"
                                     onClick={async () => await answerQuestion(image, questions[currentQuestion].question)}
                                     onLoad={() => setRenderedImages(renderedImages => renderedImages + 1)}></img>
                             </button>
