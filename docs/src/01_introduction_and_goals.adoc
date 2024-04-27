@@ -15,7 +15,12 @@ These include
 * quality goals for the architecture and
 * relevant stakeholders and their expectations
 ****
-In these points, the main goals and functional requirements will be explained. In order to give context on how the webapp will be developed.
+
+This project's aim, in summary, is developing a public web application which has a game consisting on answering multiple choice questions 
+with one correct answer generated using Wikidata. For reference of the general mechanic, see the spanish quiz program 'Saber y Ganar' and 
+its game mode 'Descartando'
+
+Next, important basic aspects of the project will be described in order to give context on how the webapp will be developed.
 
 === Requirements Overview
 
@@ -142,10 +147,9 @@ Table with role names, person names, and their expectations with respect to the 
 
 [options="header",cols="1,2,2"]
 |===
-|Role/Name|Contact|Expectations
+|Role/Name|Members|Expectations
 | *Students* | Andrés Cadenas Blanco, Christian Fernandez Noriega , Adrián González Guadalupe and Luis Salvador Ferrero | Are the ones in charge of web development. They will work together to make the application. 
 | *Teachers* | Pablo González  | In charge of supervising the student's teamwork, ensuring the work accomplishes the goals in the best way possible and helping in the development and solving doubts.
-| *Bussineses* | RTve has hired software development company HappySw | Emphasis the SOLID part of the web and have a high understanding of this area  
 | *Users*  | Anyone that wants to use the web  | They should be able to understand how to use and move around the web with ease  
 |===
 

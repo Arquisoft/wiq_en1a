@@ -74,11 +74,11 @@ actor Player
 rectangle "WIQ Game (Level 1)"{
 [WIQ Game GUI]
 [UsersAPI]
-[questionsAPI] #BurlyWood
+[QuestionsAPI] #BurlyWood
 Player ..> (WIQ Game GUI)
-[questionsAPI] ..> Wikidata
+[QuestionsAPI] ..> Wikidata
 [WIQ Game GUI] ..> UsersAPI
-[WIQ Game GUI] ..> questionsAPI
+[WIQ Game GUI] ..> QuestionsAPI
 }
 ----
 
@@ -153,7 +153,7 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-==== questions API (White Box)
+==== Questions API (White Box)
 
 This is the Component that holds the functionallity for the main purpose of the webapp: Allowing players to see questions and 
 answer them, getting a consequent score update.
@@ -163,17 +163,15 @@ answer them, getting a consequent score update.
 ...describes the internal structure of _building block 1_.
 ****
 
-[plantuml,"questions API (WhiteBox)",png]
+[plantuml,"Questions API (WhiteBox)",png]
 ----
 [Wikidata]
 [wikibase-sdk] <<library>>
 [WIQ Game GUI]
-database MongoDB
 
 rectangle "questionsAPI (Level 2)"{
 [question-service] ..> [wikibase-sdk]
 [question-service] ..> [Wikidata]
-[question-service] <--> MongoDB
 [WIQ Game GUI] ..> [question-service] : new question
 [WIQ Game GUI] ..> [question-service] : validate answer
 }
@@ -194,8 +192,5 @@ Contained Black boxes::
 
 |wikibase-sdk
 |External library that facilitates and simplifies the use of wikidata for the generation of questions.
-
-|MongoDB
-|Data about users and their scores is stored here
 
 |===
