@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
 mongoose.connect(mongoUri);
+console.log(mongoUri);
 
 
 
@@ -116,6 +117,7 @@ app.get('/ranking/user', async (req, res) => {
 
 app.post('/adduser', async (req, res) => {
     try {
+        console.log(mongoUri);
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username','email', 'password']);
 

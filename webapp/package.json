@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@material-tailwind/react": "^2.1.9",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@testing-library/jest-dom": "^5.17.0",
@@ -24,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build ",
-    "prod": "serve -s build -p 80",
+    "prod": "serve -s build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
     "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject"

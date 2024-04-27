@@ -9,36 +9,41 @@ import createStore from 'react-auth-kit/createStore';
 const mockAxios = new MockAdapter(axios);
 
 describe('Login component', () => {
+  let usernameInput = 0;
+  let passwordInput = 0;
+  let loginButton = 0;
+  const store = createStore({
+    authName: '_auth',
+    authType: 'cookie',
+    cookieDomain: window.location.hostname,
+    cookieSecure: window.location.protocol === 'https:',
+  });
   beforeEach(() => {
     mockAxios.reset();
-  });
-
-  it('should log in successfully', async () => {
-    const store = createStore({
-      authName: '_auth',
-      authType: 'cookie',
-      cookieDomain: window.location.hostname,
-      cookieSecure: window.location.protocol === 'https:',
-    });
+   
 
     render(
       <AuthProvider
         store={store}
       >
         <BrowserRouter>
-        <Login/>
+          <Login />
         </BrowserRouter>
       </AuthProvider>);
-  
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /Log In/i });
+
+     usernameInput = screen.getByLabelText(/Username/i);
+     passwordInput = screen.getByLabelText(/Password/i);
+     loginButton = screen.getByRole('button', { name: /Log In/i });
+  });
+
+  it('should log in successfully', async () => {
+
     const mock = jest.fn();
     jest.mock('react-router-dom', () => ({
       useNavigate: () => mock,
     }));
     // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/login').reply(200, { username:"testUser",email:"test@test.com",createdAt: '2024-01-01T12:34:56Z',token: 'testToken'});
+    mockAxios.onPost('http://localhost:8000/login').reply(200, { username: "testUser", email: "test@test.com", createdAt: '2024-01-01T12:34:56Z', token: 'testToken' });
 
     // Simulate user input
     await act(async () => {
@@ -46,34 +51,16 @@ describe('Login component', () => {
       fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
       fireEvent.click(loginButton);
     });
-   
+
 
     const linkElement = screen.getByText(/Error: Error: There was a problem.../i);
     expect(linkElement).toBeInTheDocument();
-    
+
 
   });
 
   it('should handle error when logging in', async () => {
-    const store = createStore({
-      authName: '_auth',
-      authType: 'cookie',
-      cookieDomain: window.location.hostname,
-      cookieSecure: window.location.protocol === 'https:',
-    });
-
-    render(
-      <AuthProvider
-        store={store}
-      >
-        <BrowserRouter>
-        <Login/>
-        </BrowserRouter>
-      </AuthProvider>);
-
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /Log In/i });
+   
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/login').reply(401, { error: 'Unauthorized' });
@@ -92,5 +79,5 @@ describe('Login component', () => {
 
   });
 
-  
+
 });
