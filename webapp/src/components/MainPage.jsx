@@ -10,31 +10,50 @@ const MainPage = () => {
     const auth = useAuthUser();
     const navigate = useNavigate();
     useEffect(() => {
-        
-        if(isAuthenticated()===false) {
+
+        if (isAuthenticated() === false) {
             logged = false;
-        }else{
+        } else {
             logged = true;
-        }  
-               
+        }
+
     }
-    , [logged]);
+        , [logged]);
 
     return (
-        <div className="flex flex-col items-center justify-center mt-16">
+        <div className="flex flex-col items-center justify-center text-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{height: "92.9vh"}}>
             {logged ?
                 <div>
-                <h1 className="text-6xl font-bold text-zinc-700">Welcome back, {auth.username}!</h1>
-                <hr className=" my-8"/>
-                <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/play")}>
-                    Start Playing
-                </button>
-            </div>:
+                    
+                    <h1 className="text-6xl font-bold mb-8 text-white">Welcome back, {auth.username}!</h1>
+                    
+                    
+                    <div className="flex flex-col items-center justify-center">
+
+                        <div className="basis-1 flex flex-col items-center justify-center">
+                        <button className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg " onClick={() => navigate("/play")}>
+                            Start Playing
+                        </button>
+                        </div>
+                        <div className="flex flex-row mt-5 " >
+                            <button className=" flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/squads")}>
+                                Squads
+                            </button>
+                            <div className="mx-1"/>
+                            
+                            <button className=" flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/userProfile")}>
+                                My stats
+                            </button>
+                        </div>
+                    </div>
+                </div> :
                 <div>
-                    <h1 className="text-6xl font-bold text-zinc-700">Welcome to WIQ, Please log in to play!</h1>
-                    <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/register")}>
+                    <h1 className="text-6xl font-bold mb-8 text-white">Welcome to WIQ, Please log in to play!</h1>
+                    <div className="basis-1 flex flex-col items-center justify-center">
+                    <button className=" flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/register")}>
                         Create account
                     </button>
+                    </div>
                 </div>
             }
         </div >

@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/wiq-en1a-users';
 mongoose.connect(mongoUri);
+console.log(mongoUri);
 
 
 
@@ -52,6 +53,27 @@ app.get('/rankings/:filter', async (req, res) => {
     res.status(400).json({ error: error.message }); 
   }
 })
+
+
+// Get the ranking info for a specified category and user
+app.get('/ranking/user', async (req, res) => {
+  const username = req.query.username;
+
+  try {
+    // Fetch the user with the specified username
+    const user = await User.findOne({ username });
+    
+    // If user not found, return error
+    if (!user) {
+      return res.status(400).json("Error: User not found");
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 
 
  app.post("/addpoints", async (req, res) => {
@@ -95,6 +117,7 @@ app.get('/rankings/:filter', async (req, res) => {
 
 app.post('/adduser', async (req, res) => {
     try {
+        console.log(mongoUri);
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username','email', 'password']);
 

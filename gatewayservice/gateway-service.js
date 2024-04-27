@@ -127,6 +127,25 @@ app.get('/rankings/:filter', async (req, res) => {
   }
 });
 
+
+app.get('/ranking/user', async (req, res) => {
+  const username = req.query.username;
+
+  try {
+    // Forward the request to the user service
+    const result = await axios.get(`${userServiceUrl}/ranking/user`, {
+      params: {
+        username: username
+      }
+    });
+
+    res.json(result.data);
+
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
 // Read the OpenAPI YAML file synchronously
 openapiPath='./openapi.yaml'
 if (fs.existsSync(openapiPath)) {

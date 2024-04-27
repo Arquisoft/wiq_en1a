@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, act, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from './AddUser';
@@ -13,15 +13,27 @@ const mockAxios = new MockAdapter(axios);
 
 
 describe('AddUser component', () => {
+  let usernameInput = 0;
+  let emailInput = 0;
+  let passwordInput = 0;
+  let cpasswordInput = 0;
+  let addUserButton = 0;
+
   beforeEach(() => {
     mockAxios.reset();
-  });
-
-  it('renders correctly', () => {
     render(
       <BrowserRouter>
         <AddUser />
       </BrowserRouter>);
+    usernameInput = screen.getByLabelText(/Username/i);
+    emailInput = screen.getByLabelText(/Email/i);
+    passwordInput = screen.getByLabelText("Password");
+    cpasswordInput = screen.getByLabelText(/Confirm Password/i);
+    addUserButton = screen.getByRole('button', { name: /Register/i });
+  });
+
+  it('renders correctly', () => {
+    
     
     expect(screen.getByLabelText('Username')).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
@@ -30,16 +42,10 @@ describe('AddUser component', () => {
   });
 
   it('should add user successfully', async () => {
-    render(<BrowserRouter>
-      <AddUser />
-    </BrowserRouter>);
+ 
 
    
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const emailInput = screen.getByLabelText(/Email/i);
-    const passwordInput = screen.getByLabelText("Password");
-    const cpasswordInput = screen.getByLabelText(/Confirm Password/i);
-    const addUserButton = screen.getByRole('button', { name: /Register/i });
+  
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
@@ -60,13 +66,9 @@ describe('AddUser component', () => {
   });
 
   it('should handle wrong passwords when adding user', async () => {
-    render(<BrowserRouter>
-      <AddUser />
-    </BrowserRouter>);
 
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText("Password");
-    const addUserButton = screen.getByRole('button', { name: /Register/i });
+
+   
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });
@@ -86,13 +88,9 @@ describe('AddUser component', () => {
   });
 
   it('should handle error when adding user', async () => {
-    render(<BrowserRouter>
-      <AddUser />
-    </BrowserRouter>);
+ 
 
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText("Password");
-    const addUserButton = screen.getByRole('button', { name: /Register/i });
+  
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });
@@ -107,6 +105,16 @@ describe('AddUser component', () => {
     // Wait for the error Snackbar to be open
     await waitFor(() => {
       expect(screen.getByText("Error: Passwords do not match")).toBeInTheDocument();
+    });
+
+    //Close the snackbar by clicking outside
+    await act(async ()=>{
+      fireEvent.click(screen.getAllByText("Username")[1])
+    })
+
+    //Snackbar has to have been closed
+    await waitFor(() => {
+      expect(screen.queryByText("Error: Passwords do not match")).not.toBeInTheDocument();
     });
   });
 });

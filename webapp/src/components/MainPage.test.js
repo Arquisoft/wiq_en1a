@@ -18,6 +18,9 @@ describe('MainPage', () => {
     useAuthUser.mockReturnValue({ username: 'testUser' });
     const { getByText } = render(<MainPage />);
     expect(getByText('Welcome back, testUser!')).toBeInTheDocument();
+    expect(getByText('Start Playing')).toBeInTheDocument();
+    expect(getByText('Squads')).toBeInTheDocument();
+    expect(getByText('My stats')).toBeInTheDocument();
   });
 
   it('renders welcome message for unauthenticated user', () => {
@@ -25,6 +28,31 @@ describe('MainPage', () => {
     const { getByText } = render(<MainPage />);
     expect(getByText('Welcome to WIQ, Please log in to play!')).toBeInTheDocument();
   });
-
-  
+  it('navigates to /play when Start Playing button is clicked', () => {
+    useIsAuthenticated.mockReturnValue(() => true);
+    useAuthUser.mockReturnValue({ username: 'testUser' });
+    const { getByText } = render(<MainPage />);
+    fireEvent.click(getByText('Start Playing'));
+    expect(mock).toHaveBeenCalledWith('/play');
+  });
+  it('navigates to /squads when Squads button is clicked', () => {
+    useIsAuthenticated.mockReturnValue(() => true);
+    useAuthUser.mockReturnValue({ username: 'testUser' });
+    const { getByText } = render(<MainPage />);
+    fireEvent.click(getByText('Squads'));
+    expect(mock).toHaveBeenCalledWith('/squads');
+  });
+  it('navigates to /userProfile when My stats button is clicked', () => {
+    useIsAuthenticated.mockReturnValue(() => true);
+    useAuthUser.mockReturnValue({ username: 'testUser' });
+    const { getByText } = render(<MainPage />);
+    fireEvent.click(getByText('My stats'));
+    expect(mock).toHaveBeenCalledWith('/userProfile');
+  });
+  it('navigates to /register when Create account button is clicked', () => {
+    useIsAuthenticated.mockReturnValue(() => false);
+    const { getByText } = render(<MainPage />);
+    fireEvent.click(getByText('Create account'));
+    expect(mock).toHaveBeenCalledWith('/register');
+  });
 });

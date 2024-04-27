@@ -212,26 +212,33 @@ app.get('/imgs/foods/question', async (req, res) => {
 app.post('/imgs/answer', async (req, res) => {
   try {
     const obj = req.body;
-
-    if (obj.question == answerToQuestionMap.get(obj.answer)) {
-      await axios.post(userServiceUrl + '/addpoints',
-        { username: obj.username, category: obj.category, correct: "true" });
-      res.status(200).json({
-        correct: "true",
-      })
+    if (obj.answer !== "TimeOut1234;") {
+      if (obj.question == answerToQuestionMap.get(obj.answer)) {
+        await axios.post(userServiceUrl + '/addpoints',
+          { username: obj.username, category: obj.category, correct: "true" });
+        res.status(200).json({
+          correct: "true",
+        })
+      } else {
+        await axios.post(userServiceUrl + '/addpoints',
+          { username: obj.username, category: obj.category, correct: "false" });
+        res.status(200).json({
+          correct: "false",
+          correctImg: `${[...answerToQuestionMap].find(([key, val]) => val == obj.question)[0]}`
+        })
+      }
     } else {
-      await axios.post(userServiceUrl + '/addpoints',
-        { username: obj.username, category: obj.category, correct: "false" });
 
       res.status(200).json({
         correct: "false",
-        associate: `${imgToAssociatedMap.get(obj.answer)}`
+        correctImg: `${[...answerToQuestionMap].find(([key, val]) => val == obj.question)[0]}`
       })
     }
-  } catch (e) { //SIEMPRE RODEAR CON TRY CATCH
-    res.status(500).json({ error: e.message })
-  }
-});
+    } catch (e) { //SIEMPRE RODEAR CON TRY CATCH
+      console.error(e)
+      res.status(500).json({ error: e.message })
+    }
+  });
 
 const server = app.listen(port, () => {
   console.log(`Questions service listening on http://localhost:${port}`);
