@@ -30,6 +30,13 @@ async function startServer() {
             email: email,
             password: password
         });
+
+        const pints = await axios.post('http://localhost:8001/addpoints', {
+            username: username,
+            category: "flags",
+            correct: "true"
+        });
+
     } catch (error) {
         console.error('Error adding user:', error.response.data);
     }
