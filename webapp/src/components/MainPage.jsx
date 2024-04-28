@@ -21,11 +21,11 @@ const MainPage = () => {
         , [logged]);
 
     return (
-        <div className="flex flex-col items-center justify-center text-center bg-[#2E2F82]" style={{height: "92.9vh"}}>
+        <div className="flex flex-col items-center justify-center text-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{height: "92.9vh"}}>
             {logged ?
                 <div>
                     
-                    <h1 className="text-6xl font-bold text-white mb-8 text-white">Welcome back, {auth.username}!</h1>
+                    <h1 className="text-6xl font-bold mb-8 text-white">Welcome back, {auth.username}!</h1>
                     
                     
                     <div className="flex flex-col items-center justify-center">
@@ -48,7 +48,7 @@ const MainPage = () => {
                     </div>
                 </div> :
                 <div>
-                    <h1 className="text-6xl font-bold text-white mb-8 text-white">Welcome to WIQ, Please log in to play!</h1>
+                    <h1 className="text-6xl font-bold mb-8 text-white">Welcome to WIQ, Please log in to play!</h1>
                     <div className="basis-1 flex flex-col items-center justify-center">
                     <button className=" flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg" onClick={() => navigate("/register")}>
                         Create account

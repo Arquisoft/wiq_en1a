@@ -130,14 +130,12 @@ app.get('/rankings/:filter', async (req, res) => {
 
 app.get('/ranking/user', async (req, res) => {
   const username = req.query.username;
-  const category = req.query.category;
 
   try {
     // Forward the request to the user service
     const result = await axios.get(`${userServiceUrl}/ranking/user`, {
       params: {
-        username: username,
-        category: category
+        username: username
       }
     });
 

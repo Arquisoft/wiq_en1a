@@ -39,9 +39,9 @@ GW -> WEBC: Send category statistics
 actor User
 entity WEBC as "Web Client"
 entity GW as "Gateway"
-database DB as "MongoDB"
 entity QU as "Questions API"
 entity USERS as "Users Service API"
+database DB as "MongoDB"
 
 User -> WEBC: Select a category to play
 WEBC -> GW: Get a question

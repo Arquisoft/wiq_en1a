@@ -1,13 +1,13 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import AddUser from './components/AddUser';
+import AddUser from './components/auth/AddUser';
 import Navbar from './components/Navbar';
-import Login from './components/Login';
+import Login from './components/auth/Login';
 import RankingsLayout from './components/ranking/RankingLayout';
-import Game from './components/Game';
+import Game from './components/game/Game';
 import MainPage from './components/MainPage';
 import Squads from './components/Squads';
-import UserProfile from './components/UserProfile';
+import UserProfile from './components/user/UserProfile';
 
 
 function App() {

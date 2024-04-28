@@ -10,7 +10,7 @@ const RankingsLayout = () => {
     }
 
     return (
-        <div className="flex flex-col bg-[#4c2185]" style={{height: "92.9vh"}}>
+        <div className="flex flex-col bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{height: "92.9vh"}}>
             <div id="sidebar" className="sm:flex flex-col w-auto bg-[#4c2185]">
                 <div className="flex items-center justify-center h-16 bg-[#4c2185]">
                     <span className="text-4xl font-bold text-white">Rankings</span>

@@ -58,7 +58,6 @@ app.get('/rankings/:filter', async (req, res) => {
 // Get the ranking info for a specified category and user
 app.get('/ranking/user', async (req, res) => {
   const username = req.query.username;
-  const category = req.query.category;
 
   try {
     // Fetch the user with the specified username
@@ -69,17 +68,7 @@ app.get('/ranking/user', async (req, res) => {
       return res.status(400).json("Error: User not found");
     }
 
-    // Extract ranking info for the specified category
-    const rankingInfo = {
-      username: user.username,
-      category,
-      points: user.ranking[category].points,
-      questions: user.ranking[category].questions,
-      correct: user.ranking[category].correct,
-      wrong: user.ranking[category].wrong
-    };
-
-    res.status(200).json(rankingInfo);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -40,7 +40,7 @@ const AddUser = () => {
   };
 
   return (
-    <div className="content-center justify-center bg-[#2E2F82] " style={{ height: "92.9vh" }}>
+    <div className="content-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900" style={{ height: "92.9vh" }}>
       <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }} className='bg-white rounded-xl content-center justify-center'>
         <h1 className='py-5 text-4xl font-bold text-[#111827]'>
           Register
