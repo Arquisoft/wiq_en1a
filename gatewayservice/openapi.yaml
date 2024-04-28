@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Gatewayservice API
   description: Gateway OpenAPI specification.
-  version: 0.2.0
+  version: 1.0.0
 servers:
   - url: http://localhost:8000
     description: Local Server
@@ -33,7 +33,7 @@ paths:
                   description: User password.
                   example: securepass
       responses:
-        '200':
+        "200":
           description: User added successfully.
           content:
             application/json:
@@ -57,14 +57,14 @@ paths:
                   createdAt:
                     type: string
                     description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
+                    example: "2024-03-17T20:47:23.935Z"
                   points:
                     type: integer
-                    example: '0'
+                    example: "0"
                   ___v:
                     type: integer
-                    example: '0'                                        
-        '400':
+                    example: "0"
+        "400":
           description: Failed to add user.
           content:
             application/json:
@@ -80,7 +80,7 @@ paths:
       summary: Check the health status of the service.
       operationId: checkHealth
       responses:
-        '200':
+        "200":
           description: Service is healthy.
           content:
             application/json:
@@ -111,7 +111,7 @@ paths:
                   description: User password.
                   example: pass
       responses:
-        '200':
+        "200":
           description: Login successful. Returns user token, username, and creation date.
           content:
             application/json:
@@ -133,8 +133,8 @@ paths:
                   createdAt:
                     type: string
                     description: Creation date.
-                    example: '2024-03-17T20:47:23.935Z'
-        '401':
+                    example: "2024-03-17T20:47:23.935Z"
+        "401":
           description: Invalid credentials.
           content:
             application/json:
@@ -145,7 +145,7 @@ paths:
                     type: string
                     description: Shows the error info..
                     example: Invalid credentials
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
@@ -156,59 +156,21 @@ paths:
                     type: string
                     description: Error information.
                     example: Internal Server Error
-  /imgs/flags/question:
-    get:
-      summary: Get the flags for a question.
-      operationId: getFlags
-      responses:
-        '200':
-          description: Flags retrieved successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  question:
-                    type: string
-                    description: Question.
-                    example: "Which of these flags belongs to Kenya?"
-                  flags:
-                    type: array
-                    items:
-                      type: string
-                    example: 
-                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg" 
-                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Grenada.svg"
-                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wales.svg"
-                      - "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Palau.svg"
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error information.
-                    example: Internal Server Error
-        # '400':
-        #   description: Failed to retrieve flags.
-        #   content:
-        #     application/json:
-        #       schema:
-        #         type: object
-        #         properties:
-        #           error:
-        #             type: string
-        #             description: Error information.
-        #             example: Failed to retrieve flags
-  /imgs/cities/question:
+
+  /imgs/{category}/question:
     get:
       summary: Get the cities for a question.
       operationId: getCities
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+          description: Category of the question.
+          example: "cities"
       responses:
-        '200':
+        "200":
           description: cities retrieved successfully.
           content:
             application/json:
@@ -223,12 +185,12 @@ paths:
                     type: array
                     items:
                       type: string
-                    example: 
+                    example:
                       - "http://commons.wikimedia.org/wiki/Special:FilePath/00%20sea%20towers%20%28April%202018%29.jpg"
                       - "http://commons.wikimedia.org/wiki/Special:FilePath/Sebastian%20Glapinski%202017%20%28Unsplash%29.jpg"
                       - "http://commons.wikimedia.org/wiki/Special:FilePath/2019%20-%20Schweriner%20Schloss%20-%201.jpg"
                       - "http://commons.wikimedia.org/wiki/Special:FilePath/Stockholm%20gamlastan%20etc.jpg"
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
@@ -267,7 +229,7 @@ paths:
                   description: Answer.
                   example: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg"
       responses:
-        '200':
+        "200":
           description: Answer is correct.
           content:
             application/json:
@@ -278,7 +240,7 @@ paths:
                     type: string
                     description: Result.
                     example: "true"
-        '400':
+        "400":
           description: Answer is incorrect.
           content:
             application/json:
@@ -293,7 +255,7 @@ paths:
                     type: string
                     description: Correct answer.
                     example: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg"
-        '500':
+        "500":
           description: Internal server error.
           content:
             application/json:
@@ -304,39 +266,66 @@ paths:
                     type: string
                     description: Error information.
                     example: Internal Server Error
-  /rankings:
+  /rankings/{category}:
     get:
-      summary: Get the rankings.
+      summary: Get the rankings of a category.
       operationId: getRankings
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+          description: Category of the rankings.
+          example: "cities"
       responses:
-        '200':
+        "200":
           description: Rankings retrieved successfully.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  
-                      ranking:
-                        type: integer
-                        description: User ranking position
-                      points:
-                        type: integer
-                        description: User points
-                      user:
-                        type: string
-                        description: User ID
-                example: 
+                  position:
+                    type: integer
+                    description: User ranking position
+                    
+                  points:
+                    type: integer
+                    description: User points
+                  questions:
+                    type: integer
+                    description: Number of questions answered
+                  correct:
+                    type: integer
+                    description: Number of correct answers
+                  wrong:
+                    type: integer
+                    description: Number of wrong answers  
+                  name:
+                    type: string
+                    description: User ID
+                    
+                example:
                   - ranking: 1
                     points: 100
                     user: student
+                    correct: 100
+                    wrong: 0
+                    questions: 100
                   - ranking: 2
                     points: 90
                     user: student2
+                    correct: 90
+                    wrong: 10
+                    questions: 100
                   - ranking: 3
                     points: 80
                     user: student3
-        '500':
+                    correct: 80
+                    wrong: 20
+                    questions: 100
+        "500":
           description: Internal server error.
           content:
             application/json:
@@ -347,7 +336,7 @@ paths:
                     type: string
                     description: Error information.
                     example: Internal Server Error
-        '400':
+        "400":
           description: Failed to retrieve rankings.
           content:
             application/json:
@@ -358,3 +347,92 @@ paths:
                     type: string
                     description: Error information.
                     example: Failed to retrieve rankings
+  /ranking/user:
+    get:
+      summary: Get the user ranking.
+      operationId: getUserRanking
+      parameters:
+        - in: query
+          name: username
+          required: true
+          schema:
+            type: string
+          description: User ID.
+          example: "student"
+      responses:
+        "200":
+          description: User ranking retrieved successfully.
+          content:
+            applicationjson:
+              schema:
+                type: object
+                properties:
+                  ranking:
+                    type: object
+                    description: array of categories with correct, wrong and answered
+                    properties:
+                      correct:
+                        type: integer
+                        description: Number of correct answers
+
+                      wrong:
+                        type: integer
+                        description: Number of wrong answers
+                      questions:
+                        type: integer
+                        description: Number of questions answered
+                      points:
+                        type: integer
+                        description: User points
+                    example:
+                      cities:
+                        correct: 100
+                        wrong: 0
+                        questions: 100
+                        points: 100
+                      flags:
+                        correct: 100
+                        wrong: 0
+                        questions: 100
+                        points: 100
+                      monuments:
+                        correct: 100
+                        wrong: 0
+                        questions: 100
+                        points: 100
+                  username:
+                    type: string
+                    description: User ID
+                    example: student
+                  email:
+                    type: string
+                    description: User email
+                    example: UOXXXX@uniovi.es
+
+                  points:
+                    type: integer
+                    description: User points
+                    example: 100
+                
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+        "400":
+          description: Failed to retrieve user ranking.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Failed to retrieve user ranking
