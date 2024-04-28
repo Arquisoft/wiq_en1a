@@ -29,10 +29,12 @@ defineFeature(feature, test => {
     
     let username;
     let password;
+    let email;
 
     given('the user navigates to their profile', async () => {
-        username = "testUser"
+        username = "testUser";
         password = "testpass";
+        email = "test@email";
         await expect(page).toClick("a", { text: "Log In" });
         await expect(page).toFill('input[name="username"]', username);
         await expect(page).toFill('input[name="password"]', password);
@@ -40,65 +42,26 @@ defineFeature(feature, test => {
         await expect(page).toClick("button", { text: "My stats" });
     });
 
-    when('they select the "Global" category', async () => {
+    when('see user general info', async () => {
         
-        await expect(page).toMatchElement("h2", { text: "Username: " + username });
-        await expect(page).toClick("button", { text: "Flags" });
-        await expect(page).toClick("button", { text: "Global" });
+        await expect(page).toMatchElement("h2", { text: username });
+        await expect(page).toMatchElement("p", { text: "Email: " + email });
     });
 
-    then('they see their performance statistics for global quizzes', async () => {
-        await expect(page).toMatchElement('.ranking h3', { text: "global Ranking" });
-       await expect(page).toMatchElement(".ranking p:nth-child(1)", { text: "Total Answered Questions: " + 1 });
+    then('they see their performance statistics for all quizzes', async () => {
+        await expect(page).toMatchElement('h3.font-bold', { text: "Global" });
+        await expect(page).toMatchElement('h3.font-bold', { text: "Flags" });
+        await expect(page).toMatchElement('h3.font-bold', { text: "Cities" });
+        await expect(page).toMatchElement('h3.font-bold', { text: "Food" });
+        await expect(page).toMatchElement('h3.font-bold', { text: "Attractions" });
+        await expect(page).toMatchElement('h3.font-bold', { text: "Monuments" });
+
+        await expect(page).toMatchElement("div.mx-auto h3.font-bold + p", { text: "Total questions: 1" });
+        await expect(page).toMatchElement("div.mx-auto h3.font-bold + p", { text: "Total questions: 0" });     
     });
 
   });
 
-  test('Switching Category to Flags', ({given,when,then}) => {
-    
-    let username;
-    let password;
-
-    given('the user is on their profile page', async () => {
-        username = "testUser"
-        password = "testpass";
-        await expect(page).toMatchElement("h2", { text: "Username: " + username });
-    });
-
-    when('they click on the "Flags" category', async () => {
-        
-        await expect(page).toClick("button", { text: "Flags" });
-    });
-
-    then('they view their performance metrics for flag-related quizzes', async () => {
-        await expect(page).toMatchElement('.ranking h3', { text: "flags Ranking" });
-        await expect(page).toMatchElement(".ranking p:nth-child(1)", { text: "Total Answered Questions: " + 1 });
-    });
-
-  });
-
-  test('Switching Category to Food', ({given,when,then}) => {
-    
-    let username;
-    let password;
-
-    given('the user is on their profile page', async () => {
-        username = "testUser"
-        password = "testpass";
-        await expect(page).toMatchElement("h2", { text: "Username: " + username });
-    });
-
-    when('they click on the "Food" category', async () => {
-        
-        await expect(page).toClick("button", { text: "Food" });
-    });
-
-    then('they view their performance metrics for food-related quizzes', async () => {
-        await expect(page).toMatchElement('.ranking h3', { text: "foods Ranking" });
-        await expect(page).toMatchElement(".ranking p:nth-child(1)", { text: "Total Answered Questions: " + 0 });
-    });
-
-  });
 
   afterAll(async ()=>{
     browser.close()
