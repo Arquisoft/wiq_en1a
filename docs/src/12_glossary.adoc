@@ -37,6 +37,24 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |Microservice
 |Small and independent component that performs a specific business function
 
+|CI/CD pipeline
+|A series of steps that are carried out to obtain a new software product from its development phase to its deployment
+
+|ARM
+|A type of processor architecture designed for power efficiency
+
+|MERN stack
+|A group of web technologies for developing web applications: MongoDB, Express, React and Node
+
+|Docker containers
+|Packets that include all the software needed for running a service
+
+|Oracle Cloud
+|Cloud infraestructure provider (e.g Virtual Machines)
+
+|Gateway 
+|All the endpoints visible for the client, that will redirect to specific microservice API
+
 |API
 |Set of endpoints exposed by the backend server whose purpose is interacting with the client-side
 |===

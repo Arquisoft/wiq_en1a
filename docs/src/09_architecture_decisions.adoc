@@ -42,6 +42,27 @@ There you will find links and examples about ADR.
 | Decided
 | *Oracle Cloud* - All advantages
 
+| Infrastructure design
+| Oracle ARM VM with multiple containers inside - Running containers in this VM is free
+| Decided
+| Oracle ARM VM with multiple containers inside - It is free
+
+| What CI/CD pipeline should we use
+| *Github Actions* - Already integrated in the project and fits perfectly our needs for deployment, developing and testing.
+  *Azure DevOps* - It is more integrated with Azure cloud, where we could have our infraestructure deployed with Terraform using IaC.
+| Pending
+| Azure Devops would be a better approach for deploying our infraestructure in Azure containers (serverless) using IaC with Terraform, but there is a lack of time for migrating and GitHub Actions is already integrated and working fine.
+
+| Local or cloud data base
+| *Local* - There is no need to externalize things that should keep local.
+| Decided
+| Local database - Database is kept in local for security reasons and for not overdesigning the infraestructure
+
+| New microservice for Rankings
+| Removing ranking logic from users microservice - It might be a better design as user logic and ranking logic is not exactly the same.
+| Decided
+| Keep rankings logic in users microservice - It would make sense to separate services if they scaled too much but in this project this would be overdesign.
+
 | Which technologies are we going to use for developing the front end
 | React - It is a modern framework which is easy to learn and provides usefull predefined components that save time
 | Decided
