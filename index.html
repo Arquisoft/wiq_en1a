@@ -1846,6 +1846,31 @@ There you will find links and examples about ADR.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Oracle Cloud</strong> - All advantages</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Infrastructure design</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle ARM VM with multiple containers inside - Running containers in this VM is free</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decided</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle ARM VM with multiple containers inside - It is free</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">What CI/CD pipeline should we use</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Github Actions</strong> - Already integrated in the project and fits perfectly our needs for deployment, developing and testing.
+  <strong>Azure DevOps</strong> - It is more integrated with Azure cloud, where we could have our infraestructure deployed with Terraform using IaC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pending</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Azure Devops would be a better approach for deploying our infraestructure in Azure containers (serverless) using IaC with Terraform, but there is a lack of time for migrating and GitHub Actions is already integrated and working fine.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local or cloud data base</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Local</strong> - There is no need to externalize things that should keep local.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decided</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local database - Database is kept in local for security reasons and for not overdesigning the infraestructure</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New microservice for Rankings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removing ranking logic from users microservice - It might be a better design as user logic and ranking logic is not exactly the same.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decided</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Keep rankings logic in users microservice - It would make sense to separate services if they scaled too much but in this project this would be overdesign.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Which technologies are we going to use for developing the front end</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React - It is a modern framework which is easy to learn and provides usefull predefined components that save time</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decided</p></td>
@@ -2088,6 +2113,18 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Low - The difference is, a priori, merely functional, but retains the needed characteristics</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Upgrade only if a newer version supports 'require'</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of a security barrier for DDOS attacks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of knowledge and time for implementing it into the project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A DDOS attack can make the application crash</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integrate CloudFlare into the project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Questions types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The design was optimized for image based questions and adding new categories easily.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It would be difficult to add questions that do not rely on images. For example, text based questions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Refactoring questions microservice to include new types of questions.</p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -2147,6 +2184,30 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Microservice</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Small and independent component that performs a specific business function</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>CI/CD pipeline</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A series of steps that are carried out to obtain a new software product from its development phase to its deployment</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>ARM</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A type of processor architecture designed for power efficiency</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MERN stack</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A group of web technologies for developing web applications: MongoDB, Express, React and Node</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Docker containers</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Packets that include all the software needed for running a service</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Cloud</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Cloud infraestructure provider (e.g Virtual Machines)</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Gateway</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>All the endpoints visible for the client, that will redirect to specific microservice API</em></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>API</em></p></td>
