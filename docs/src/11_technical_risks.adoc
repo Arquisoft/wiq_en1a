@@ -33,4 +33,14 @@ See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 do
 |Low - The difference is, a priori, merely functional, but retains the needed characteristics
 |Upgrade only if a newer version supports 'require'
 
+|Lack of a security barrier for DDOS attacks
+|Lack of knowledge and time for implementing it into the project
+|A DDOS attack can make the application crash
+|Integrate CloudFlare into the project
+
+|Questions types
+|The design was optimized for image based questions and adding new categories easily.
+|It would be difficult to add questions that do not rely on images. For example, text based questions.
+|Refactoring questions microservice to include new types of questions.
+
 |===
