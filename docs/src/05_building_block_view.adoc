@@ -77,6 +77,7 @@ rectangle "WIQ Game (Level 1)"{
 [QuestionsAPI] #BurlyWood
 Player ..> (WIQ Game GUI)
 [QuestionsAPI] ..> Wikidata
+[UsersAPI] ..> QuestionsAPI
 [WIQ Game GUI] ..> UsersAPI
 [WIQ Game GUI] ..> QuestionsAPI
 }

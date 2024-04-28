@@ -67,6 +67,7 @@ Player ..> (WIQ Game) : register/login
 [WIQ Game] ..> UsersAPI
 [WIQ Game] ..> QuestionsAPI
 [UsersAPI] <--> MongoDB
+[UsersAPI] ..> QuestionsAPI
 ----
 
 [cols="e,2e" options="header"]
