@@ -1,0 +1,19 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-tests_report]]
+== Tests Report
+
+[cols="e,2e" options="header"]
+|===
+|Tests |Status
+
+|Unit tests
+|Passing (85.3% coverage)
+
+|e2e tests
+|Passing
+
+|Load tests 
+|Max ~240 users
+
+|===
